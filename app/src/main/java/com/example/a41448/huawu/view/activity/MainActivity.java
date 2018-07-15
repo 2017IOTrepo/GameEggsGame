@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
+import com.example.a41448.huawu.utils.ActivityCollector;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +27,7 @@ public class MainActivity extends BaseActivity
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class MainActivity extends BaseActivity
         } else {
             //软件退出逻辑
             if (Math.abs(customTime - System.currentTimeMillis()) < 2000) {
-                finishall();
+                ActivityCollector.finishiAll();
             } else {// 提示用户退出
                 customTime = System.currentTimeMillis();
                 Snackbar.make(toolbar, "再按一次返回键退出", Snackbar.LENGTH_SHORT).show();

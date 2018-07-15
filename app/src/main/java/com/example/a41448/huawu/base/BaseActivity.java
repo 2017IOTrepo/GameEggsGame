@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.a41448.huawu.utils.ActivityCollector;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,24 +17,16 @@ import java.util.List;
  */
 
 public class BaseActivity extends AppCompatActivity{
-    private List<Activity> ActivityCollector = new ArrayList<>();
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        ActivityCollector.add(this);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityCollector.remove(this);
-    }
-
-    public void finishall() {
-        for (Activity activity:
-             ActivityCollector) {
-            activity.finish();
-        }
+        ActivityCollector.removeActivity(this);
     }
 }
