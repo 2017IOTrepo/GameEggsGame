@@ -25,7 +25,11 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="ab868a7c2d15be3867d170bcd17057ca"/>
+            android:value="ab868a7c2d15be3867d170bcd17057ca" />
+
+        <activity android:name=".view.fragment.LoginFragment" />
+        <activity android:name=".view.fragment.RegisterFragment" />
+        <activity android:name=".view.fragment.LableChosingFragment"></activity>
     </application>
 
 </manifest>

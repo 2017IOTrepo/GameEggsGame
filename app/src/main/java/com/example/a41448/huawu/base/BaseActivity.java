@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Created by xmmmmovo on 2018/7/15.
+ *
+ * Activity基类
  */
 
 public class BaseActivity extends AppCompatActivity{

@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/git,java,android,androidstudio
+# Created by https://www.gitignore.io/api/git,java,gradle,android,androidstudio
 
 ### Android ###
 # Built application files
@@ -202,5 +202,20 @@ fabric.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 
+### Gradle ###
+/build/
 
-# End of https://www.gitignore.io/api/git,java,android,androidstudio
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+
+# End of https://www.gitignore.io/api/git,java,gradle,android,androidstudio
