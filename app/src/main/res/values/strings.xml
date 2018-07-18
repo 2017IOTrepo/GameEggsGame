@@ -16,4 +16,5 @@
     <string name="login_fail">登录失败</string>
     <string name="login_success">登陆成功</string>
     <string name="login_register">注册账户</string>
+    <string name="all_label">全部标签</string>
 </resources>

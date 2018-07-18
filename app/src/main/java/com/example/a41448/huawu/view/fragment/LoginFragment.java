@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
+import com.example.a41448.huawu.utils.FragmentUtils;
 import com.example.a41448.huawu.view.activity.MainActivity;
 
 public class LoginFragment extends Fragment{
@@ -33,6 +35,7 @@ public class LoginFragment extends Fragment{
     private boolean FirstLoginAccout = false;//判断是否为第一次登陆
     private Context context;
     private View view;
+    private FragmentManager fragmentManager;
 
     @Nullable
     @Override
@@ -45,6 +48,7 @@ public class LoginFragment extends Fragment{
         mRegisterButton = (TextView)view.findViewById(R.id.login_register_button);
         mLoginButton = (ActionProcessButton)view.findViewById(R.id.login_button);
 
+        fragmentManager = getFragmentManager();
         context = getContext();
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +64,7 @@ public class LoginFragment extends Fragment{
                     //到主activity
                     MainActivity.startActivity(getActivity());
                 }else if (FirstLoginAccout && login()){
-
+                    fragmentReplace(new LableChosingFragment());
                     //到职业选取跟tag选取activity
                 }else{
                     AlertDialog dialog = new AlertDialog.Builder(context)
@@ -71,7 +75,7 @@ public class LoginFragment extends Fragment{
                             .setPositiveButton("注册账号", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    fragmentReplace(new RegisterFragment());//注册可用dialog代替
                                 }
                             })
                             .show();
@@ -82,7 +86,7 @@ public class LoginFragment extends Fragment{
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "长度测试", Toast.LENGTH_SHORT).show();
+                fragmentReplace(new RegisterFragment());
             }
         });
 
@@ -97,5 +101,8 @@ public class LoginFragment extends Fragment{
         return true;
     }
 
+    private void fragmentReplace(Fragment fragment){
+        FragmentUtils.replaceFragment(fragmentManager, fragment, R.id.login_fragment_container);
+    }
 
 }
