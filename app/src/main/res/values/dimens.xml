@@ -7,5 +7,4 @@
     <dimen name="fab_margin">16dp</dimen>
     
     <dimen name="all_lable_margin">20dp</dimen>
-    <dimen name="lable_gridview_margin" />
 </resources>
