@@ -40,7 +40,7 @@ public class LoginFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.login_fragment, container, false);
+        view = inflater.inflate( R.layout.login_fragment, container, false);
         mAccoutNumber = (EditText)view.findViewById(R.id.accont_number_edit_text);
         mAccoutPassword = (EditText)view.findViewById(R.id.accont_password_edit_text);
         mRemeberPasswordCheck = (CheckBox)view.findViewById(R.id.remeber_passworld_checkBox);
