@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,8 @@ public class LoginFragment extends Fragment{
     private CheckBox mRemeberPasswordCheck;//记住密码
     private CheckBox mAutoLoginCheck;//自动登录
     private ActionProcessButton mLoginButton;//登录按钮
-    private TextView mRegisterButton;
+    private FloatingActionButton mRegisterButton;//注册按钮
+    private CardView cardView;
 
     private boolean FirstLoginAccout = false;//判断是否为第一次登陆
     private Context context;
@@ -41,12 +44,8 @@ public class LoginFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_fragment, container, false);
-        mAccoutNumber = (EditText)view.findViewById(R.id.accont_number_edit_text);
-        mAccoutPassword = (EditText)view.findViewById(R.id.accont_password_edit_text);
-        mRemeberPasswordCheck = (CheckBox)view.findViewById(R.id.remeber_passworld_checkBox);
-        mAutoLoginCheck = (CheckBox)view.findViewById(R.id.auto_login_checkBox);
-        mRegisterButton = (TextView)view.findViewById(R.id.login_register_button);
-        mLoginButton = (ActionProcessButton)view.findViewById(R.id.login_button);
+
+        initView();
 
         fragmentManager = getFragmentManager();
         context = getContext();
@@ -91,6 +90,14 @@ public class LoginFragment extends Fragment{
         });
 
         return view;
+    }
+
+    private void initView() {
+        mAccoutNumber = view.findViewById(R.id.et_username);
+        mAccoutPassword = view.findViewById(R.id.et_password);
+        cardView = view.findViewById(R.id.cv);
+        mRegisterButton = view.findViewById(R.id.fab);
+        mLoginButton = (ActionProcessButton)view.findViewById(R.id.login_button);
     }
 
     /*

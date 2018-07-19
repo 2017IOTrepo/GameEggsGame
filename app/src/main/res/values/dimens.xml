@@ -9,4 +9,7 @@
     <dimen name="all_lable_margin">20dp</dimen>
     <dimen name="lable_gridview_margin">10dp </dimen>
 
+    <dimen name="fab_size_normal">100dp</dimen>
+    <dimen name="text_size">12sp</dimen>
+
 </resources>
