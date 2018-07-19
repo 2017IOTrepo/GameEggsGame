@@ -8,5 +8,4 @@ import com.example.a41448.huawu.R;
 
 public class LableChosingFragment extends Fragment {
 
-
 }
