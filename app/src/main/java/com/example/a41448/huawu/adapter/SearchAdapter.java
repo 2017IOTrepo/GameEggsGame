@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.a41448.huawu.chatUI.ui.ServiceChatActivity;
 import com.example.a41448.huawu.view.fragment.MessageFragment;
 import com.example.a41448.huawu.R;
@@ -40,7 +42,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View view ;
         switch (viewType){
             case WithImage:
-                view=LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview1,parent,false);
+                view=LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_message_item_1,parent,false);
                 final  ViewHolder imageViewHolder = new ViewHolder(view);
                 imageViewHolder.message_item.setOnClickListener( new View.OnClickListener() {
                     @Override
@@ -55,7 +57,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 view.setOnClickListener( this );
                 return imageViewHolder;
             case WithoutImage:
-                view=LayoutInflater.from(parent.getContext()).inflate( R.layout.cardview1,parent,false);
+                view=LayoutInflater.from(parent.getContext()).inflate( R.layout.fragment_message_item_1,parent,false);
                 final  ViewHolder imageViewHolder_1 = new ViewHolder(view);
                 imageViewHolder_1.message_item.setOnClickListener( new View.OnClickListener() {
                     @Override
@@ -73,6 +75,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return null;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         switch (mArrayList.get(position).viewtype){
@@ -86,7 +89,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         mContext.startActivity( intent );
                     }
                 } );
-                ((ViewHolder) holder).message_image.setImageResource(mArrayList.get(position).photo);
+                Glide.with(mContext).load(mContext.getDrawable(mArrayList.get(position).photo)).
+                        into(((ViewHolder) holder).message_image);
+//                ((ViewHolder) holder).message_image.setImageResource(mArrayList.get(position).photo);
                 ((ViewHolder) holder).message_name.setText(mArrayList.get(position).title);
                 ((ViewHolder) holder).soontext.setText(mArrayList.get(position).about);
                 ((ViewHolder) holder).message_time.setText(mArrayList.get(position).time);

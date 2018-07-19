@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a41448.huawu.view.fragment.CommunityFragment;
+import com.example.a41448.huawu.view.fragment.GameFragment;
+import com.example.a41448.huawu.view.fragment.MapFragment;
 import com.example.a41448.huawu.view.fragment.MessageFragment;
 import com.example.a41448.huawu.view.fragment.QuestionFragment;
 import com.example.a41448.huawu.R;
@@ -21,7 +23,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     //定义标签的数量
     public final int COUNT  = 3;
 
-    private String [] titles = {"地图","社群","动态"};
+    private String [] titles = {"地图","社群","游戏"};
 
 
     private int[] tabimgs = new int[]{
@@ -41,12 +43,12 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0)
             //返回一个Fragment
-            return MessageFragment.newInstance();
+            return MapFragment.newInstance();
         else if (position == 1)
-//            return HomeFragment.newInstance(position + 1);
+//            return ContactFragment.newInstance(position + 1);
             return CommunityFragment.newInstance( position + 1 );
         else if (position == 2)
-            return QuestionFragment.newInstance();
+            return GameFragment.newInstance();
         else
             return null;
     }

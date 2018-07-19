@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -62,7 +63,7 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
 
 
     private FloatingActionButton addQuestionBtn;
-    public static android.support.v4.app.Fragment newInstance(){
+    public static Fragment newInstance(){
         Bundle bundle = new Bundle();
         QuestionFragment fragment = new QuestionFragment();
         fragment.setArguments(bundle);
@@ -71,7 +72,7 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_questions,container,false);
+        View view = inflater.inflate(R.layout.fragment_question,container,false);
         Bundle bundle = this.getArguments();
         question_link = bundle.getString( "link" );
         question_title = bundle.getString( "title" );
@@ -160,7 +161,7 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
             @Override
             public QuestionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).
-                        inflate(R.layout.question_item,parent,false);
+                        inflate(R.layout.fragment_question_item,parent,false);
                 final QuestionHolder holder = new QuestionHolder(view);
                 holder.cardView.setOnClickListener( new View.OnClickListener() {
                     @Override

@@ -12,7 +12,7 @@
 
         <include layout="@layout/question_detail_actionabr"/>
 
-        <include layout="@layout/question_item"
+        <include layout="@layout/fragment_question_item"
             android:layout_height="110dp"
             android:layout_width="match_parent"/>
         <View

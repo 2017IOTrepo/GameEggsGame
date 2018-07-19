@@ -24,7 +24,7 @@ public class SearchAdapter_contact extends RecyclerView.Adapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate( R.layout.contacts_list,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate( R.layout.fragment_contacts_item,parent,false);
         ViewHolder imageViewHolder = new ViewHolder(view);
         return imageViewHolder;
     }
