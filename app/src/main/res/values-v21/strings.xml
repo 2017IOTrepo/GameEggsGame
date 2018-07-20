@@ -7,4 +7,5 @@
     <string name="text_inside_circle_button_text_normal">Text Inside Circle Button(Normal)</string>
     <string name="text_inside_circle_button_text_highlighted">Text Inside Circle Button(Highlighted)</string>
     <string name="text_inside_circle_button_text_unable">Text Inside Circle Button(Unable)</string>
+    <string name="ai_te">\u0040</string>
 </resources>

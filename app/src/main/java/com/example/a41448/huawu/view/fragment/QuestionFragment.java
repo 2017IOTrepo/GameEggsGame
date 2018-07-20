@@ -33,6 +33,7 @@ import com.example.a41448.huawu.base.Message.Msg;
 import com.example.a41448.huawu.base.Question.Question;
 import com.example.a41448.huawu.base.Question.QuestionList;
 import com.example.a41448.huawu.base.RoundImageView.RoundImageView;
+import com.example.a41448.huawu.view.activity.denamic_item_activity;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -49,8 +50,6 @@ import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 public class QuestionFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
 
     private String question_link,question_title,question_detail;
-
-
     private Context mContext;
     private List<Question> mQuestionList = new ArrayList<>();
     private QuestionAdapter mAdapter;
@@ -98,7 +97,7 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
         addQuestionBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( getContext(),Dynamics_add_Activity.class );
+                Intent intent = new Intent( getContext(),denamic_item_activity.class);
                 startActivityForResult( intent,1);
             }
         } );

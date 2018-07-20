@@ -3,36 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.a41448.huawu">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!--获取设备网络状态，禁用后无法获取网络状态-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!--//网络权限，当禁用后，无法进行检索等相关业务-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 获取设备网络状态，禁用后无法获取网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- //网络权限，当禁用后，无法进行检索等相关业务 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--//读取设备硬件信息，统计数据-->
+    <!-- //读取设备硬件信息，统计数据 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <!--//读取系统信息，包含系统版本等信息，用作统计-->
+    <!-- //读取系统信息，包含系统版本等信息，用作统计 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--//获取设备的网络状态，鉴权所需网络代理-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- //获取设备的网络状态，鉴权所需网络代理 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!--//允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <!-- //允许sd卡写权限，需写入地图数据，禁用后无法显示地图 -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <!--//获取统计数据-->
+    <!-- //获取统计数据 -->
 
-    <!--//允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+
+    <!-- //允许sd卡写权限，需写入地图数据，禁用后无法显示地图 -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <!--//获取统计数据-->
+    <!-- //获取统计数据 -->
 
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <!--//鉴权所需该权限获取进程列表-->
+    <!-- //鉴权所需该权限获取进程列表 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!--//使用步行AR导航，配置Camera权限-->
+    <!-- //使用步行AR导航，配置Camera权限 -->
 
 
-    <!--添加的权限-->
+    <!-- 添加的权限 -->
     <!-- 允许联网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
@@ -102,11 +105,9 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-
-    //使用步行AR导航，配置Camera权限
-    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 (唤醒锁)-->
+    <!-- //使用步行AR导航，配置Camera权限 -->
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 (唤醒锁) -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
 
     <application
         android:name=".application.MyApplication"
@@ -117,11 +118,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,InnerclassSeparator">
-
         <meta-data
             android:name="com.netease.nim.appKey"
             android:value="5d308854c147f0f1cc2e8429b6176cdb" />
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="V5Av8NOzaEuRMyQMvVHULGBwxDVBxq7Z" />
@@ -137,14 +136,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".view.fragment.LoginFragment" />
         <activity android:name=".view.fragment.RegisterFragment" />
-        <activity android:name=".view.fragment.LableChosingFragment">
-        </activity>
+        <activity android:name=".view.fragment.LableChosingFragment" />
 
-
-        <!--//添加的其他-->
+        <!-- //添加的其他 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.a41448.huawu.fileprovider"
@@ -176,27 +172,26 @@
         <activity
             android:name=".Translation.Glossary.MyWordRecycleViewActivity"
             tools:ignore="InnerclassSeparator" />
-        <activity android:name=".Translation.activity.MainActivity_11"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".Translation.activity.MainActivity_11"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".photoSelector.BasePhotoPreviewActivity" />
         <activity android:name=".photoSelector.PhotoPreviewActivity" />
         <activity android:name=".view.activity.PrePhototActivity" />
-
         <activity
             android:name=".chatUI.ui.ServiceChatActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-        <activity android:name=".chatUI.ui.ImageBrowserActivity"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".chatUI.ui.ImageBrowserActivity" />
 
         <service
             android:name="com.baidu.location.f"
             android:exported="true"
             android:process=":remote"
-            tools:ignore="ExportedService">
-        </service>
+            tools:ignore="ExportedService" />
 
-        <activity android:name=".view.activity.LocationActivity">
-        </activity>
-
+        <activity android:name=".view.activity.LocationActivity" />
+        <activity android:name=".view.activity.denamic_item_activity" />
+        <activity android:name=".view.activity.TopicActivity"></activity>
     </application>
 
 </manifest>
