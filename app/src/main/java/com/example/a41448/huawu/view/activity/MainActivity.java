@@ -17,7 +17,10 @@ import android.view.MenuItem;
 
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
+import com.example.a41448.huawu.bean.Players;
 import com.example.a41448.huawu.utils.ActivityCollector;
+
+import cn.bmob.v3.BmobUser;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,7 +30,7 @@ public class MainActivity extends BaseActivity
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
-
+    private Players players;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class MainActivity extends BaseActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        players = BmobUser.getCurrentUser(Players.class);
     }
 
     @Override
