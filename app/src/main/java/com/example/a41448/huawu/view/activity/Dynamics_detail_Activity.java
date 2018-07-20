@@ -30,7 +30,7 @@ import com.lzy.okgo.model.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Question_detail_Activity extends AppCompatActivity implements View.OnClickListener,DialogFragmentDataCallback {
+public class Dynamics_detail_Activity extends AppCompatActivity implements View.OnClickListener,DialogFragmentDataCallback {
 
 
     public static final int QUQESTION_NUMBER = 1;

@@ -23,7 +23,7 @@ import com.lzy.okgo.model.Response;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Question_Add_Activity extends AppCompatActivity implements View.OnClickListener{
+public class Dynamics_add_Activity extends AppCompatActivity implements View.OnClickListener{
 
     public ImageView actionBarBack;
 
@@ -61,7 +61,7 @@ public class Question_Add_Activity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.question_add_back:
-                AlertDialog.Builder dialog = new AlertDialog.Builder( Question_Add_Activity.this );
+                AlertDialog.Builder dialog = new AlertDialog.Builder( Dynamics_add_Activity.this );
                 dialog.setTitle( "一路语伴小提示" );
                 dialog.setMessage( "确定要放弃这次编辑么？" );
                 dialog.setCancelable( true );
@@ -85,7 +85,7 @@ public class Question_Add_Activity extends AppCompatActivity implements View.OnC
                 String title = question_title.getText().toString();
                 String detail = question_detail.getText().toString();
                 if (title.equals("") || detail.equals( "" )){
-                    Toast.makeText( Question_Add_Activity.this, "请填写标题及内容", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( Dynamics_add_Activity.this, "请填写标题及内容", Toast.LENGTH_SHORT ).show();
                 }else {
                     intent.putExtra( "question_link", link);
                     intent.putExtra( "question_title",title );
@@ -112,7 +112,7 @@ public class Question_Add_Activity extends AppCompatActivity implements View.OnC
                                 @Override
                                 public void onSuccess(Response<String> response) {
                                     Log.i( "return",response.body());
-                                    Toast.makeText( Question_Add_Activity.this, "发表成功", Toast.LENGTH_SHORT ).show();
+                                    Toast.makeText( Dynamics_add_Activity.this, "发表成功", Toast.LENGTH_SHORT ).show();
                                     i ++;
                                 }
                             } );

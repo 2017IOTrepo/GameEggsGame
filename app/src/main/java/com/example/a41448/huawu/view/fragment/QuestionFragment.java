@@ -25,8 +25,8 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.example.a41448.huawu.view.activity.Question_Add_Activity;
-import com.example.a41448.huawu.view.activity.Question_detail_Activity;
+import com.example.a41448.huawu.view.activity.Dynamics_add_Activity;
+import com.example.a41448.huawu.view.activity.Dynamics_detail_Activity;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.Contacts.UserInfo;
 import com.example.a41448.huawu.base.Message.Msg;
@@ -98,7 +98,7 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
         addQuestionBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( getContext(),Question_Add_Activity.class );
+                Intent intent = new Intent( getContext(),Dynamics_add_Activity.class );
                 startActivityForResult( intent,1);
             }
         } );
@@ -168,11 +168,11 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
                     public void onClick(View v) {
                         int position = holder.getAdapterPosition();
                         Question question = mQuestionList.get( position );
-                        Intent intent = new Intent( getContext(), Question_detail_Activity.class);
-                        intent.putExtra( Question_detail_Activity.Question_name,question.getName());
-                        intent.putExtra( String.valueOf( Question_detail_Activity.QUQESTION_NUMBER ),question.getQuestionNumber() );
-                        intent.putExtra( Question_detail_Activity.Question_image_ID,question.getPeople_imageId() );
-                        intent.putExtra( Question_detail_Activity.Question_detail_text,question.getQuestion_detail() );
+                        Intent intent = new Intent( getContext(), Dynamics_detail_Activity.class);
+                        intent.putExtra( Dynamics_detail_Activity.Question_name,question.getName());
+                        intent.putExtra( String.valueOf( Dynamics_detail_Activity.QUQESTION_NUMBER ),question.getQuestionNumber() );
+                        intent.putExtra( Dynamics_detail_Activity.Question_image_ID,question.getPeople_imageId() );
+                        intent.putExtra( Dynamics_detail_Activity.Question_detail_text,question.getQuestion_detail() );
                         getContext().startActivity( intent );
 
                     }
@@ -182,10 +182,10 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
                     public void onClick(View v) {
                         int position = holder.getAdapterPosition();
                         Question question = mQuestionList.get( position );
-                        Intent intent = new Intent( getContext(), Question_detail_Activity.class);
-                        intent.putExtra(Question_detail_Activity.Question_name,question.getName());
-                        intent.putExtra( Question_detail_Activity.Question_image_ID,question.getPeople_imageId() );
-                        intent.putExtra( Question_detail_Activity.Question_detail_text,question.getQuestion_detail() );
+                        Intent intent = new Intent( getContext(), Dynamics_detail_Activity.class);
+                        intent.putExtra( Dynamics_detail_Activity.Question_name,question.getName());
+                        intent.putExtra( Dynamics_detail_Activity.Question_image_ID,question.getPeople_imageId() );
+                        intent.putExtra( Dynamics_detail_Activity.Question_detail_text,question.getQuestion_detail() );
                         getContext().startActivity( intent );
 
                     }

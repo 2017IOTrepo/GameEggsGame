@@ -167,4 +167,17 @@
     <string name="str_recorder_want_cancel">松开手指，取消发送</string>
     <string name="chat_location">位置</string>
 
+    <string name="fab_exchange_map_normal">普通地图</string>
+    <string name="fab_exchange_map_site">卫星地图</string>
+    <string name="fab_exchange_model_common">一般模式</string>
+    <string name="fab_exchange_model_compass">罗盘模式</string>
+
+    //悬浮按钮
+    <string name="text_ham_button_text_normal">Ham Button Text(Normal)</string>
+    <string name="text_ham_button_text_highlighted">Ham Button Text(Highlighted)</string>
+    <string name="text_ham_button_text_unable">Ham Button Text(Unable)</string>
+    <string name="text_ham_button_sub_text_normal">Ham Button Sub Text(Normal)</string>
+    <string name="text_ham_button_sub_text_highlighted">Ham Button Sub Text(Highlighted)</string>
+    <string name="text_ham_button_sub_text_unable">Ham Button Sub Text(Unable)</string>
+
 </resources>

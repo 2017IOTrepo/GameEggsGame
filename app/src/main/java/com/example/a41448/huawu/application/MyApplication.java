@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.example.a41448.huawu.chatUI.bean.DaoMaster;
 import com.example.a41448.huawu.chatUI.bean.DaoSession;
 import com.example.a41448.huawu.R;
@@ -38,6 +39,9 @@ public class MyApplication extends MultiDexApplication{
     @Override
     public void onCreate() {
         super.onCreate();
+        //初始化百度地图
+        SDKInitializer.initialize( this );
+
 //        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
 //        NIMClient.init(this, loginInfo(), options());
 //

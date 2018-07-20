@@ -220,6 +220,12 @@
     <color name="iconCover">#cc979797</color>
     <color name="iconCoverDark">#cc393939</color>
 
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
 
 
 </resources>

@@ -146,10 +146,10 @@
             android:name=".view.activity.ContactActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".view.activity.Question_Add_Activity"
+            android:name=".view.activity.Dynamics_add_Activity"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".view.activity.Question_detail_Activity"
+            android:name=".view.activity.Dynamics_detail_Activity"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Translation.activity.MainActivity_1"
