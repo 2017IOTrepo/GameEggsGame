@@ -57,12 +57,9 @@ public class LoginFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_fragment, container, false);
-
         initView();
-
         fragmentManager = getFragmentManager();
         context = getContext();
-
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +92,6 @@ public class LoginFragment extends Fragment{
         mRegisterButton = (FloatingActionButton) view.findViewById(R.id.register_fab);
         mLoginButton = (ActionProcessButton)view.findViewById(R.id.login_button);
     }
-
     /*
     * 注册跳转
     * */
@@ -114,7 +110,7 @@ public class LoginFragment extends Fragment{
     * */
     private boolean login() {
         userName = mAccoutNumber.getText().toString();
-        userName = mAccoutPassword.getText().toString();
+        userPassword = mAccoutPassword.getText().toString();
 
         players = new Players();
         players.setUsername(userName);
@@ -160,8 +156,6 @@ public class LoginFragment extends Fragment{
                 }
             }
         });
-
         return true;
     }
-
 }
