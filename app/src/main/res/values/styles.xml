@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -64,7 +64,7 @@
     </style>
 
     <style name="Smile.ImageView">
-        <item name="android:contentDescription">@string/app_name</item>
+        <item name="android:contentDescription" tools:ignore="NewApi">@string/app_name</item>
     </style>
 
     <style name="Smile.ImageView.Photo_Large">
@@ -152,7 +152,7 @@
         <!--//是否半透明-->
         <item name="android:windowIsTranslucent">true</item>
         <!--/背景是否模糊显示-->
-        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimEnabled" tools:ignore="NewApi">true</item>
     </style>
 
 
@@ -162,7 +162,7 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimEnabled" tools:ignore="NewApi">false</item>
     </style>
 
     <style name="chat_play_btn">
@@ -181,4 +181,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+=======
+    <style name="Translucent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">#0288D1</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+    <style name="TextLabel" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorControlActivated">#FFCC00</item>
+    </style>
+>>>>>>> 7677cacc4c3f8cdbf0f40dd379d160fe3c0276c8
 </resources>
