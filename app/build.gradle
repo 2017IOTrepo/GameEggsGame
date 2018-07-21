@@ -9,14 +9,39 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        packagingOptions {
+            exclude 'META-INF/rxjava.properties'
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+    sourceSets{
+        main{
+            jniLibs.srcDir 'libs'
+            //说明so的路径为该libs路径，关联所有地图SDK的so文件
         }
     }
 }
+
+repositories {
+    mavenCentral()
+    google()
+}
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -28,7 +53,53 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
-    implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'me.drakeet.multitype:multitype-kotlin:3.4.4'
+    //以下SDK开发者请根据需要自行选择
+    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
+    //3.5.5：请务必查看下面注释[1]
+    implementation 'cn.bmob.android:bmob-sdk:3.6.3'
+    //bmob-push：Bmob的推送包
+    implementation 'cn.bmob.android:bmob-push:1.0.2'
+    //bmob-im：Bmob的即时通讯包，注意每个版本的im依赖特定版本的bmob-sdk，具体的依赖关系可查看下面注释[2]
+    implementation 'cn.bmob.android:bmob-im:2.1.0@aar'
+    //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
+    implementation 'cn.bmob.android:http-legacy:1.0'
+
+
+    implementation files('libs/BaiduLBS_Android.jar')
+
+
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.alibaba:fastjson:1.2.47'
+    implementation 'me.drakeet.multitype:multitype:3.4.4'
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.lzy.net:okserver:2.0.5'
+    implementation 'com.wenwenwen888:searchbox:1.0.0'
+    implementation 'com.jakewharton:butterknife:8.8.0'
+    implementation 'com.jakewharton:butterknife-annotations:8.8.0'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    implementation 'com.zhy:autolayout:1.4.5'
+    implementation 'com.lzy.widget:imagepicker:0.6.1'
+    implementation 'com.zzti.fengyongge:imagepicker:1.2.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    implementation 'com.github.nyakokishi:ChatImageView:1.0.2'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+    implementation 'com.novaapps:FloatingActionMenu:1.0'
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+    configurations {
+        all*.exclude group: 'com.google.code.gson'
+        all*.exclude group: 'com.squareup.okio'
+    }
+
+    //悬浮按钮
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'com.nightonke:boommenu:2.1.1'
+    implementation files('libs/IndoorscapeAlbumPlugin.jar')
+    implementation 'com.android.support:cardview-v7:27.1.1'
 }

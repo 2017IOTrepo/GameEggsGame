@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/main_map_view"
+        android:layout_width="fill_parent"
+        android:layout_height="420dp"
+        android:clickable="true"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/main_actions_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        fab:fab_addButtonColorNormal="@color/blue_normal"
+        fab:fab_addButtonColorPressed="@color/blue_pressed"
+        fab:fab_addButtonPlusIconColor="@color/white"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="bottom|right|end"
+        fab:fab_labelStyle="@style/menu_labels_style">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_addButtonColorNormal="@color/blue_normal"
+            fab:fab_addButtonColorPressed="@color/blue_pressed"
+            fab:fab_addButtonSize="mini"
+            fab:fab_colorNormal="@color/blue_normal"
+            fab:fab_colorPressed="@color/blue_pressed"
+            fab:fab_size="mini"
+            fab:fab_title="卫星地图"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_addButtonColorNormal="@color/blue_normal"
+            fab:fab_addButtonColorPressed="@color/blue_pressed"
+            fab:fab_addButtonSize="mini"
+            fab:fab_colorNormal="@color/blue_normal"
+            fab:fab_colorPressed="@color/blue_pressed"
+            fab:fab_size="mini"
+            fab:fab_title="罗盘模式"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_addButtonColorNormal="@color/blue_normal"
+            fab:fab_addButtonColorPressed="@color/blue_pressed"
+            fab:fab_addButtonSize="mini"
+            fab:fab_colorNormal="@color/blue_normal"
+            fab:fab_colorPressed="@color/blue_pressed"
+            fab:fab_size="mini"
+            fab:fab_title="快速播报" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_addButtonColorNormal="@color/blue_normal"
+            fab:fab_addButtonColorPressed="@color/blue_pressed"
+            fab:fab_addButtonSize="mini"
+            fab:fab_colorNormal="@color/blue_normal"
+            fab:fab_colorPressed="@color/blue_pressed"
+            fab:fab_size="mini"
+            fab:fab_title="行程记录" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_e"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_addButtonColorNormal="@color/blue_normal"
+            fab:fab_addButtonColorPressed="@color/blue_pressed"
+            fab:fab_addButtonSize="mini"
+            fab:fab_colorNormal="@color/blue_normal"
+            fab:fab_colorPressed="@color/blue_pressed"
+            fab:fab_size="mini"
+            fab:fab_title="快速定位" />
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+</android.support.design.widget.CoordinatorLayout>

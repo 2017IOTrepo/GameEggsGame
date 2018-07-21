@@ -3,4 +3,8 @@
     <string name="accont_number">账号：</string>
     <string name="accont_password">密码：</string>
     <string name="login">登录</string>
+    <string name="all_label">全部标签</string>
+    <string name="text_inside_circle_button_text_normal">Text Inside Circle Button(Normal)</string>
+    <string name="text_inside_circle_button_text_highlighted">Text Inside Circle Button(Highlighted)</string>
+    <string name="text_inside_circle_button_text_unable">Text Inside Circle Button(Unable)</string>
 </resources>

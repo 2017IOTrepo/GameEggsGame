@@ -3,14 +3,129 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.a41448.huawu">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--获取设备网络状态，禁用后无法获取网络状态-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--//网络权限，当禁用后，无法进行检索等相关业务-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--//读取设备硬件信息，统计数据-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!--//读取系统信息，包含系统版本等信息，用作统计-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--//获取设备的网络状态，鉴权所需网络代理-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!--//允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <!--//获取统计数据-->
+
+    <!--//允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <!--//获取统计数据-->
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!--//鉴权所需该权限获取进程列表-->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!--//使用步行AR导航，配置Camera权限-->
+
+
+    <!--添加的权限-->
+    <!-- 允许联网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 获取wifi网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 获取sd卡写的权限，用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 允许读取手机状态 用于创建BmobInstallation -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- 权限声明 -->
+    <!-- 访问网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 外置存储存取权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 多媒体相关 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+
+    <!-- 基于位置服务的所有权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
+    <permission
+        android:name="com.example.lab.android.nuc.chat.permission.RECEIVE_MSG"
+        android:protectionLevel="signature" />
+    <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <uses-permission android:name="com.example.lab.android.nuc.chat.permission.RECEIVE_MSG" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+
+    //使用步行AR导航，配置Camera权限
+    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 (唤醒锁)-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
     <application
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        />
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning,InnerclassSeparator">
+
+        <meta-data
+            android:name="com.netease.nim.appKey"
+            android:value="5d308854c147f0f1cc2e8429b6176cdb" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="V5Av8NOzaEuRMyQMvVHULGBwxDVBxq7Z" />
+
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/title_activity_main"
@@ -22,6 +137,66 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.fragment.LoginFragment" />
+        <activity android:name=".view.fragment.RegisterFragment" />
+        <activity android:name=".view.fragment.LableChosingFragment">
+        </activity>
+
+
+        <!--//添加的其他-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.a41448.huawu.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".view.activity.ContactActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".view.activity.Dynamics_add_Activity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".view.activity.Dynamics_detail_Activity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Translation.activity.MainActivity_1"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Translation.activity.HelpActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Translation.activity.IDActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Translation.Glossary.MyWordRecycleViewActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".Translation.activity.MainActivity_11"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".photoSelector.BasePhotoPreviewActivity" />
+        <activity android:name=".photoSelector.PhotoPreviewActivity" />
+        <activity android:name=".view.activity.PrePhototActivity" />
+
+        <activity
+            android:name=".chatUI.ui.ServiceChatActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".chatUI.ui.ImageBrowserActivity"/>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:exported="true"
+            android:process=":remote"
+            tools:ignore="ExportedService">
+        </service>
+
+        <activity android:name=".view.activity.LocationActivity">
+        </activity>
+
     </application>
 
 </manifest>

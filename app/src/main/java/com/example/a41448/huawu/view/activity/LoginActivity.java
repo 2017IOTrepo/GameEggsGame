@@ -1,63 +1,29 @@
 package com.example.a41448.huawu.view.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
-import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
+import com.example.a41448.huawu.utils.FragmentUtils;
+import com.example.a41448.huawu.view.fragment.LoginFragment;
+
+import cn.bmob.v3.Bmob;
 
 public class LoginActivity extends BaseActivity{
 
-    private EditText mAccoutNumber;//账号
-    private EditText mAccoutPassword;//密码
-    private CheckBox mRemeberPasswordCheck;//记住密码
-    private CheckBox mAutoLoginCheck;//自动登录
-    private ActionProcessButton mLoginButton;//登录按钮
-    private boolean FirstLoginAccout = false;//判断是否为第一次登陆
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        mAccoutNumber = (EditText)findViewById(R.id.accont_number_edit_text);
-        mAccoutPassword = (EditText)findViewById(R.id.accont_password_edit_text);
-        mRemeberPasswordCheck = (CheckBox)findViewById(R.id.remeber_passworld_checkBox);
-        mAutoLoginCheck = (CheckBox)findViewById(R.id.auto_login_checkBox);
+        Bmob.initialize(this, "8145941241be2373c4c28c78c52ac64b");
 
-        mLoginButton = (ActionProcessButton)findViewById(R.id.login_button);
+        LoginFragment LoginFragment = new LoginFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mLoginButton.setEnabled(false);
-                mAccoutNumber.setEnabled(false);
-                mAccoutPassword.setEnabled(false);
-                mLoginButton.setMode(ActionProcessButton.Mode.PROGRESS);
-                login();//此处应用多线程与服务器连接
-                mLoginButton.setMode(ActionProcessButton.Mode.ENDLESS);
-
-                if (!FirstLoginAccout){
-                    //到主activity
-                    MainActivity.startActivity(LoginActivity.this);
-                }else{
-                    //到职业选取跟tag选取activity
-                }
-            }
-        });
+        FragmentUtils.addFragment(fragmentManager, LoginFragment, R.id.login_fragment_container);
     }
-
-    /*
-    * 登陆函数 未完成
-    * */
-    private boolean login() {
-
-        return true;
-    }
-
-
 }
