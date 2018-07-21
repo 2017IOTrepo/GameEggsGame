@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/left_king"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/right_king"
+        android:layout_alignRight="@id/relative_layout"
+        android:layout_marginRight="171dp"
+        android:src="@drawable/left_king" />
+
+
+    <ImageView
+        android:id="@+id/right_king"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignLeft="@id/relative_layout"
+        android:layout_marginLeft="169dp"
+        android:layout_alignParentTop="true"
+
+        android:layout_marginTop="93dp"
+        android:src="@drawable/right_king" />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#259045"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="123dp">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="您现在的步数是:"
+            android:textColor="#f7f7f7"
+            android:layout_marginTop="10dp"
+            android:layout_alignRight="@+id/button"
+            android:layout_marginRight="20dp"
+           />
+
+        <TextView
+            android:id="@+id/tv_walk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/textView"
+            android:text="100"
+            android:layout_marginLeft="110dp"
+            android:textSize="30sp"
+            android:textColor="#ffe101"/>
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/walk"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/button"
+            android:layout_marginBottom="60dp"
+            android:textSize="20sp"
+            android:text="您尚未解锁此荣誉"
+            android:textStyle="italic"
+            android:textColor="#673bec"
+            android:layout_centerHorizontal="true"
+
+            />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:text="确定"
+            android:textSize="15sp"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+</RelativeLayout>
