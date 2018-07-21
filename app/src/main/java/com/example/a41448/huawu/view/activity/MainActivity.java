@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.adapter.PageAdapter;
+import com.example.a41448.huawu.utils.FragmentUtils;
 import com.example.a41448.huawu.view.fragment.QuestionFragment;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.utils.PermissionUtil;
@@ -139,11 +140,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         int id = getIntent().getIntExtra( "id",0 );
         if (id == 1){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace( R.id.fragment_question,new QuestionFragment() )
-                    .addToBackStack( null )
-                    .commit();
+            FragmentUtils.replaceFragment(getSupportFragmentManager(), new QuestionFragment(), R.id.fragment_question);
         }
     }
 

@@ -126,6 +126,10 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="V5Av8NOzaEuRMyQMvVHULGBwxDVBxq7Z" />
 
+        <meta-data
+            android:name="Bmob_APP_KEY"
+            android:value="8145941241be2373c4c28c78c52ac64b" />
+
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/title_activity_main"
@@ -164,22 +168,8 @@
         <activity
             android:name=".view.activity.Dynamics_detail_Activity"
             tools:ignore="InnerclassSeparator" />
-        <activity
-            android:name=".Translation.activity.MainActivity_1"
-            tools:ignore="InnerclassSeparator" />
-        <activity
-            android:name=".Translation.activity.HelpActivity"
-            tools:ignore="InnerclassSeparator" />
-        <activity
-            android:name=".Translation.activity.IDActivity"
-            tools:ignore="InnerclassSeparator" />
-        <activity
-            android:name=".Translation.Glossary.MyWordRecycleViewActivity"
-            tools:ignore="InnerclassSeparator" />
-        <activity android:name=".Translation.activity.MainActivity_11"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-        <activity android:name=".photoSelector.BasePhotoPreviewActivity" />
-        <activity android:name=".photoSelector.PhotoPreviewActivity" />
+        <activity android:name=".view.activity.photoSelector.BasePhotoPreviewActivity" />
+        <activity android:name=".view.activity.photoSelector.PhotoPreviewActivity" />
         <activity android:name=".view.activity.PrePhototActivity" />
 
         <activity

@@ -14,14 +14,13 @@ import android.widget.ListView;
 
 import com.example.a41448.huawu.R;
 
-import com.example.a41448.huawu.tools.manager.BuilderManager;
+import com.example.a41448.huawu.utils.tools.manager.BuilderManager;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class GameFragment extends Fragment {

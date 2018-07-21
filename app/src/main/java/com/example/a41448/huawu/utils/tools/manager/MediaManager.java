@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.tools.manager;
+package com.example.a41448.huawu.utils.tools.manager;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;

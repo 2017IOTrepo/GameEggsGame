@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.photoSelector;
+package com.example.a41448.huawu.view.activity.photoSelector;
 
 import android.app.Activity;
 import android.os.Bundle;

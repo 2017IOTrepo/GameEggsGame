@@ -57,16 +57,17 @@ public class LoginFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_fragment, container, false);
+
         initView();
+
         fragmentManager = getFragmentManager();
         context = getContext();
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mLoginButton.setEnabled(false);
-                mAccoutNumber.setEnabled(false);
-                mAccoutPassword.setEnabled(false);
+                setEnabled();
                 mLoginButton.setMode(ActionProcessButton.Mode.PROGRESS);
+
                 login();
             }
         });
@@ -83,15 +84,26 @@ public class LoginFragment extends Fragment{
         return view;
     }
 
+    private void setEnabled() {
+        mLoginButton.setEnabled(false);
+        mAccoutNumber.setEnabled(false);
+        mAccoutPassword.setEnabled(false);
+        mRegisterButton.setEnabled(false);
+        mAutoLoginCheck.setEnabled(false);
+        mRemeberPasswordCheck.setEnabled(false);
+    }
 
-
+    //初始化界面
     private void initView() {
         mAccoutNumber = (EditText) view.findViewById(R.id.et_username);
         mAccoutPassword = (EditText) view.findViewById(R.id.et_password);
+        mRemeberPasswordCheck = (CheckBox)view.findViewById(R.id.remeber_passworld_checkBox);
+        mAutoLoginCheck = (CheckBox)view.findViewById(R.id.auto_login_checkBox);
         cardView = (CardView) view.findViewById(R.id.cv);
         mRegisterButton = (FloatingActionButton) view.findViewById(R.id.register_fab);
         mLoginButton = (ActionProcessButton)view.findViewById(R.id.login_button);
     }
+
     /*
     * 注册跳转
     * */
@@ -152,7 +164,6 @@ public class LoginFragment extends Fragment{
                                 .setNegativeButton("好的",null)
                                 .show();
                     }
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
