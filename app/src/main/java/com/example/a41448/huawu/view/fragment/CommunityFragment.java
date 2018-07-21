@@ -74,7 +74,7 @@ public class CommunityFragment extends Fragment {
         MagicPagerAdapter adapter = new MagicPagerAdapter( getChildFragmentManager() );
         adapter.addFragment( MessageFragment.newInstance() );
         adapter.addFragment( ContactFragment.newInstance( 0 ) );
-        adapter.addFragment( QuestionFragment.newInstance() );
+        adapter.addFragment( DynamicsFragment.newInstance() );
         mViewPager.setAdapter( adapter );
     }
 

@@ -190,7 +190,7 @@
             tools:ignore="ExportedService" />
 
         <activity android:name=".view.activity.LocationActivity" />
-        <activity android:name=".view.activity.denamic_item_activity" />
+        <activity android:name=".view.activity.dynamic_item_activity" />
         <activity android:name=".view.activity.TopicActivity"></activity>
     </application>
 

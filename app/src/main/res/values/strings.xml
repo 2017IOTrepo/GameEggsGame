@@ -179,5 +179,7 @@
     <string name="text_ham_button_sub_text_normal">Ham Button Sub Text(Normal)</string>
     <string name="text_ham_button_sub_text_highlighted">Ham Button Sub Text(Highlighted)</string>
     <string name="text_ham_button_sub_text_unable">Ham Button Sub Text(Unable)</string>
+    <string name="text_detail">翻着我们的照片，想念若隐若现，去年的冬天，我们笑得很甜...... —— 哎哟，不错哦!</string>
+    <string name="dynamic_time">10分钟前</string>
 
 </resources>

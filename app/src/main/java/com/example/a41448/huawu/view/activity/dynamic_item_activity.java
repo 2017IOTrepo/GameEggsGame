@@ -31,8 +31,8 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class denamic_item_activity extends AppCompatActivity {
-    private final static String TAG = "denamic_item_activity";
+public class dynamic_item_activity extends AppCompatActivity {
+    private final static String TAG = "dynamic_item_activity";
     private List<LocalMedia> selectList = new ArrayList<>(  );
     private RecyclerView recyclerView;
     private GridImageAdapter adapter;
@@ -41,7 +41,7 @@ public class denamic_item_activity extends AppCompatActivity {
     private int chooseMode = PictureMimeType.ofAll();
 
     private EditText mEditText;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecycler;
     private LinearLayout mLyImage;
     private LinearLayout mLyVideo;
     private LinearLayout mLyAiTe;
@@ -64,10 +64,10 @@ public class denamic_item_activity extends AppCompatActivity {
 
         loadDate();
 
-        FullyGridLayoutManager manager = new FullyGridLayoutManager( denamic_item_activity.this,
+        FullyGridLayoutManager manager = new FullyGridLayoutManager( dynamic_item_activity.this,
                 3, GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager( manager );
-        adapter = new GridImageAdapter( denamic_item_activity.this,onAddPicClickListener);
+        adapter = new GridImageAdapter( dynamic_item_activity.this,onAddPicClickListener);
         adapter.setList( selectList );
         recyclerView.setAdapter( adapter );
         adapter.setOnItemClickListener( new GridImageAdapter.OnItemClickListener() {
@@ -81,15 +81,15 @@ public class denamic_item_activity extends AppCompatActivity {
                         case 1:
                             // 预览图片 可自定长按保存路径
                             //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
-                            PictureSelector.create(denamic_item_activity.this).themeStyle(themeId).openExternalPreview(position, selectList);
+                            PictureSelector.create(dynamic_item_activity.this).themeStyle(themeId).openExternalPreview(position, selectList);
                             break;
                         case 2:
                             // 预览视频
-                            PictureSelector.create(denamic_item_activity.this).externalPictureVideo(media.getPath());
+                            PictureSelector.create(dynamic_item_activity.this).externalPictureVideo(media.getPath());
                             break;
                         case 3:
                             // 预览音频
-                            PictureSelector.create(denamic_item_activity.this).externalPictureAudio(media.getPath());
+                            PictureSelector.create(dynamic_item_activity.this).externalPictureAudio(media.getPath());
                             break;
                     }
                 }
@@ -97,7 +97,7 @@ public class denamic_item_activity extends AppCompatActivity {
         } );
         // 清空图片缓存，包括裁剪、压缩后的图片 注意:必须要在上传完成后调用 必须要获取权限
         RxPermissions permissions = new RxPermissions( this);
-        permissions.request( Manifest.permission.WRITE_APN_SETTINGS ).subscribe( new Observer<Boolean>() {
+        permissions.request( Manifest.permission.WRITE_EXTERNAL_STORAGE ).subscribe( new Observer<Boolean>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -106,9 +106,9 @@ public class denamic_item_activity extends AppCompatActivity {
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    PictureFileUtils.deleteCacheDirFile(denamic_item_activity.this);
+                    PictureFileUtils.deleteCacheDirFile(dynamic_item_activity.this);
                 } else {
-                    Toast.makeText(denamic_item_activity.this,
+                    Toast.makeText(dynamic_item_activity.this,
                             getString(R.string.picture_jurisdiction), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -145,7 +145,7 @@ public class denamic_item_activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(denamic_item_activity.this,TopicActivity.class );
+                intent.setClass(dynamic_item_activity.this,TopicActivity.class );
                 Bundle bundle = new Bundle();
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1);
@@ -155,7 +155,7 @@ public class denamic_item_activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(denamic_item_activity.this, TopicActivity.class);
+                intent.setClass(dynamic_item_activity.this, TopicActivity.class);
                 Bundle bundle = new Bundle();
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1);
@@ -165,7 +165,7 @@ public class denamic_item_activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(denamic_item_activity.this,TopicActivity.class );
+                intent.setClass(dynamic_item_activity.this,TopicActivity.class );
                 Bundle bundle = new Bundle();
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1);
@@ -177,7 +177,7 @@ public class denamic_item_activity extends AppCompatActivity {
 
 
     private void commonAction(int type) {
-        PictureSelector.create(denamic_item_activity.this)
+        PictureSelector.create(dynamic_item_activity.this)
                 .openGallery(type)// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .theme(R.style.picture_Sina_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
 //                    themeId = R.style.picture_default_style;   默认样式
@@ -233,7 +233,7 @@ public class denamic_item_activity extends AppCompatActivity {
                 commonAction( PictureMimeType.ofImage());
             }else {
                 // 单独拍照
-                PictureSelector.create( denamic_item_activity.this )
+                PictureSelector.create( dynamic_item_activity.this )
                         .openCamera( chooseMode )// 单独拍照，也可录像或也可音频 看你传入的类型是图片or视频
 //                        .theme(themeId)// 主题样式设置 具体参考 values/styles
 //                        .maxSelectNum(maxSelectNum)// 最大图片选择数量
@@ -276,7 +276,7 @@ public class denamic_item_activity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult( requestCode, resultCode, data );
-        if (requestCode == RESULT_OK){
+        if (resultCode == RESULT_OK){
             Bundle bundle = data.getExtras();
             if (bundle.getString( "ai_te") != null)
                 mEditText.setText( mEditText.getText() + "@" + bundle.getString( "ai_te" ) );

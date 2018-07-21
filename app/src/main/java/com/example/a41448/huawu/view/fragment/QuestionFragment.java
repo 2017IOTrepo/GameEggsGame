@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.example.a41448.huawu.view.activity.Dynamics_add_Activity;
 import com.example.a41448.huawu.view.activity.Dynamics_detail_Activity;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.Contacts.UserInfo;
@@ -33,7 +32,7 @@ import com.example.a41448.huawu.base.Message.Msg;
 import com.example.a41448.huawu.base.Question.Question;
 import com.example.a41448.huawu.base.Question.QuestionList;
 import com.example.a41448.huawu.base.RoundImageView.RoundImageView;
-import com.example.a41448.huawu.view.activity.denamic_item_activity;
+import com.example.a41448.huawu.view.activity.dynamic_item_activity;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -97,7 +96,7 @@ public class QuestionFragment extends android.support.v4.app.Fragment implements
         addQuestionBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( getContext(),denamic_item_activity.class);
+                Intent intent = new Intent( getContext(),dynamic_item_activity.class);
                 startActivityForResult( intent,1);
             }
         } );

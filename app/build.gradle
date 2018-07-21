@@ -67,7 +67,6 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
 
 
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.alibaba:fastjson:1.2.47'
     implementation 'me.drakeet.multitype:multitype:3.4.4'
     implementation 'com.lzy.net:okgo:3.0.4'
@@ -85,19 +84,19 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     implementation 'com.github.nyakokishi:ChatImageView:1.0.2'
-    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
     implementation 'com.novaapps:FloatingActionMenu:1.0'
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
     configurations {
         all*.exclude group: 'com.google.code.gson'
         all*.exclude group: 'com.squareup.okio'
+        all*.exclude group: 'com.nostra13.universalimageloader'
     }
 
     //悬浮按钮
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.nightonke:boommenu:2.1.1'
-    implementation files('libs/IndoorscapeAlbumPlugin.jar')
+//    implementation files('libs/IndoorscapeAlbumPlugin.jar')
     implementation 'com.android.support:cardview-v7:27.1.1'
     //图片选择器
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
