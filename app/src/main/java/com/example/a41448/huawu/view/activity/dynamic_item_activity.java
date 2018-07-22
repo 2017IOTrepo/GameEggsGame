@@ -2,8 +2,10 @@ package com.example.a41448.huawu.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,7 +15,9 @@ import android.text.Selection;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.adapter.GridImageAdapter;
@@ -48,6 +52,10 @@ public class dynamic_item_activity extends AppCompatActivity {
     private LinearLayout mLyTopic;
     private LinearLayout mLyAddArticle;
 
+
+    //Toolbar
+    private ImageView backView;
+    private TextView sendView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,38 @@ public class dynamic_item_activity extends AppCompatActivity {
         mLyTopic = (LinearLayout) findViewById(R.id.ly_topic);
         mLyAddArticle = (LinearLayout) findViewById(R.id.ly_add_article);
         recyclerView = findViewById(R.id.recycler);
+
+        backView = (ImageView) findViewById( R.id.toolbar_back);
+        sendView = (TextView) findViewById( R.id.toolbar_send );
+        backView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder( dynamic_item_activity.this );
+                dialog.setTitle( "" );
+                dialog.setMessage( "保留此次编辑?" );
+                dialog.setCancelable( true );
+                dialog.setPositiveButton( "", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        //将此次编辑动态添加到动态list当中,在此次编写逻辑
+                    }
+                } );
+                dialog.setNegativeButton( "取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                } );
+                dialog.show();
+            }
+        } );
+        sendView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        } );
 
         loadDate();
 
@@ -316,4 +356,5 @@ public class dynamic_item_activity extends AppCompatActivity {
         }
         return path;
     }
+
 }

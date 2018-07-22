@@ -8,9 +8,10 @@
     android:padding="10dp">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@mipmap/ic_launcher" />
+        android:background="@drawable/picture_11" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -19,12 +20,14 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="杰伦"
+            android:text="马骕骎"
             android:textColor="@android:color/holo_blue_dark" />
 
         <TextView
+            android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -37,10 +40,83 @@
             android:layout_marginTop="8dp"
             app:sapcing="4dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/dynamic_time" />
+            android:layout_marginTop="8dp">
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/dynamic_time" />
+
+            <TextView
+                android:id="@+id/smile_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:id="@+id/po_image3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:color/darker_gray"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@color/colorPrimary"
+                app:allow_random_color="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
+                app:siShape="@raw/smile"
+                 android:layout_toLeftOf="@id/smile_size"/>
+
+            <TextView
+                android:id="@+id/heart_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_toLeftOf="@id/po_image3"/>
+
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:id="@+id/po_image2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:color/darker_gray"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="#F44336"
+                app:allow_random_color="true"
+                app:siShape="@raw/heart"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/po_image3"
+                android:layout_toStartOf="@+id/po_image3" />
+
+            <TextView
+                android:id="@+id/like_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/po_image2"
+                android:text="4"/>
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:id="@+id/po_image1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:color/darker_gray"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@color/orange"
+                app:allow_random_color="true"
+                app:siShape="@raw/like"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@id/po_image2"
+                android:layout_toStartOf="@id/po_image2"
+                android:layout_marginEnd="15dp" />
+
+
+        </RelativeLayout>
+
     </LinearLayout>
 </LinearLayout>

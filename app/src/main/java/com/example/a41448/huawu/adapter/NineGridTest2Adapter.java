@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.Contacts.NineGridTestModel;
+import com.example.a41448.huawu.chatUI.utils.NineGridLayout;
 import com.example.a41448.huawu.chatUI.utils.NineGridTestLayout;
 
 import java.util.List;
@@ -38,8 +42,12 @@ public class NineGridTest2Adapter extends RecyclerView.Adapter<NineGridTest2Adap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.layout.setIsShowAll( mList.get( position ).isShowAll );
-        holder.layout.setUrlList( mList.get( position ).urlList );
+        NineGridTestModel nineGridTestModel = mList.get( position );
+        holder.layout.setIsShowAll( nineGridTestModel.isShowAll );
+        holder.layout.setUrlList( nineGridTestModel.urlList );
+        Glide.with( mContext ).load(nineGridTestModel.image).into( holder.mImageView );
+        holder.contact_name.setText( nineGridTestModel.name );
+        holder.time.setText( nineGridTestModel.time );
     }
 
     @Override
@@ -49,10 +57,16 @@ public class NineGridTest2Adapter extends RecyclerView.Adapter<NineGridTest2Adap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         NineGridTestLayout layout;
+        ImageView mImageView;
+        TextView contact_name;
+        TextView time;
 
         public ViewHolder(View itemView) {
             super( itemView );
             layout = (NineGridTestLayout) itemView.findViewById( R.id.layout_nine_grid);
+            mImageView = (ImageView) itemView.findViewById(R.id.image );
+            contact_name = (TextView) itemView.findViewById( R.id.name );
+            time = (TextView) itemView.findViewById( R.id.time );
         }
     }
 

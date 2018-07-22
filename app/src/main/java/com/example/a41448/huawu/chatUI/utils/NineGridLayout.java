@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.chatUI.utils;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -18,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
+/**
+ * 动态的九宫格图片布局
+ */
 
 public abstract class NineGridLayout extends ViewGroup {
 
@@ -177,13 +181,17 @@ public abstract class NineGridLayout extends ViewGroup {
         setLayoutParams(params);
     }
 
-    private RatioImageView createImageView(final int i, final String url) {
+    public RatioImageView createImageView(final int i, final String url) {
         RatioImageView imageView = new RatioImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickImage(i, url, mUrlList);
+                try {
+                    onClickImage(i, url, mUrlList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         return imageView;
@@ -305,5 +313,5 @@ public abstract class NineGridLayout extends ViewGroup {
 
     protected abstract void displayImage(RatioImageView imageView, String url);
 
-    protected abstract void onClickImage(int position, String url, List<String> urlList);
+    protected abstract void onClickImage(int position, String url, List<String> urlList) throws Exception;
 }

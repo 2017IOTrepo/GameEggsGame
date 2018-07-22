@@ -1,5 +1,7 @@
 package com.example.a41448.huawu.base.Contacts;
 
+import android.media.Image;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -12,4 +14,13 @@ public class NineGridTestModel implements Serializable {
     public List<String> urlList = new ArrayList<>();
 
     public boolean isShowAll = false;
+
+    public int image;
+
+    public String name;
+
+    public String time;
+
+    public String start;
+
 }
