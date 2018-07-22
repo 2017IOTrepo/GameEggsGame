@@ -171,6 +171,7 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat formatter = new SimpleDateFormat( "yyyy年MM月dd日   HH:mm:ss" );
     Date curDate = new Date( System.currentTimeMillis() );
     private String str = formatter.format( curDate );

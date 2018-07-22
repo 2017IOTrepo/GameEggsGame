@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.view.fragment;
 
+import android.content.Intent;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.utils.MyOrientationListener;
+import com.example.a41448.huawu.view.activity.TrackActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -93,7 +95,7 @@ public class MapFragment extends Fragment {
             child.setVisibility( View.INVISIBLE );
         }
         // 隐藏缩放控件
-        mMapView.showScaleControl( false );
+        mMapView.showZoomControls( true );
         /*放大地图倍数，标尺为50米*/
         MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo( 18.0f );
         mBaiduMap.setMapStatus( msu );
@@ -128,9 +130,9 @@ public class MapFragment extends Fragment {
                     LatLng xy = new LatLng( bdLocation.getLatitude(),
                             bdLocation.getLongitude() );
                     MapStatusUpdate status = MapStatusUpdateFactory.newLatLng( xy );
+                    mBaiduMap.animateMapStatus( status );
                     firstLocation = false;
                 }
-
                 setStatus( bdLocation.getAddrStr() );
             }
         } );
@@ -157,6 +159,54 @@ public class MapFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // 如果要显示位置图标,必须先开启图层定位
+        mBaiduMap.setMyLocationEnabled( true );
+        if (!mLocationClient.isStarted()){
+            Log.i( TAG,"onStart is called" );
+            mLocationClient.start();
+        }
+        /*开启方向传感器*/
+        mMyOrientationListener.start();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+        Log.i( TAG,"OnResume: is called" );
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+        Log.i( TAG,"onPause：is called" );
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        /*停止定位*/
+        mBaiduMap.setMyLocationEnabled( false );
+        mLocationClient.stop();
+        mMyOrientationListener.stop();
+        Log.i( TAG,"onStop is called" );
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+        Log.i(TAG,"onDestory is called");
+    }
+
+
+
     public void setStatus(String status) {
         mStatus = status;
         location = status;
@@ -172,7 +222,7 @@ public class MapFragment extends Fragment {
         mActionMap.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBaiduMap.getMapType() == BaiduMap.MAP_TYPE_NONE){
+                if (mBaiduMap.getMapType() == BaiduMap.MAP_TYPE_NORMAL){
                     mBaiduMap.setMapType( BaiduMap.MAP_TYPE_SATELLITE );
                     mActionMap.setTitle( getResources().getString( R.string.fab_exchange_map_normal ) );
                 }else {
@@ -202,8 +252,7 @@ public class MapFragment extends Fragment {
         mAction_c.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                startActivity(new Intent( getContext(), TrackActivity.class ) );
                 mFloatingActionsMenu.toggle();
             }
         } );

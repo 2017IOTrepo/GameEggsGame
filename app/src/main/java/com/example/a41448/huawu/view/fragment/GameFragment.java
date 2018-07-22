@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,18 +55,19 @@ public class GameFragment extends Fragment {
         assert listView != null;
         listView.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_expandable_list_item_1,
                 BuilderManager.getHamButtonData(piecesAndButtons)));
-        listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                bmb.setPiecePlaceEnum((PiecePlaceEnum) piecesAndButtons.get(position).first);
-                bmb.setButtonPlaceEnum((ButtonPlaceEnum) piecesAndButtons.get(position).second);
-                bmb.clearBuilders();
-                for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++) {
-                    bmb.addBuilder( BuilderManager.getHamButtonBuilder() );
-                }
-            }
-        } );
-
+//        listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//
+//            }
+//        } );
+        bmb.setPiecePlaceEnum((PiecePlaceEnum) piecesAndButtons.get(9).first);
+        bmb.setButtonPlaceEnum((ButtonPlaceEnum) piecesAndButtons.get(9).second);
+        bmb.clearBuilders();
+        for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++) {
+            bmb.addBuilder( BuilderManager.getHamButtonBuilder() );
+        }
 
         bmb_1 = (BoomMenuButton) view.findViewById(R.id.bmb_1);
         assert bmb != null;
@@ -78,16 +80,18 @@ public class GameFragment extends Fragment {
         assert listView_1 != null;
         listView_1.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_expandable_list_item_1,
                 BuilderManager.getCircleButtonData(piecesAndButtons_1)));
-        listView_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                bmb_1.setPiecePlaceEnum((PiecePlaceEnum) piecesAndButtons_1.get(position).first);
-                bmb_1.setButtonPlaceEnum((ButtonPlaceEnum) piecesAndButtons_1.get(position).second);
-                bmb_1.clearBuilders();
-                for (int i = 0; i < bmb_1.getPiecePlaceEnum().pieceNumber(); i++)
-                    bmb_1.addBuilder(BuilderManager.getTextInsideCircleButtonBuilder());
-            }
-        });
+//        listView_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.e( "wanghao", String.valueOf( position ) );
+//
+//            }
+//        });
+        bmb_1.setPiecePlaceEnum((PiecePlaceEnum) piecesAndButtons_1.get(228).first);
+        bmb_1.setButtonPlaceEnum((ButtonPlaceEnum) piecesAndButtons_1.get(228).second);
+        bmb_1.clearBuilders();
+        for (int i = 0; i < bmb_1.getPiecePlaceEnum().pieceNumber(); i++)
+            bmb_1.addBuilder(BuilderManager.getTextInsideCircleButtonBuilder());
         return view;
     }
 }

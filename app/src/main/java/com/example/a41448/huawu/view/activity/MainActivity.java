@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -77,6 +78,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //实现透明状态栏效果  并且toolbar 需要设置  android:fitsSystemWindows="true"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | layoutParams.flags);
+        }
         setContentView(R.layout.activity_main);
 
         //添加的
@@ -142,6 +148,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     .addToBackStack( null )
                     .commit();
         }
+
+
     }
 
     @Override

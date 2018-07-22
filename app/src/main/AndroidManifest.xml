@@ -189,9 +189,16 @@
             android:process=":remote"
             tools:ignore="ExportedService" />
 
+        <!-- 开启百度地图轨迹绘制服务 -->
+        <service
+            android:name="com.baidu.trace.LBSTraceService"
+            android:enabled="true"
+            android:process=":remote"></service>
+
         <activity android:name=".view.activity.LocationActivity" />
         <activity android:name=".view.activity.dynamic_item_activity" />
-        <activity android:name=".view.activity.TopicActivity"></activity>
+        <activity android:name=".view.activity.TopicActivity" />
+        <activity android:name=".view.activity.TrackActivity"></activity>
     </application>
 
 </manifest>
