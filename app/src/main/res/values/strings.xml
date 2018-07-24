@@ -179,4 +179,8 @@
     <string name="text_ham_button_sub_text_unable">Ham Button Sub Text(Unable)</string>
     <string name="skip">跳过</string>
     <string name="complete">完成</string>
+    <string name="player_achievement">成就</string>
+    <string name="player_shop">商店</string>
+    <string name="player_help">帮助</string>
+    <string name="app_about">关于</string>
 </resources>

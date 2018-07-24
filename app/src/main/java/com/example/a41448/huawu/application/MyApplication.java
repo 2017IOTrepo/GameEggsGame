@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.a41448.huawu.chatUI.bean.DaoMaster;
 import com.example.a41448.huawu.chatUI.bean.DaoSession;
@@ -21,7 +24,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import cn.bmob.v3.datatype.BmobGeoPoint;
 
+/*
+* 全局application类
+*
+* 主要功能：初始化百度sdk 记录经纬度
+* */
 public class MyApplication extends MultiDexApplication{
 
 
@@ -32,6 +41,11 @@ public class MyApplication extends MultiDexApplication{
     }
 
     private DaoSession daoSession;
+    public static MyApplication mInstance;
+    public LocationClient mLocationClient;
+    public MyLocationListener mMyLocationListener;
+
+    public static BmobGeoPoint lastPoint = null;// 上一次定位到的经纬度
 
     public static MyApplication getInstance() {
         return instance;
@@ -39,8 +53,9 @@ public class MyApplication extends MultiDexApplication{
     @Override
     public void onCreate() {
         super.onCreate();
-        //初始化百度地图
-        SDKInitializer.initialize( this );
+
+        mInstance = this;
+        initBaidu();
 
 //        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
 //        NIMClient.init(this, loginInfo(), options());
@@ -60,6 +75,18 @@ public class MyApplication extends MultiDexApplication{
         instance = this;
     }
 
+    /**
+     * 初始化百度相关sdk initBaidumap
+     * @Title: initBaidumap
+     * @Description: TODO
+     * @param
+     * @return void
+     * @throws
+     */
+    private void initBaidu() {
+        // 初始化地图Sdk
+        SDKInitializer.initialize(this);
+    }
 
     /**
      * 初始化ImageLoader
@@ -75,7 +102,27 @@ public class MyApplication extends MultiDexApplication{
         ImageLoader.getInstance().init(config);
     }
 
+    /**
+     * 实现实位回调监听
+     */
+    public class MyLocationListener implements BDLocationListener {
 
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // Receive Location
+            double latitude = location.getLatitude();
+            double longtitude = location.getLongitude();
+            if (lastPoint != null) {
+                if (lastPoint.getLatitude() == location.getLatitude()
+                        && lastPoint.getLongitude() == location.getLongitude()) {
+//					BmobLog.i("两次获取坐标相同");// 若两次请求获取到的地理位置坐标是相同的，则不再定位
+                    mLocationClient.stop();
+                    return;
+                }
+            }
+            lastPoint = new BmobGeoPoint(longtitude, latitude);
+        }
+    }
 
     // 如果返回值为 null，则全部使用默认参数。
     private SDKOptions options() {

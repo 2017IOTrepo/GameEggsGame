@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.a41448.huawu.Manifest;
 import com.example.a41448.huawu.adapter.PageAdapter;
 import com.example.a41448.huawu.utils.FragmentUtils;
 import com.example.a41448.huawu.view.fragment.QuestionFragment;
@@ -39,7 +41,11 @@ import com.example.a41448.huawu.base.RoundImageView.RoundImageView;
 import com.example.a41448.huawu.utils.ActivityCollector;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
+
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
         Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
@@ -85,18 +91,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //添加的
         initView();
 
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -112,19 +106,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        players = BmobUser.getCurrentUser(Players.class);
-
-
-//        ButterKnife.bind(this);
-        //先显示默认的标题Chat以后要改为其他的
-//        mToolbar.setTitle("SearchDialog");//标题
-        //将系统的ToolBar改为自定义的ToolBar
         setSupportActionBar(mToolbar);
-        PermissionUtil.verifyStoragePermissions( this );
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
             //添加返回功能
@@ -190,21 +174,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(MenuItem item) {
         String mString = null;
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        switch (item.getItemId()){
+            case R.id.player_achievement:
+                break;
 
-        if (id == R.id.nav_camera) {
-            mString = "相机";
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            mString = "相册";
-        } else if (id == R.id.nav_slideshow) {
-            mString = "Show";
-        } else if (id == R.id.nav_manage) {
-            mString = "设置";
-        } else if (id == R.id.nav_share) {
-            mString = "分享";
-        } else if (id == R.id.nav_send) {
-            mString = "发送";
+            case R.id.player_shop:
+                break;
+
+            case R.id.player_help:
+                break;
+
+            case R.id.app_about:
+                break;
         }
         mToolbar.setTitle(mString);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -254,6 +235,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mTabLayout = (TabLayout) findViewById(R.id.tablayout);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         searchFragment = SearchFragment.newInstance();
+        players = BmobUser.getCurrentUser(Players.class);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager(),this);
         mTabLayout.setTabMode( TabLayout.MODE_FIXED );
@@ -285,7 +269,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onResume() {
         super.onResume();
-//        mToolbar.setTitle("TabLayout Demo");
+        if (!TextUtils.isEmpty(players.getObjectId())){
+            BmobIM.connect(players.getObjectId(), new ConnectListener() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null){
+                        Toast.makeText(MainActivity.this, "conect successful", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(MainActivity.this, "错误：" + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 
     @Override

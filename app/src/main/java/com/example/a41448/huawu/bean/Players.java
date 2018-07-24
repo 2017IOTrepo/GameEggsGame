@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobGeoPoint;
 
 /**
  * Created by xmmmmovo on 2018/7/16.
@@ -20,6 +21,8 @@ public class Players extends BmobUser {
 
     private List<String> lables;
     private String userAccontId;
+    private boolean sex = true; // 性别 true为男性 默认为男性
+    private BmobGeoPoint location;// 地点坐标记录
 
     public Players() {
     }
@@ -55,5 +58,23 @@ public class Players extends BmobUser {
     public void setLables(List<String> lables) {
         this.lables = lables;
     }
+
+    public boolean isSex() {
+        return sex;
+    }
+
+    public void setSex(boolean sex) {
+        this.sex = sex;
+    }
+
+
+    public BmobGeoPoint getLocation() {
+        return location;
+    }
+
+    public void setLocation(BmobGeoPoint location) {
+        this.location = location;
+    }
+
 
 }

@@ -7,9 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
+import com.example.a41448.huawu.bean.Messages;
 import com.example.a41448.huawu.utils.FragmentUtils;
 import com.example.a41448.huawu.view.fragment.LoginFragment;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
+import cn.bmob.newim.BmobIM;
 import cn.bmob.v3.Bmob;
 
 public class LoginActivity extends BaseActivity{
@@ -20,10 +26,32 @@ public class LoginActivity extends BaseActivity{
         setContentView(R.layout.login_activity);
 
         Bmob.initialize(this, "8145941241be2373c4c28c78c52ac64b");
+        if (getApplicationInfo().packageName.equals(getMyProcessName())){
+            BmobIM.init(this);
+            BmobIM.registerDefaultMessageHandler(new Messages());
+        }
 
         LoginFragment LoginFragment = new LoginFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentUtils.addFragment(fragmentManager, LoginFragment, R.id.login_fragment_container);
+    }
+
+
+    /**
+     * 获取当前运行的进程名
+     * @return
+     */
+    public static String getMyProcessName() {
+        try {
+            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+            String processName = mBufferedReader.readLine().trim();
+            mBufferedReader.close();
+            return processName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

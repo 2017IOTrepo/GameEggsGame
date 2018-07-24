@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.view.fragment;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -29,10 +30,14 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
 import com.example.a41448.huawu.bean.Players;
+import com.example.a41448.huawu.utils.ActivityCollector;
 import com.example.a41448.huawu.utils.FragmentUtils;
+import com.example.a41448.huawu.utils.PermissionUtil;
 import com.example.a41448.huawu.view.activity.LoginActivity;
 import com.example.a41448.huawu.view.activity.MainActivity;
 
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -52,6 +57,9 @@ public class LoginFragment extends Fragment{
     private View view;
     private FragmentManager fragmentManager;
     private Players players;
+    private BmobIM bmobIM;
+    private BmobIMUserInfo bmobIMUserInfo;
+    private String[] permissions;
 
     @Nullable
     @Override
@@ -59,6 +67,7 @@ public class LoginFragment extends Fragment{
         view = inflater.inflate(R.layout.login_fragment, container, false);
 
         initView();
+        requestPermissions();
 
         fragmentManager = getFragmentManager();
         context = getContext();
@@ -82,6 +91,38 @@ public class LoginFragment extends Fragment{
         });
 
         return view;
+    }
+
+    private void requestPermissions() {
+        permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        PermissionUtil.requestPermissions(getActivity(), permissions, new PermissionUtil.OnRequestPermissionsListener() {
+            @Override
+            public void onGranted() {
+                Toast.makeText(context, "所有权限均已同意", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDenied() {
+                AlertDialog deniedDialog = new AlertDialog.Builder(context)
+                        .setTitle("错误！")
+                        .setMessage("有权限未同意!")
+                        .setCancelable(false)
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCollector.finishiAll();
+                            }
+                        })
+                        .show();
+
+            }
+        });
     }
 
     private void setEnabled() {

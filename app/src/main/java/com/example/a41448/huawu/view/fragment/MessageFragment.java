@@ -31,6 +31,7 @@ public class MessageFragment extends Fragment implements SearchView.OnQueryTextL
     private SearchAdapter mSearchAdapter;
     private EditText mEditText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private OnRecyclerviewItemClickListener mOnRecyclerviewItemClickListener ;
 
     public static Fragment newInstance(){
         Bundle bundle = new Bundle();
@@ -38,7 +39,6 @@ public class MessageFragment extends Fragment implements SearchView.OnQueryTextL
         messageFragment.setArguments(bundle);
         return messageFragment;
     }
-    private OnRecyclerviewItemClickListener mOnRecyclerviewItemClickListener ;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
