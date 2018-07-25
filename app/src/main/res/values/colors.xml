@@ -226,6 +226,9 @@
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="divider">#01feb2</color>
 
+    <color name="load_success">#03a44e</color>
+    <color name="load_failure">#de0e26</color>
 
 </resources>

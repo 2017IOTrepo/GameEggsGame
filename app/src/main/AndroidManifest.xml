@@ -89,14 +89,6 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
-    <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
-    <permission
-        android:name="com.example.lab.android.nuc.chat.permission.RECEIVE_MSG"
-        android:protectionLevel="signature" />
-    <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
-    <uses-permission android:name="com.example.lab.android.nuc.chat.permission.RECEIVE_MSG" />
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -197,6 +189,8 @@
         <activity android:name=".view.activity.LocationActivity">
         </activity>
 
+     <activity android:name=".sideslip.Shop.Shop_Main"/>
+        <activity android:name=".sideslip.Achievement"/>
     </application>
 
 </manifest>
