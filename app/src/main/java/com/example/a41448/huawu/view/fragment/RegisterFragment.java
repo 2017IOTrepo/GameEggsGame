@@ -70,7 +70,7 @@ public class RegisterFragment extends BaseActivity {
                 userPassword = registerPassword.getText().toString();
                 userName = registerAccontId.getText().toString();
 
-                players = new Players(new ArrayList<String>(), userAccontId, true);
+                players = new Players(new ArrayList<String>(), userAccontId, true, 0, 0);
                 players.setUsername(userName);
                 players.setPassword(userPassword);
                 players.signUp(new SaveListener<Players>() {

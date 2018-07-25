@@ -101,4 +101,8 @@ dependencies {
     implementation 'com.nightonke:boommenu:2.1.1'
     implementation files('libs/IndoorscapeAlbumPlugin.jar')
     implementation 'com.android.support:cardview-v7:27.1.1'
+
+    //圆形头像
+    implementation 'de.hdodenhof:circleimageview:2.0.0'
+
 }

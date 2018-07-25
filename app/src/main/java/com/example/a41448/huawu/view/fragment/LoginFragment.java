@@ -59,7 +59,6 @@ public class LoginFragment extends Fragment{
     private Players players;
     private BmobIM bmobIM;
     private BmobIMUserInfo bmobIMUserInfo;
-    private String[] permissions;
 
     @Nullable
     @Override
@@ -67,7 +66,6 @@ public class LoginFragment extends Fragment{
         view = inflater.inflate(R.layout.login_fragment, container, false);
 
         initView();
-        requestPermissions();
 
         fragmentManager = getFragmentManager();
         context = getContext();
@@ -91,38 +89,6 @@ public class LoginFragment extends Fragment{
         });
 
         return view;
-    }
-
-    private void requestPermissions() {
-        permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE};
-
-        PermissionUtil.requestPermissions(getActivity(), permissions, new PermissionUtil.OnRequestPermissionsListener() {
-            @Override
-            public void onGranted() {
-                Toast.makeText(context, "所有权限均已同意", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onDenied() {
-                AlertDialog deniedDialog = new AlertDialog.Builder(context)
-                        .setTitle("错误！")
-                        .setMessage("有权限未同意!")
-                        .setCancelable(false)
-                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCollector.finishiAll();
-                            }
-                        })
-                        .show();
-
-            }
-        });
     }
 
     private void setEnabled() {

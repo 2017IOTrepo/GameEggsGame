@@ -50,7 +50,7 @@ public class PermissionUtil {
     public static void showDialog(final Activity activity, final List<String> permissionList){
         AlertDialog hintDialog = new AlertDialog.Builder(activity)
                 .setTitle("提醒")
-                .setMessage("欢迎使用SeeWorld程序！在使用前，有一些权限需要您同意，否则无法执行！")
+                .setMessage("欢迎使用程序！在使用前，有一些权限需要您同意，否则无法执行！")
                 .setCancelable(false)
                 .setPositiveButton("好", new DialogInterface.OnClickListener() {
                     @Override

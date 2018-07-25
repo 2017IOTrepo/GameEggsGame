@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 
 /**
@@ -23,14 +24,43 @@ public class Players extends BmobUser {
     private String userAccontId;
     private boolean sex = true; // 性别 true为男性 默认为男性
     private BmobGeoPoint location;// 地点坐标记录
+    private int points;
+    private int coins;
+    private BmobFile avatar;
 
     public Players() {
     }
 
-    public Players(List<String> lables, String userAccontId, boolean isFirstLogin) {
+    public Players(List<String> lables, String userAccontId, boolean isFirstLogin, int points, int coins) {
         this.lables = lables;
         this.userAccontId = userAccontId;
         this.isFirstLogin = isFirstLogin;
+        this.points = points;
+        this.coins = coins;
+    }
+
+    public BmobFile getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(BmobFile avatar) {
+        this.avatar = avatar;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 
     public String getUserAccontId() {

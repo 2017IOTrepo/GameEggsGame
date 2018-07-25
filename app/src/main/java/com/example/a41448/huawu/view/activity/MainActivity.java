@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.Manifest;
@@ -46,6 +47,7 @@ import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
         Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
@@ -61,13 +63,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static Context mContext;
     Toolbar mToolbar;
     TabLayout mTabLayout;
-
     ViewPager mViewPager;
-
     private SearchFragment searchFragment;
-
-    RoundImageView icon;
-
+    private TextView points;
+    private TextView coins;
+    private TextView name;
+    private TextView labels;
+    private CircleImageView avatar;
+    private View headerLayout;
 
     //拍照的Uri
     private Uri imageUri;
@@ -88,9 +91,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //添加的
+        //初始化控件
         initView();
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -107,6 +109,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        //初始化人物界面
+        setView();
 
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -126,6 +131,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == 1){
             FragmentUtils.replaceFragment(getSupportFragmentManager(), new QuestionFragment(), R.id.fragment_question);
         }
+    }
+
+    private void setView() {
+        headerLayout = navigationView.getHeaderView(0);
+        points = (TextView)headerLayout.findViewById(R.id.player_point_text);
+        coins = (TextView)headerLayout.findViewById(R.id.player_coins_text);
+        name = (TextView)headerLayout.findViewById(R.id.player_name_text);
+        labels = (TextView)headerLayout.findViewById(R.id.player_label_text);
+        avatar = (CircleImageView)headerLayout.findViewById(R.id.player_avatar_image);
+
+        points.setText("游戏点数：" + players.getPoints());
+        coins.setText("金币数：" + players.getCoins());
+        labels.setText("用户标签：" + players.getLables().toString());
+        name.setText("用户名：" + players.getUserAccontId());
     }
 
     @Override
@@ -155,14 +174,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()){
-            case R.id.action_settings:
-
-                break;
-            default:
-                break;
-
-        }
         if (toggle.onOptionsItemSelected( item )){
             return true;
         }

@@ -3,18 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:id="@+id/slideshow" android:checkableBehavior="single">
+    <group android:id="@+id/player_achievement_group" android:checkableBehavior="single">
         <item
             android:id="@+id/player_achievement"
             android:title="@string/player_achievement" />
     </group>
-    <group android:id="@+id/manage" android:checkableBehavior="single">
+    <group android:id="@+id/player_shop_group" android:checkableBehavior="single">
         <item
             android:id="@+id/player_shop"
             android:title="@string/player_shop" />
     </group>
 
-    <item android:title="教程">
+    <group android:id="@+id/player_settings_group" android:checkableBehavior="single">
+        <item
+            android:id="@+id/player_settings"
+            android:title="@string/setting" />
+    </group>
+
+    <item android:title="说明">
         <menu>
             <item
                 android:id="@+id/player_help"
