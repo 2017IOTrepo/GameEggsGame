@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:onClick="onClick"
+        android:background="@drawable/ach_top"
+
+
+        >
+        <TextView
+            android:id="@+id/tv_achievements"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:text="荣誉成就"
+            android:textSize="60dp"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textColor="#0e0e0e"
+           />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#42b7db"
+            >
+
+
+        </View>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_layout">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_achievements"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+</RelativeLayout>

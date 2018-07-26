@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.Trace;
@@ -36,7 +39,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import cn.bmob.v3.datatype.BmobGeoPoint;
 
+/*
+* 全局application类
+*
+* 主要功能：初始化百度sdk 记录经纬度
+* */
 public class MyApplication extends MultiDexApplication{
 
 
@@ -91,6 +100,11 @@ public class MyApplication extends MultiDexApplication{
     }
 
     private DaoSession daoSession;
+    public static MyApplication mInstance;
+    public LocationClient mLocationClient;
+    public MyLocationListener mMyLocationListener;
+
+    public static BmobGeoPoint lastPoint = null;// 上一次定位到的经纬度
 
     public static MyApplication getInstance() {
         return instance;
@@ -102,6 +116,11 @@ public class MyApplication extends MultiDexApplication{
         SDKInitializer.initialize( this );
         //初始化ImageLoader
         initImageLoader();
+
+
+        mInstance = this;
+
+
 
 //        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
 //        NIMClient.init(this, loginInfo(), options());
@@ -158,7 +177,6 @@ public class MyApplication extends MultiDexApplication{
         clearTraceStatus();
     }
 
-
     /**
      * 初始化ImageLoader
      */
@@ -176,6 +194,29 @@ public class MyApplication extends MultiDexApplication{
     private void initImageLoader(){
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault( this );
         ImageLoader.getInstance().init( configuration );
+    }
+
+
+    /**
+     * 实现实位回调监听
+     */
+    public class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // Receive Location
+            double latitude = location.getLatitude();
+            double longtitude = location.getLongitude();
+            if (lastPoint != null) {
+                if (lastPoint.getLatitude() == location.getLatitude()
+                        && lastPoint.getLongitude() == location.getLongitude()) {
+//					BmobLog.i("两次获取坐标相同");// 若两次请求获取到的地理位置坐标是相同的，则不再定位
+                    mLocationClient.stop();
+                    return;
+                }
+            }
+            lastPoint = new BmobGeoPoint(longtitude, latitude);
+        }
     }
 
 

@@ -6,14 +6,14 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 
-import com.example.a41448.huawu.chatUI.bean.ChatMessageBean;
-import com.example.a41448.huawu.chatUI.bean.ChatMessageType;
 import com.example.a41448.huawu.chatUI.listener.PlayButtonClickListener;
 import com.example.a41448.huawu.chatUI.viewholder.ChatItemAudioHolder;
 import com.example.a41448.huawu.chatUI.viewholder.ChatItemHolder;
 import com.example.a41448.huawu.chatUI.viewholder.ChatItemImageHolder;
 import com.example.a41448.huawu.chatUI.viewholder.ChatItemTextHolder;
 import com.example.a41448.huawu.chatUI.viewholder.CommonViewHolder;
+import com.example.a41448.huawu.chatUI.bean.ChatMessageBean;
+import com.example.a41448.huawu.chatUI.bean.ChatMessageType;
 
 import java.util.ArrayList;
 import java.util.Collections;

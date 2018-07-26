@@ -17,7 +17,7 @@
     <string name="login_success">登陆成功</string>
     <string name="login_register">注册账户</string>
     <string name="all_label">全部标签</string>
-
+    <string name="login_name">用户名</string>
     //添加Strings
     <string name="content">内容</string>
     <string name="allTack">NEW</string>
@@ -56,8 +56,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="lofin_nmae">Username</string>
-    <string name="login_name">Username</string>
     <string name="login_button">登    陆</string>
     <string name="login_button_2">登 陆</string>
     <string name="contact_name">Alice</string>
@@ -179,6 +177,7 @@
     <string name="text_ham_button_sub_text_normal">Ham Button Sub Text(Normal)</string>
     <string name="text_ham_button_sub_text_highlighted">Ham Button Sub Text(Highlighted)</string>
     <string name="text_ham_button_sub_text_unable">Ham Button Sub Text(Unable)</string>
+
     <string name="text_detail">翻着我们的照片，想念若隐若现，去年的冬天，我们笑得很甜...... —— 哎哟，不错哦!</string>
     <string name="dynamic_time">10分钟前</string>
 
@@ -201,4 +200,30 @@
     <string name="fence_create_server_circle">创建服务端圆形围栏</string>
     <string name="fence_create_polyline">创建多段线围栏</string>
     <string name="fence_create_polygon">创建多边形围栏</string>
+
+    <string name="skip">跳过</string>
+    <string name="complete">完成</string>
+    <string name="player_achievement">成就</string>
+    <string name="player_shop">商店</string>
+    <string name="player_help">帮助</string>
+    <string name="app_about">关于</string>
+
+   //商店
+    <string name="title_1">提示卡</string>
+    <string name="title_2">藏点图</string>
+    <string name="title_3">成就碎片1</string>
+    <string name="title_4">成就碎片2</string>
+
+    <string name="text_1">作用：提示藏点信息</string>
+    <string name="text_2">作用：直接显示藏点</string>
+    <string name="text_3">作用：解锁成就1</string>
+    <string name="text_4">作用：解锁成就2</string>
+
+
+    <string name="coin_1">100</string>
+    <string name="coin_2">500</string>
+    <string name="coin_3">1000</string>
+    <string name="coin_4">2000</string>
+
+
 </resources>

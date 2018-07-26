@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:textSize="13sp"
+                        android:textSize="20sp"
                         android:textColor="#2fa881"
                         android:id="@+id/et_username"
                         android:hint="@string/accont_number"
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:textSize="13dp"
+                        android:textSize="20dp"
                         android:hint="@string/accont_password"
                         android:textColor="#2fa881"
                         android:id="@+id/et_password"
