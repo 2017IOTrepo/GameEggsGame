@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.sideslip;
+package com.example.a41448.huawu.view.sideslip;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

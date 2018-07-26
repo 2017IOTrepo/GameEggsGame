@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.sideslip.Shop;
+package com.example.a41448.huawu.view.sideslip.Shop;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ public class Shop_Main  extends AppCompatActivity{
     private ViewPager mViewPager;
 
     private CardPagerAdapter mCardAdapter;
-    private ShadowTransformer mCardShadowTransformer;
+    private Shadowtransformer mCardShadowtransformer;
     private Context context;
     private ViewGroup container;
     private Button button;
@@ -59,11 +59,11 @@ public class Shop_Main  extends AppCompatActivity{
         mCardAdapter.addCardItem(new CardItem(R.string.title_3, R.string.text_3,R.string.coin_3,R.drawable.goods3));
         mCardAdapter.addCardItem(new CardItem(R.string.title_4, R.string.text_4,R.string.coin_4,R.drawable.goods4));
 
-        mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
-        mCardShadowTransformer.enableScaling(true);
+        mCardShadowtransformer = new Shadowtransformer(mViewPager, mCardAdapter);
+        mCardShadowtransformer.enableScaling(true);
 
         mViewPager.setAdapter(mCardAdapter);
-        mViewPager.setPageTransformer(false, mCardShadowTransformer);
+        mViewPager.setPageTransformer(false, mCardShadowtransformer);
         mViewPager.setOffscreenPageLimit(3);
 
 

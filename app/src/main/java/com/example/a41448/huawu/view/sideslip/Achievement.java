@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.sideslip;
+package com.example.a41448.huawu.view.sideslip;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,10 +33,9 @@ public class Achievement extends AppCompatActivity {
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         achievements_adapter = new Achievements_Adapter(Achievement.this,lists);
         //设置分割线
-        recyclerView.addItemDecoration(new RecycleViewDivider2(this,layoutManager.getOrientation()));
-       recyclerView.setItemAnimator(new DefaultItemAnimator());
-       recyclerView.setLayoutManager(layoutManager);
-       recyclerView.setAdapter(achievements_adapter);
+        recyclerView.addItemDecoration(new RecyclerViewDivider2(this,layoutManager.getOrientation()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(achievements_adapter);
 
 
        achievements_adapter.setOnItemClickListener(new Achievements_Adapter.OnRecyclerViewItemClickListener() {
@@ -56,8 +55,8 @@ public class Achievement extends AppCompatActivity {
     }
 
     public class DataBean {
-              String textView;
-              int imageView;
+        String textView;
+        int imageView;
 
               DataBean(String textView,int imageView){
                   this.textView = textView;
@@ -69,11 +68,10 @@ public class Achievement extends AppCompatActivity {
                   return text;
               }
 
-
-        public int getImageView() {
-            int id = imageView;
-            return id;
-        }
+              public int getImageView() {
+                  int id = imageView;
+                  return id;
+              }
 
     }
     private  void initData(){

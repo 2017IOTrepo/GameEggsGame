@@ -15,7 +15,7 @@
 
 
 
-    <com.example.a41448.huawu.sideslip.Shop.CustomStatusView
+    <com.example.a41448.huawu.view.sideslip.Shop.CustomStatusView
         android:id="@+id/as_status"
         android:layout_width="100dp"
         android:layout_height="100dp"

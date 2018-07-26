@@ -1,17 +1,17 @@
-package com.example.a41448.huawu.sideslip.Shop;
+package com.example.a41448.huawu.view.sideslip.Shop;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.view.View;
 
-class ShadowTransformer implements ViewPager.OnPageChangeListener, ViewPager.PageTransformer {
+class Shadowtransformer implements ViewPager.OnPageChangeListener, ViewPager.PageTransformer {
 
     private ViewPager mViewPager;
     private CardAdapter mAdapter;
     private float mLastOffset;
     private boolean mScalingEnabled;
 
-    public ShadowTransformer(ViewPager viewPager, CardAdapter adapter) {
+    public Shadowtransformer(ViewPager viewPager, CardAdapter adapter) {
         mViewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
         mAdapter = adapter;

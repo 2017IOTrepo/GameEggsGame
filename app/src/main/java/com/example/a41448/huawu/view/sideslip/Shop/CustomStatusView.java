@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.sideslip.Shop;
+package com.example.a41448.huawu.view.sideslip.Shop;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;

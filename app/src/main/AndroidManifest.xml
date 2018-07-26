@@ -153,8 +153,8 @@
         <service android:name="cn.bmob.newim.core.service.ReConnectService" />
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
-     <activity android:name=".sideslip.Shop.Shop_Main"/>
-        <activity android:name=".sideslip.Achievement"/>
+     <activity android:name=".view.sideslip.Shop.Shop_Main"/>
+        <activity android:name=".view.sideslip.Achievement"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.sideslip.Shop;
+package com.example.a41448.huawu.view.sideslip.Shop;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;

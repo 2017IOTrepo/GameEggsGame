@@ -1,4 +1,4 @@
-package com.example.a41448.huawu.sideslip;
+package com.example.a41448.huawu.view.sideslip;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
-class RecycleViewDivider2 extends RecyclerView.ItemDecoration {
+class RecyclerViewDivider2 extends RecyclerView.ItemDecoration {
     /**
      * RecyclerView的布局方向，默认先赋值
      * 为纵向布局
@@ -36,7 +36,7 @@ class RecycleViewDivider2 extends RecyclerView.ItemDecoration {
      * @param context
      * @param orientation
      */
-    public RecycleViewDivider2 (Context context, int orientation) {
+    public RecyclerViewDivider2(Context context, int orientation) {
         //样式的方向
         this.mOrientation = orientation;
         if (orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL) {
