@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="5dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:background="#00ff8c"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/iv_top_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/run"
+                android:layout_marginBottom="5dp"/>
+
+
+            <TextView
+                android:id="@+id/titleTextView"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提示卡" />
+
+
+            <ImageView
+                android:id="@+id/iv_goods"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/goods1"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+               android:layout_marginTop="5dp"
+                android:src="@drawable/coin"/>
+              <TextView
+                  android:id="@+id/tv_coin"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="100"
+                  android:textColor="#fef502"
+                  android:layout_marginBottom="5dp"
+                  android:textSize="20sp"
+                  />
+            <TextView
+                android:id="@+id/contentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="作用：得到额外的点的提示"
+                />
+
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

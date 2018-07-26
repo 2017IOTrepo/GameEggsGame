@@ -206,32 +206,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         context.startActivity(intent);
     }
 
-
-    //在此基础上添加的
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch(requestCode){
-            case 1:
-                if (grantResults.length > 0){
-                    //循环遍历
-                    for (int result : grantResults){
-                        if (result != PackageManager.PERMISSION_GRANTED){
-                            Toast.makeText(this, "必须同意所有权限才能使用该功能", Toast.LENGTH_SHORT).show();
-
-                            return;
-                        }
-                    }
-                    Toast.makeText( this, "权限申请成功", Toast.LENGTH_SHORT ).show();
-                }else {
-                    Toast.makeText(this, "发生未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                break;
-            default:
-        }
-    }
-
     /**
      * 创建视图
      */
