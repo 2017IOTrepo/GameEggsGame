@@ -106,9 +106,7 @@ public class ContactActivity extends AppCompatActivity {
         floatingActionButton_chat.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( ContactActivity.this, ServiceChatActivity.class );
-                intent.putExtra( ServiceChatActivity.CONTACT_NAME, contactName);
-                startActivity( intent );
+               startActivity( new Intent( ContactActivity.this,VideoActivity.class) );
             }
         } );
 
@@ -116,6 +114,9 @@ public class ContactActivity extends AppCompatActivity {
         floatingActionButton_video.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent( ContactActivity.this, ServiceChatActivity.class );
+                intent.putExtra( ServiceChatActivity.CONTACT_NAME, contactName);
+                startActivity( intent );
             }
         } );
 

@@ -105,6 +105,19 @@
             fab:fab_title="开始轨迹" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_fix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_addButtonColorNormal="@color/fab_color"
+            fab:fab_addButtonColorPressed="@color/blue_normal"
+            fab:fab_addButtonSize="mini"
+            fab:fab_colorNormal="@color/fab_color"
+            fab:fab_colorPressed="@color/blue_normal"
+            fab:fab_size="mini"
+            android:src="@drawable/ic_nearby"
+            fab:fab_title="轨迹纠正" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_e"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,6 +129,7 @@
             fab:fab_size="mini"
             android:src="@drawable/ic_nearby"
             fab:fab_title="普通地图" />
+
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>

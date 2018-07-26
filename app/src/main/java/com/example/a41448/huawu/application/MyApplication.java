@@ -1,18 +1,88 @@
 package com.example.a41448.huawu.application;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDexApplication;
+import android.util.DisplayMetrics;
+
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.trace.LBSTraceClient;
+import com.baidu.trace.Trace;
+import com.baidu.trace.api.entity.LocRequest;
+import com.baidu.trace.api.entity.OnEntityListener;
+import com.baidu.trace.api.track.LatestPointRequest;
+import com.baidu.trace.api.track.OnTrackListener;
+import com.baidu.trace.model.BaseRequest;
+import com.baidu.trace.model.OnCustomAttributeListener;
+import com.baidu.trace.model.ProcessOption;
+import com.baidu.trace.model.TransportMode;
 import com.example.a41448.huawu.chatUI.bean.DaoMaster;
 import com.example.a41448.huawu.chatUI.bean.DaoSession;
+import com.example.a41448.huawu.chatUI.utils.NetUtil;
+import com.example.a41448.huawu.utils.map_utils.CommonUtil;
+import com.nostra13.universalimageloader.cache.disc.DiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class MyApplication extends MultiDexApplication{
 
+
+    private AtomicInteger mSequenceGenerator = new AtomicInteger();
+
+    private LocRequest locRequest = null;
+
+    public Context mContext = null;
+
+    public SharedPreferences trackConf = null;
+
+    /**
+     * 轨迹客户端
+     */
+    public LBSTraceClient mClient = null;
+
+    /**
+     * 轨迹服务
+     */
+    public Trace mTrace = null;
+
+    /**
+     * 轨迹服务ID
+     */
+    public long serviceId = 202954;//这里是申请的鹰眼服务id
+
+    /**
+     * Entity标识
+     */
+    public String entityName = "wanghao";
+
+    public boolean isRegisterReceiver = false;
+
+    /**
+     * 服务是否开启标识
+     */
+    public boolean isTraceStarted = false;
+
+    /**
+     * 采集是否开启标识
+     */
+    public boolean isGatherStarted = false;
+
+    public static int screenWidth = 0;
+
+    public static int screenHeight = 0;
 
     private static MyApplication instance;
 
@@ -49,6 +119,43 @@ public class MyApplication extends MultiDexApplication{
         daoSession = new DaoMaster(db).newSession();
         initImageLoader(this);
         instance = this;
+
+        /**
+         * 百度的鹰眼轨迹绘制
+         */
+
+        mContext = getApplicationContext();
+
+        entityName = CommonUtil.getImei(this);
+
+        // 若为创建独立进程，则不初始化成员变量
+        if ("com.baidu.track:remote".equals( CommonUtil.getCurProcessName(mContext))) {
+            return;
+        }
+        SDKInitializer.initialize(mContext);
+        getScreenSize();
+        mClient = new LBSTraceClient(mContext);
+        mTrace = new Trace(serviceId, entityName);
+
+        trackConf = getSharedPreferences("track_conf", MODE_PRIVATE);
+        locRequest = new LocRequest(serviceId);
+
+        mClient.setOnCustomAttributeListener(new OnCustomAttributeListener() {
+            @Override
+            public Map<String, String> onTrackAttributeCallback() {
+                Map<String, String> map = new HashMap<>();
+                map.put("key1", "value1");
+                map.put("key2", "value2");
+                return map;
+            }
+
+            @Override
+            public Map<String, String> onTrackAttributeCallback(long l) {
+                return null;
+            }
+        });
+
+        clearTraceStatus();
     }
 
 
@@ -66,82 +173,96 @@ public class MyApplication extends MultiDexApplication{
         ImageLoader.getInstance().init(config);
     }
 
-
-
-    // 如果返回值为 null，则全部使用默认参数。
-//    private SDKOptions options() {
-//        SDKOptions options = new SDKOptions();
-//
-//        // 如果将新消息通知提醒托管给 SDK 完成，需要添加以下配置。否则无需设置。
-//        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-//
-//        config.notificationSmallIconId = R.drawable.ic_stat_notify_msg;
-//        // 呼吸灯配置
-//        config.ledARGB = Color.GREEN;
-//        config.ledOnMs = 1000;
-//        config.ledOffMs = 1500;
-//        // 通知铃声的uri字符串
-//        config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
-//        options.statusBarNotificationConfig = config;
-//
-//        // 配置保存图片，文件，log 等数据的目录
-//        // 如果 options 中没有设置这个值，SDK 会使用采用默认路径作为 SDK 的数据目录。
-//        // 该目录目前包含 log, file, image, audio, video, thumb 这6个目录。
-//        String sdkPath = Environment.getExternalStorageDirectory() + "/" + getPackageName() + "/ni"; // 可以不设置，那么将采用默认路径
-//        // 如果第三方 APP 需要缓存清理功能， 清理这个目录下面个子目录的内容即可。
-//        options.sdkStorageRootPath = sdkPath;
-//
-//        // 配置是否需要预下载附件缩略图，默认为 true
-//        options.preloadAttach = true;
-//
-//        // 配置附件缩略图的尺寸大小。表示向服务器请求缩略图文件的大小
-//        // 该值一般应根据屏幕尺寸来确定， 默认值为 Screen.width / 2
-//        options.thumbnailSize = 480 / 2;
-//
-//        // 用户资料提供者, 目前主要用于提供用户资料，用于新消息通知栏中显示消息来源的头像和昵称
-//        options.userInfoProvider = new UserInfoProvider() {
-//            @Override
-//            public UserInfo getUserInfo(String account) {
-//                return null;
-//            }
-//
-//
-//            public int getDefaultIconResId() {
-//                return R.drawable.country;
-//            }
-//
-//
-//            public Bitmap getTeamIcon(String tid) {
-//                return null;
-//            }
-//
-//
-//            public Bitmap getAvatarForMessageNotifier(String account) {
-//                return null;
-//            }
-//
-//            @Override
-//            public String getDisplayNameForMessageNotifier(String account, String sessionId,
-//                                                           SessionTypeEnum sessionType) {
-//                return null;
-//            }
-//
-//            @Override
-//            public Bitmap getAvatarForMessageNotifier(SessionTypeEnum sessionTypeEnum, String s) {
-//                return null;
-//            }
-//        };
-//        return options;
-//    }
-//
-//    // 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
-//    private LoginInfo loginInfo() {
-//        return null;
-//    }
-
-    //
     private void initImageLoader(){
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault( this );
         ImageLoader.getInstance().init( configuration );
     }
+
+
+    /**
+     * 获取当前位置
+     */
+    public void getCurrentLocation(OnEntityListener entityListener, OnTrackListener trackListener) {
+        // 网络连接正常，开启服务及采集，则查询纠偏后实时位置；否则进行实时定位
+        if (NetUtil.isNetworkAvailable(mContext)
+                && trackConf.contains("is_trace_started")
+                && trackConf.contains("is_gather_started")
+                && trackConf.getBoolean("is_trace_started", false)
+                && trackConf.getBoolean("is_gather_started", false)) {
+            LatestPointRequest request = new LatestPointRequest(getTag(), serviceId, entityName);
+            ProcessOption processOption = new ProcessOption();
+            processOption.setRadiusThreshold(50);
+            processOption.setTransportMode( TransportMode.walking);
+            processOption.setNeedDenoise(true);
+            processOption.setNeedMapMatch(true);
+            request.setProcessOption(processOption);
+            mClient.queryLatestPoint(request, trackListener);
+        } else {
+            mClient.queryRealTimeLoc(locRequest, entityListener);
+        }
+    }
+
+    /**
+     * 获取屏幕尺寸
+     */
+    private void getScreenSize() {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        screenHeight = dm.heightPixels;
+        screenWidth = dm.widthPixels;
+    }
+
+    /**
+     * 清除Trace状态：初始化app时，判断上次是正常停止服务还是强制杀死进程，根据trackConf中是否有is_trace_started字段进行判断。
+     *
+     * 停止服务成功后，会将该字段清除；若未清除，表明为非正常停止服务。
+     */
+    private void clearTraceStatus() {
+        if (trackConf.contains("is_trace_started") || trackConf.contains("is_gather_started")) {
+            SharedPreferences.Editor editor = trackConf.edit();
+            editor.remove("is_trace_started");
+            editor.remove("is_gather_started");
+            editor.apply();
+        }
+    }
+
+    /**
+     * 初始化请求公共参数
+     *
+     * @param request
+     */
+    public void initRequest(BaseRequest request) {
+        request.setTag(getTag());
+        request.setServiceId(serviceId);
+    }
+
+    /**
+     * 获取请求标识
+     *
+     * @return
+     */
+    public int getTag() {
+        return mSequenceGenerator.incrementAndGet();
+    }
+
+    public void InitImageLoader() {
+        File cacheDir = StorageUtils.getOwnCacheDirectory(this, "imageloader/Cache");
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration
+                .Builder(this)
+                .memoryCacheExtraOptions(480, 800) // maxwidth, max height，即保存的每个缓存文件的最大长宽
+                .threadPoolSize(3)//线程池内加载的数量
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // You can pass your own memory cache implementation/你可以通过自己的内存缓存实现
+                .memoryCacheSize(2 * 1024 * 1024)
+                .discCacheSize(50 * 1024 * 1024)
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())//将保存的时候的URI名称用MD5 加密
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .discCacheFileCount(100) //缓存的文件数量
+                .discCache( (DiskCache) new UnlimitedDiscCache(cacheDir) )//自定义缓存路径
+                .defaultDisplayImageOptions( DisplayImageOptions.createSimple())
+                .imageDownloader(new BaseImageDownloader(this, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
+                .build();//开始构建
+        ImageLoader.getInstance().init(config);
+    }
+
 }

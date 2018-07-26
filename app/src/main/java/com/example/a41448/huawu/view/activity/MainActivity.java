@@ -25,12 +25,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.adapter.PageAdapter;
-import com.example.a41448.huawu.view.fragment.QuestionFragment;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.utils.PermissionUtil;
 import com.example.a41448.huawu.base.BaseActivity;
@@ -68,7 +66,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private static final int TAKE_PHOTO = 1;
 
-    private FloatingActionButton addQuestionBtn;
 
 
     private RelativeLayout rootView;
@@ -135,7 +132,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        addQuestionBtn = (FloatingActionButton) findViewById( R.id.fab_add_question );
 
         mToolbar.setOnMenuItemClickListener(this);
         searchFragment.setOnSearchClickListener(this);
@@ -144,7 +140,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == 1){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace( R.id.fragment_question,new QuestionFragment() )
                     .addToBackStack( null )
                     .commit();
         }
@@ -327,7 +322,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     String question_link = data.getStringExtra( "question_link" );
                     String question_title = data.getStringExtra("question_title");
                     String question_detail = data.getStringExtra( "question_detail" );
-                    QuestionFragment questionFragment = new QuestionFragment();
 
                     mFragmentManager = this.getSupportFragmentManager();
                     FragmentTransaction ft = mFragmentManager.beginTransaction();
@@ -337,9 +331,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     bundle.putString("title",question_title  );
                     bundle.putString( "detail",question_detail );
                     //设置传递的对象
-                    questionFragment.setArguments( bundle );
-                    ft.add( R.id.fragment_question,questionFragment,"questionFragment" );
-                    ft.commit();
 
                 }
                 break;

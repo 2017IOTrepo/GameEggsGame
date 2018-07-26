@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.example.a41448.huawu.view.fragment.CommunityFragment;
 import com.example.a41448.huawu.view.fragment.GameFragment;
 import com.example.a41448.huawu.view.fragment.MapFragment;
-import com.example.a41448.huawu.view.fragment.MessageFragment;
-import com.example.a41448.huawu.view.fragment.QuestionFragment;
 import com.example.a41448.huawu.R;
 
 

@@ -182,4 +182,23 @@
     <string name="text_detail">翻着我们的照片，想念若隐若现，去年的冬天，我们笑得很甜...... —— 哎哟，不错哦!</string>
     <string name="dynamic_time">10分钟前</string>
 
+    <!-- 创建围栏子选项 -->
+    <string name="fence_denoise">去噪参数（单位：米）</string>
+    <string name="fence_radius">半径（单位：米）</string>
+    <string name="fence_offset">偏离距离（单位：米）</string>
+    <string name="alarm_condition">围栏报警条件</string>
+
+    <!-- 创建围栏子选项默认值 -->
+    <string name="denoise_hint">30</string>
+    <string name="fence_radius_hint">100</string>
+    <string name="offset_hint">200</string>
+    <string name="vertexes_number_hint">3</string>
+    <string name="fence_name_hint">myFence</string>
+
+
+    <string name="fence_setting_title">围栏设置</string>
+    <string name="fence_create_local_circle">创建本地圆形围栏</string>
+    <string name="fence_create_server_circle">创建服务端圆形围栏</string>
+    <string name="fence_create_polyline">创建多段线围栏</string>
+    <string name="fence_create_polygon">创建多边形围栏</string>
 </resources>

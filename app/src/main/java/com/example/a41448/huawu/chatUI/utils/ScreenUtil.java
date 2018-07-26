@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -174,5 +175,9 @@ public class ScreenUtil {
 			e.printStackTrace();
 		}
 		return statusHeight;
+	}
+	public static int dp2px(Context context, float dpVal) {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+				dpVal, context.getResources().getDisplayMetrics());
 	}
 }

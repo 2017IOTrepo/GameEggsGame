@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a41448.huawu.chatUI.ui.ServiceChatActivity;
+import com.example.a41448.huawu.tools.views.DragBubbleView;
 import com.example.a41448.huawu.view.fragment.MessageFragment;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.Search.SearchTag;
@@ -96,6 +97,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((ViewHolder) holder).soontext.setText(mArrayList.get(position).about);
                 ((ViewHolder) holder).message_time.setText(mArrayList.get(position).time);
                 ((ViewHolder) holder).itemView.setTag( position);
+                ((ViewHolder) holder).mDragBubbleView.setText( "99+");
                 break;
             case WithoutImage:
                 ((ViewHolder) holder).message_image.setImageResource(mArrayList.get(position).photo);
@@ -103,6 +105,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((ViewHolder) holder).soontext.setText(mArrayList.get(position).about);
                 ((ViewHolder) holder).message_time.setText(mArrayList.get(position).time);
                 ((ViewHolder) holder).itemView.setTag( position);
+                ((ViewHolder) holder).mDragBubbleView.setText( "99+");
                 break;
         }
     }
@@ -134,7 +137,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView message_name;
         TextView message_time;
         RelativeLayout message_item;
-
+        DragBubbleView mDragBubbleView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -143,6 +146,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             soontext = (TextView) itemView.findViewById( R.id.soonText );
             message_name = (TextView) itemView.findViewById( R.id.friend_name );
             message_time = (TextView) itemView.findViewById( R.id.time );
+            mDragBubbleView = (DragBubbleView) itemView.findViewById( R.id.message_number );
         }
     }
 

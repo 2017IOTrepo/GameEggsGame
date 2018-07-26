@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.view.activity;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -7,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,9 +41,9 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.b.V;
-
 public class TrackActivity extends AppCompatActivity implements SensorEventListener {
+
+
 
 
     /*定位相关*/
@@ -77,7 +79,10 @@ public class TrackActivity extends AppCompatActivity implements SensorEventListe
 
     /*与悬浮按钮相关*/
     private FloatingActionsMenu mFloatingActionsMenu;
+    //轨迹绘制
     private FloatingActionButton mAction_d;
+    private FloatingActionButton mAction_fix;
+    //地图模式的切换
     private FloatingActionButton mAction_e;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -85,7 +90,6 @@ public class TrackActivity extends AppCompatActivity implements SensorEventListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_track );
-
 
         initView();
         Toolbar toolbar1 = (Toolbar) findViewById( R.id.action_toolbar );
@@ -344,6 +348,15 @@ public class TrackActivity extends AppCompatActivity implements SensorEventListe
                     }
                 }
 
+            }
+        } );
+
+        //轨迹纠正
+        mAction_fix = (FloatingActionButton) findViewById( R.id.action_fix );
+        mAction_fix.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFloatingActionsMenu.toggle();
             }
         } );
         //地图模式的切换

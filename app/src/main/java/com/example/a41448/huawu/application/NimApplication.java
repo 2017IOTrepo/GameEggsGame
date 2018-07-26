@@ -9,7 +9,7 @@ import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
 /**
- * 科大讯飞的Application
+ * im的Application
  */
 
 public class NimApplication extends Application {

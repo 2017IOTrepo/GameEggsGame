@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/my_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我的标签"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="32dp"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/nice_spinner_1"
+        android:layout_below="@+id/my_item"
+        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/my_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="目标玩家"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="32dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/nice_spinner_2"
+        android:layout_below="@+id/my_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"/>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nice_spinner_1"
+        android:divider="@null"
+        android:dividerHeight="0px" />
+
+</RelativeLayout>

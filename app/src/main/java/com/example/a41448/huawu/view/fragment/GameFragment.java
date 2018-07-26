@@ -1,9 +1,11 @@
 package com.example.a41448.huawu.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -11,11 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.a41448.huawu.R;
 
 import com.example.a41448.huawu.tools.manager.BuilderManager;
+import com.example.a41448.huawu.view.activity.gamehallActivity;
+import com.example.a41448.huawu.view.activity.mainGameActivity;
+import com.example.a41448.huawu.view.activity.pTopActivity;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
@@ -25,11 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameFragment extends Fragment {
+public class GameFragment extends Fragment implements View.OnClickListener{
 
     private BoomMenuButton bmb,bmb_1;
     private static ArrayList<Pair> piecesAndButtons = new ArrayList<>();
     private ArrayList<Pair> piecesAndButtons_1 = new ArrayList<>();
+
+    private CardView hallBtn,ptopBtn,modelBtn;
+
 
     public static GameFragment newInstance(){
 
@@ -43,7 +52,23 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_game,container,false );
+        //炫酷BoomButton的初始化
+        initBoombtn( view );
+        initBtn(view);
 
+        return view;
+    }
+
+    private void initBtn(View view){
+        hallBtn = (CardView) view.findViewById( R.id.game_hall );
+        ptopBtn = (CardView) view.findViewById( R.id.pTopWith );
+        modelBtn = (CardView) view.findViewById( R.id.model );
+        hallBtn.setOnClickListener( this );
+        ptopBtn.setOnClickListener( this );
+        modelBtn.setOnClickListener( this );
+    }
+
+    private void initBoombtn(View view){
         bmb = (BoomMenuButton) view.findViewById( R.id.bmb );
         assert bmb != null;
         bmb.setButtonEnum( ButtonEnum.Ham );
@@ -92,6 +117,24 @@ public class GameFragment extends Fragment {
         bmb_1.clearBuilders();
         for (int i = 0; i < bmb_1.getPiecePlaceEnum().pieceNumber(); i++)
             bmb_1.addBuilder(BuilderManager.getTextInsideCircleButtonBuilder());
-        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.game_hall:
+                startActivity( new Intent( getContext(),gamehallActivity.class ) );
+                break;
+            case R.id.pTopWith:
+                startActivity( new Intent( getContext(),pTopActivity.class ) );
+                break;
+            case R.id.model:
+                startActivity( new Intent( getContext(),mainGameActivity.class ) );
+                break;
+            default:
+
+                break;
+        }
+
     }
 }

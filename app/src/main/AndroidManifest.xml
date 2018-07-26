@@ -109,6 +109,26 @@
     <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 (唤醒锁) -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!-- 计歩 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-feature android:name="android.hardware.sensor.accelerometer" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.stepcounter"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.stepdetector"
+        android:required="true" />
+
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -155,12 +175,6 @@
             android:name=".view.activity.ContactActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".view.activity.Dynamics_add_Activity"
-            tools:ignore="InnerclassSeparator" />
-        <activity
-            android:name=".view.activity.Dynamics_detail_Activity"
-            tools:ignore="InnerclassSeparator" />
-        <activity
             android:name=".Translation.activity.MainActivity_1"
             tools:ignore="InnerclassSeparator" />
         <activity
@@ -177,28 +191,55 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".photoSelector.BasePhotoPreviewActivity" />
         <activity android:name=".photoSelector.PhotoPreviewActivity" />
-        <activity android:name=".view.activity.PrePhototActivity" />
         <activity
             android:name=".chatUI.ui.ServiceChatActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".chatUI.ui.ImageBrowserActivity" />
 
+        <!-- 百度地图的基础定位 -->
         <service
             android:name="com.baidu.location.f"
             android:exported="true"
             android:process=":remote"
             tools:ignore="ExportedService" />
 
-        <!-- 开启百度地图轨迹绘制服务 -->
+        <!-- 开启百度地图轨迹绘制服务,说白了就是百度的那个鹰眼 -->
         <service
             android:name="com.baidu.trace.LBSTraceService"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:exported="true"
+            android:process=":remote" />
 
         <activity android:name=".view.activity.LocationActivity" />
         <activity android:name=".view.activity.dynamic_item_activity" />
         <activity android:name=".view.activity.TopicActivity" />
-        <activity android:name=".view.activity.TrackActivity"></activity>
+        <activity android:name=".view.activity.TrackActivity" />
+        <activity android:name=".view.activity.PointActivity" />
+        <activity
+            android:name=".view.activity.CreateFenceOptions"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.pTopActivity" />
+        <activity android:name=".view.activity.mainGameActivity" />
+        <activity android:name=".view.activity.HistoryActivity" />
+
+        <service
+            android:name=".base.step.service.StepService"
+            android:priority="10000">
+            <intent-filter>
+
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_TIME_TICK" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".view.activity.gamehallActivity" />
+        <activity android:name=".view.activity.VideoActivity"></activity>
     </application>
 
 </manifest>

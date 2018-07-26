@@ -16,7 +16,7 @@ public class ImageLoaderUtil {
 
     public static DisplayImageOptions getPhotoImageOption() {
         Integer extra = 1;
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                 .showImageForEmptyUri(R.drawable.banner_default).showImageOnFail(R.drawable.banner_default)
                 .showImageOnLoading( R.drawable.banner_default)
                 .extraForDownloader(extra)
@@ -29,6 +29,6 @@ public class ImageLoaderUtil {
     }
 
     public static void displayImage(Context context, ImageView imageView, String url, DisplayImageOptions options, ImageLoadingListener listener) {
-        getImageLoader(context).displayImage(url, imageView, options, listener);
+        getImageLoader(context).displayImage(url, imageView, options, (ImageLoadingListener) listener );
     }
 }
