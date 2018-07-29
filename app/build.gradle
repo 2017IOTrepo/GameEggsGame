@@ -110,6 +110,7 @@ dependencies {
 
     //圆形头像
     implementation 'de.hdodenhof:circleimageview:2.0.0'
-
+    //上滑悬浮菜单
+    implementation 'com.cocosw:bottomsheet:1.+@aar'
 
 }

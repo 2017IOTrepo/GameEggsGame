@@ -1,6 +1,8 @@
 package com.example.a41448.huawu.view.fragment;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,11 +23,13 @@ import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.bean.Players;
 import com.example.a41448.huawu.view.activity.MainActivity;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -33,6 +37,7 @@ import static com.example.a41448.huawu.R.menu.lable_chosing_menu;
 
 
 public class LableChosingFragment extends Fragment {
+    private BmobFile defaultAvatar;
     private View view;
     private GridView hasChosedGridView;
     private GridView notChosedGridView;

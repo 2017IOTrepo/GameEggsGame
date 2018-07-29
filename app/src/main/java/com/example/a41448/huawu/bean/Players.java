@@ -1,8 +1,5 @@
 package com.example.a41448.huawu.bean;
 
-import com.google.gson.annotations.Expose;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
@@ -21,6 +18,7 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
 public class Players extends BmobUser {
 
     private List<String> lables;
+    private List<Boolean> achievement;
     private String userAccontId;
     private boolean sex = true; // 性别 true为男性 默认为男性
     private BmobGeoPoint location;// 地点坐标记录
@@ -31,12 +29,21 @@ public class Players extends BmobUser {
     public Players() {
     }
 
-    public Players(List<String> lables, String userAccontId, boolean isFirstLogin, int points, int coins) {
+    public Players(List<String> lables, List<Boolean> achievement, String userAccontId, boolean isFirstLogin, int points, int coins) {
         this.lables = lables;
         this.userAccontId = userAccontId;
         this.isFirstLogin = isFirstLogin;
         this.points = points;
         this.coins = coins;
+        this.achievement = achievement;
+    }
+
+    public List<Boolean> getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(List<Boolean> achievement) {
+        this.achievement = achievement;
     }
 
     public BmobFile getAvatar() {

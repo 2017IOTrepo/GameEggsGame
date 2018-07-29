@@ -1,12 +1,16 @@
 package com.example.a41448.huawu.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.service.media.MediaBrowserService;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -29,16 +33,31 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.cocosw.bottomsheet.BottomSheet;
 import com.example.a41448.huawu.adapter.PageAdapter;
 
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.adapter.PageAdapter;
 import com.example.a41448.huawu.base.BaseActivity;
 import com.example.a41448.huawu.bean.Players;
+import com.example.a41448.huawu.chatUI.utils.PathUtils;
+import com.example.a41448.huawu.chatUI.widget.ChatBottomView;
+import com.example.a41448.huawu.chatUI.widget.HeadIconSelectorView;
 import com.example.a41448.huawu.utils.ActivityCollector;
 import com.example.a41448.huawu.utils.FragmentUtils;
+import com.example.a41448.huawu.utils.NetUtil;
+import com.example.a41448.huawu.view.sideslip.Achievement;
+import com.example.a41448.huawu.view.sideslip.Shop.Shop_Main;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
+
+import java.io.File;
+import java.net.ContentHandler;
+import java.net.URI;
 
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.listener.ConnectListener;
@@ -57,6 +76,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Toolbar toolbar;
     private Players players;
 
+    //照相调用变量
+    private Intent openCameraIntent;
+    private String camPicPath;
+    private Uri uri;
+    private ContentValues contentValues;
+
     //添加得实例
     public static Context mContext;
     Toolbar mToolbar;
@@ -70,15 +95,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private CircleImageView avatar;
     private View headerLayout;
 
-    //拍照的Uri
-    private Uri imageUri;
     //定义滑动菜单的实例
     private DrawerLayout mDrawerLayout;
 
     private static final int TAKE_PHOTO = 1;
 
-
-
+    private HeadIconSelectorView headIconSelectorView;
     private RelativeLayout rootView;
 
     @SuppressLint("WrongViewCast")
@@ -143,6 +165,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+    /*
+    *
+    * 侧边栏的布局逻辑
+    * */
     private void setView() {
         headerLayout = navigationView.getHeaderView(0);
         points = (TextView)headerLayout.findViewById(R.id.player_point_text);
@@ -155,6 +181,59 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         coins.setText("金币数：" + players.getCoins());
         labels.setText("用户标签：" + players.getLables().toString());
         name.setText("用户名：" + players.getUserAccontId());
+
+        avatar.setOnClickListener(new View.OnClickListener() {//头像选择
+            @Override
+            public void onClick(View view) {
+                new BottomSheet.Builder(MainActivity.this)
+                        .title("请选择头像来源")
+                        .sheet(R.menu.select_pic_menu)
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i){
+                                    case R.id.camera_chose:
+                                        openCameraIntent = new Intent(
+                                                MediaStore.ACTION_IMAGE_CAPTURE);
+                                        camPicPath = PathUtils.getSavePicPath(mContext);
+                                        if (Build.VERSION.SDK_INT < 24){//根据安卓版本适配
+                                            uri = Uri.fromFile(new File(camPicPath));
+                                            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                                            startActivityForResult(openCameraIntent, ChatBottomView.FROM_CAMERA);
+                                        }else{//适配7.0
+                                            contentValues = new ContentValues(1);
+                                            contentValues.put(MediaStore.Images.Media.DATA, camPicPath);
+                                            uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                                    contentValues);
+                                            grantUriPermission( "com.example.lab.android.nuc.chat",uri,Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                                            openCameraIntent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
+                                            openCameraIntent.addFlags( Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                            openCameraIntent.putExtra( MediaStore.EXTRA_OUTPUT,uri);
+                                            startActivityForResult( openCameraIntent,ChatBottomView.FROM_CAMERA );
+                                        }
+                                        break;
+
+                                    case R.id.gallery_chose:
+                                        PictureSelector
+                                                .create(MainActivity.this)
+                                                .openGallery(PictureMimeType.ofImage())
+                                                .imageSpanCount(4)
+                                                .selectionMode(PictureConfig.SINGLE)
+                                                .previewImage(true)
+                                                .compress(false)
+                                                .isCamera(false)
+                                                .forResult(PictureConfig.CHOOSE_REQUEST);
+                                        break;
+
+                                    case R.id.cancel_chose:
+                                        startActivity(NetUtil.shareNet());
+                                        break;
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -197,9 +276,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         switch (item.getItemId()){
             case R.id.player_achievement:
+                Achievement.startActivity(mContext);
                 break;
 
             case R.id.player_shop:
+                Shop_Main.startActivity(mContext);
                 break;
 
             case R.id.player_help:
@@ -226,6 +307,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initView(){
         //找到各自的实例
+        mContext = MainActivity.this;
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTabLayout = (TabLayout) findViewById(R.id.tablayout);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -288,6 +370,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
+    /*
+    * 通过implement OnClickListener接口获得的点击事件方法
+    * 暂时没有用处
+    * */
     @Override
     public void onClick(View v) {
         switch(v.getId()){

@@ -1,6 +1,7 @@
 package com.example.a41448.huawu.view.sideslip.Shop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.R;
+import com.example.a41448.huawu.view.activity.MainActivity;
 
 import java.util.ArrayList;
 
@@ -31,14 +33,14 @@ public class Shop_Main  extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.shop_main);
 
         final ArrayList<String> text = new ArrayList<>();
         text.add("提示卡");
         text.add("藏点图");
         text.add("成就碎片1");
         text.add("成就碎片2");
-        button = findViewById(R.id.bt_buy);
+        button = (Button) findViewById(R.id.bt_buy);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +79,12 @@ public class Shop_Main  extends AppCompatActivity{
             }
         });
 
+    }
+
+    //其他activity跳转到ShopActivity的函数
+    public static void startActivity(Context context){
+        Intent intent = new Intent(context, Shop_Main.class);
+        context.startActivity(intent);
     }
 
 }

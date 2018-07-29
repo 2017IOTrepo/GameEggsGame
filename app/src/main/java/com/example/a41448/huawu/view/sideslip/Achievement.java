@@ -1,5 +1,7 @@
 package com.example.a41448.huawu.view.sideslip;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.a41448.huawu.R;
+import com.example.a41448.huawu.view.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,5 +89,11 @@ public class Achievement extends AppCompatActivity {
         lists.add(new DataBean("运动达人",R.drawable.class8));
         lists.add(new DataBean("运动神人",R.drawable.class9));
         lists.add(new DataBean("运动霸主",R.drawable.class10));
+    }
+
+    //其他activity跳转到AchievementActivity的函数
+    public static void startActivity(Context context){
+        Intent intent = new Intent(context, Achievement.class);
+        context.startActivity(intent);
     }
 }
