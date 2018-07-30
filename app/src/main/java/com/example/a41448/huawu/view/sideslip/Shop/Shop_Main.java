@@ -11,13 +11,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.R;
+import com.example.a41448.huawu.bean.Players;
 import com.example.a41448.huawu.view.activity.MainActivity;
 
 import java.util.ArrayList;
 
+import cn.bmob.v3.BmobUser;
+
 public class Shop_Main  extends AppCompatActivity{
 
     private ViewPager mViewPager;
+    private Players players;
 
     private CardPagerAdapter mCardAdapter;
     private Shadowtransformer mCardShadowtransformer;
@@ -34,6 +38,8 @@ public class Shop_Main  extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shop_main);
+
+        players = BmobUser.getCurrentUser(Players.class);
 
         final ArrayList<String> text = new ArrayList<>();
         text.add("提示卡");

@@ -2,6 +2,7 @@ package com.example.a41448.huawu.view.activity;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +28,6 @@ import cn.bmob.v3.Bmob;
 public class LoginActivity extends BaseActivity{
 
     private String[] permissions;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
