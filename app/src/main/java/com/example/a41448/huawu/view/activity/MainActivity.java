@@ -41,6 +41,7 @@ import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.adapter.PageAdapter;
 import com.example.a41448.huawu.base.BaseActivity;
 import com.example.a41448.huawu.bean.Players;
+import com.example.a41448.huawu.chatUI.utils.ImageCheckoutUtil;
 import com.example.a41448.huawu.chatUI.utils.PathUtils;
 import com.example.a41448.huawu.chatUI.widget.ChatBottomView;
 import com.example.a41448.huawu.chatUI.widget.HeadIconSelectorView;
@@ -52,22 +53,32 @@ import com.example.a41448.huawu.view.sideslip.Shop.Shop_Main;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.ContentHandler;
 import java.net.URI;
+import java.security.acl.Group;
+import java.util.List;
 
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.http.HEAD;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
         Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
+
+    private final static int CAMERA_REQUEST = 2;
 
     private long customTime = 0;
     private NavigationView navigationView;
@@ -75,6 +86,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private Players players;
+    private FragmentManager mFragmentManager;
 
     //照相调用变量
     private Intent openCameraIntent;
@@ -97,11 +109,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     //定义滑动菜单的实例
     private DrawerLayout mDrawerLayout;
-
-    private static final int TAKE_PHOTO = 1;
-
-    private HeadIconSelectorView headIconSelectorView;
-    private RelativeLayout rootView;
 
     @SuppressLint("WrongViewCast")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -152,14 +159,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         int id = getIntent().getIntExtra( "id",0 );
         if (id == 1){
-
             getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack( null )
                     .commit();
-
-//            FragmentUtils.replaceFragment(getSupportFragmentManager(), new QuestionFragment(), R.id.fragment_question);
-
+//          FragmentUtils.replaceFragment(getSupportFragmentManager(), new QuestionFragment(), R.id.fragment_question);
         }
 
 
@@ -199,7 +203,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                         if (Build.VERSION.SDK_INT < 24){//根据安卓版本适配
                                             uri = Uri.fromFile(new File(camPicPath));
                                             openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                                            startActivityForResult(openCameraIntent, ChatBottomView.FROM_CAMERA);
+                                            startActivityForResult(openCameraIntent, CAMERA_REQUEST);
                                         }else{//适配7.0
                                             contentValues = new ContentValues(1);
                                             contentValues.put(MediaStore.Images.Media.DATA, camPicPath);
@@ -209,7 +213,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                             openCameraIntent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
                                             openCameraIntent.addFlags( Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                                             openCameraIntent.putExtra( MediaStore.EXTRA_OUTPUT,uri);
-                                            startActivityForResult( openCameraIntent,ChatBottomView.FROM_CAMERA );
+                                            startActivityForResult( openCameraIntent,CAMERA_REQUEST);
                                         }
                                         break;
 
@@ -269,10 +273,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    *
+    * 侧滑栏的选项选择逻辑
+    * */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        String mString = null;
         // Handle navigation view item clicks here.
         switch (item.getItemId()){
             case R.id.player_achievement:
@@ -285,11 +292,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             case R.id.player_help:
                 break;
-
             case R.id.app_about:
                 break;
         }
-        mToolbar.setTitle(mString);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -302,7 +307,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     /**
-     * 创建视图
+     * 初始化视图
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initView(){
@@ -351,7 +356,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void done(String s, BmobException e) {
                     if (e == null){
-                        Toast.makeText(MainActivity.this, "conect successful", Toast.LENGTH_SHORT).show();
+
                     }else {
                         Toast.makeText(MainActivity.this, "错误：" + e.toString(), Toast.LENGTH_SHORT).show();
                     }
@@ -377,16 +382,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-
         }
     }
 
     @Override
     public void OnSearchClick(String keyword) {
-
     }
 
-    private FragmentManager mFragmentManager;
+    /*
+    *
+    * 回调接口覆写
+    * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
@@ -404,11 +410,66 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     bundle.putString("title",question_title  );
                     bundle.putString( "detail",question_detail );
                     //设置传递的对象
-
                 }
                 break;
-            default:
+
+            case PictureConfig.CHOOSE_REQUEST:
+                // 图片选择结果回调
+                List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                LocalMedia media = selectList.get(0);
+                String path = media.getPath();
+                // 例如 LocalMedia 里面返回三种path
+                // 1.media.getPath(); 为原图path
+                // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
+                // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+                // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+//                    mDesignCenterView.refreshSelectedPicture(selectList);
+                updateAvatar(path);
+                break;
+
+            //调用摄像头的回调
+            case CAMERA_REQUEST:
+                FileInputStream is = null;
+                try {
+                    is = new FileInputStream(camPicPath);
+                    File camFile = new File(camPicPath); // 图片文件路径
+                    if (camFile.exists()) {
+                        int size = ImageCheckoutUtil
+                                .getImageSize(ImageCheckoutUtil
+                                        .getLoacalBitmap(camPicPath));
+
+                        updateAvatar(camPicPath);
+                    } else {
+                        Toast.makeText(this, "该文件不存在", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } finally {
+                    // 关闭流
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+                break;
         }
+    }
+
+    private void updateAvatar(final String path) {
+        players.setAvatar(new BmobFile(players.getUserAccontId(), null, new File(path).toString()));
+        players.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null){
+                    avatar.setImageURI(Uri.parse(path));
+                }else {
+                    Toast.makeText(mContext, "头像上传到服务器", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 }
