@@ -182,6 +182,23 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+
+    <style name="BaseToolBar.AppTheme" parent="Theme.AppCompat">
+        <!--去掉原来的ActionBar-->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- API Level 22 编译要去点android -->
+        <item name="windowNoTitle">true</item>
+
+        <!-- Actionbar color -->
+        <item name="colorPrimary">@color/material_deep_teal_500</item>
+        <!--Status bar color-->
+        <item name="colorPrimaryDark">@color/material_deep_teal_500</item>
+        <!--Window color-->
+        <item name="android:windowBackground">@color/dim_foreground_material_dark</item>
+    </style>
+
+
     <style name="Translucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">#0288D1</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -191,6 +208,22 @@
     <style name="TextLabel" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <item name="colorControlActivated">#FFCC00</item>
+    </style>
+
+
+
+    <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="MyDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
 
 </resources>

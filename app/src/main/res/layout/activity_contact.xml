@@ -93,7 +93,7 @@
                         android:layout_margin="10dp"
                         android:orientation="vertical">
 
-                        <com.example.a41448.huawu.tools.views.RippleButtonView
+                        <com.example.a41448.huawu.utils.tools.views.RippleButtonView
                             android:id="@+id/test_bt"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"

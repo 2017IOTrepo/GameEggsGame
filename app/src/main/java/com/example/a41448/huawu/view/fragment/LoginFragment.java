@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.view.fragment;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -28,9 +29,17 @@ import android.widget.Toast;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
+import com.example.a41448.huawu.bean.Players;
+import com.example.a41448.huawu.utils.ActivityCollector;
 import com.example.a41448.huawu.utils.FragmentUtils;
+import com.example.a41448.huawu.utils.PermissionUtil;
 import com.example.a41448.huawu.view.activity.LoginActivity;
 import com.example.a41448.huawu.view.activity.MainActivity;
+
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMUserInfo;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class LoginFragment extends Fragment{
 
@@ -42,46 +51,31 @@ public class LoginFragment extends Fragment{
     private FloatingActionButton mRegisterButton;//注册按钮
     private CardView cardView;
 
-    private boolean FirstLoginAccout = false;//判断是否为第一次登陆
+    private String userName;
+    private String userPassword;
     private Context context;
     private View view;
     private FragmentManager fragmentManager;
+    private Players players;
+    private BmobIM bmobIM;
+    private BmobIMUserInfo bmobIMUserInfo;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_fragment, container, false);
+
         initView();
+
         fragmentManager = getFragmentManager();
         context = getContext();
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mLoginButton.setEnabled(false);
-                mAccoutNumber.setEnabled(false);
-                mAccoutPassword.setEnabled(false);
+                setEnabled();
                 mLoginButton.setMode(ActionProcessButton.Mode.PROGRESS);
 
-                if (!FirstLoginAccout && login()){//此处应用多线程与服务器连接
-                    mLoginButton.setMode(ActionProcessButton.Mode.ENDLESS);
-                    //到主activity
-                    MainActivity.startActivity(getActivity());
-                }else if (FirstLoginAccout && login()){
-                    FragmentUtils.replaceFragment(fragmentManager, new LableChosingFragment(), R.id.login_fragment_container);
-                    //到职业选取跟tag选取activity
-                }else{
-                    AlertDialog dialog = new AlertDialog.Builder(context)
-                            .setTitle("登录错误")
-                            .setCancelable(false)
-                            .setMessage("未找到账号 请检查账号密码是否正确")
-                            .setNegativeButton("暂不注册",null)//后期可加入游客系统
-                            .setPositiveButton("注册账号", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                }
-                            })
-                            .show();
-                }
+                login();
             }
         });
 
@@ -90,28 +84,96 @@ public class LoginFragment extends Fragment{
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                getActivity().getWindow().setExitTransition(null);
-                getActivity().getWindow().setEnterTransition(null);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),
-                        mRegisterButton, mRegisterButton.getTransitionName());
-                startActivity(new Intent(context, RegisterFragment.class), options.toBundle());
+                register();
             }
         });
 
         return view;
     }
 
+    private void setEnabled() {
+        mLoginButton.setEnabled(false);
+        mAccoutNumber.setEnabled(false);
+        mAccoutPassword.setEnabled(false);
+        mRegisterButton.setEnabled(false);
+        mAutoLoginCheck.setEnabled(false);
+        mRemeberPasswordCheck.setEnabled(false);
+    }
+
+    //初始化界面
     private void initView() {
-        mAccoutNumber = view.findViewById(R.id.et_username);
-        mAccoutPassword = view.findViewById(R.id.et_password);
-        cardView = view.findViewById(R.id.cv);
-        mRegisterButton = view.findViewById(R.id.register_fab);
+        mAccoutNumber = (EditText) view.findViewById(R.id.et_username);
+        mAccoutPassword = (EditText) view.findViewById(R.id.et_password);
+        mRemeberPasswordCheck = (CheckBox)view.findViewById(R.id.remeber_passworld_checkBox);
+        mAutoLoginCheck = (CheckBox)view.findViewById(R.id.auto_login_checkBox);
+        cardView = (CardView) view.findViewById(R.id.cv);
+        mRegisterButton = (FloatingActionButton) view.findViewById(R.id.register_fab);
         mLoginButton = (ActionProcessButton)view.findViewById(R.id.login_button);
     }
+
+    /*
+    * 注册跳转
+    * */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void register() {
+        getActivity().getWindow().setExitTransition(null);
+        getActivity().getWindow().setEnterTransition(null);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),
+                mRegisterButton, mRegisterButton.getTransitionName());
+        startActivity(new Intent(context, RegisterFragment.class), options.toBundle());
+    }
+
     /*
     * 登陆函数 未完成
     * */
     private boolean login() {
+        userName = mAccoutNumber.getText().toString();
+        userPassword = mAccoutPassword.getText().toString();
+
+        players = new Players();
+        players.setUsername(userName);
+        players.setPassword(userPassword);
+        players.login(new SaveListener<Players>() {
+            @Override
+            public void done(Players players, BmobException e) {
+                if (e == null){
+                    mLoginButton.setMode(ActionProcessButton.Mode.ENDLESS);
+                    if (players.isFirstLogin()){
+                        FragmentUtils.replaceFragment(fragmentManager,
+                                new LableChosingFragment(), R.id.login_fragment_container);
+                        //到职业选取跟tag选取activity
+                    }else {
+                        MainActivity.startActivity(context);
+                        //到主activity
+                    }
+                }else {
+                    if (e.getErrorCode() == 109){
+                        AlertDialog dialog = new AlertDialog.Builder(context)
+                                .setTitle("登录错误")
+                                .setCancelable(false)
+                                .setMessage("未找到账号 请检查账号密码是否正确")
+                                .setNegativeButton("暂不注册",null)//后期可加入游客系统
+                                .setPositiveButton("注册账号", new DialogInterface.OnClickListener() {
+                                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        register();
+                                    }
+                                })
+                                .show();
+                    }else if (e.getErrorCode() == 304){
+                        AlertDialog dialog = new AlertDialog.Builder(context)
+                                .setTitle("登录错误")
+                                .setCancelable(false)
+                                .setMessage("账号或密码为空！")
+                                .setNegativeButton("好的",null)
+                                .show();
+                    }
+                }
+            }
+        });
         return true;
     }
 }

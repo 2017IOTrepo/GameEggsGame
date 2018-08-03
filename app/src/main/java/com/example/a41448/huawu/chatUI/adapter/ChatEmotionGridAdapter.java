@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.example.a41448.huawu.chatUI.utils.EmotionHelper;
 import com.example.a41448.huawu.chatUI.viewholder.ViewHolder;
+import com.example.a41448.huawu.chatUI.utils.EmotionHelper;
 import com.example.a41448.huawu.R;
 
 import java.util.ArrayList;

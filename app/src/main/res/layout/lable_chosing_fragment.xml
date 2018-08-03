@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.a41448.huawu.view.fragment.LableChosingFragment"
+    android:orientation="vertical">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/lable_toolbar"
+            app:title="请选择最能形容你的标签："
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/black"
+            android:background="@color/white">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="250dp" >
+
+        <GridView
+            android:id="@+id/label_check_gv"
+            android:layout_margin="@dimen/lable_gridview_margin"
+            android:horizontalSpacing="@dimen/lable_gridview_margin"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/lable_gridview_margin"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+        </GridView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray" >
+
+        <TextView
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/lable_gridview_margin"
+            android:text="@string/all_label" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/label_gv"
+        android:layout_margin="@dimen/lable_gridview_margin"
+        android:horizontalSpacing="@dimen/lable_gridview_margin"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/lable_gridview_margin"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </GridView>
+
+</LinearLayout>

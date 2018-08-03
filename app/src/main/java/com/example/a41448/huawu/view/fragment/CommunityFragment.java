@@ -16,7 +16,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.example.a41448.huawu.adapter.MagicPagerAdapter;
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.tools.views.ColorFlipPagerTitleView;
+import com.example.a41448.huawu.utils.tools.views.ColorFlipPagerTitleView;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;

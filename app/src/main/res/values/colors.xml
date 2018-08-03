@@ -230,4 +230,9 @@
     <color name="picture_list_sina_text_color">#00BFFF</color>
     <color name="fab_color">#80738ffe</color>
 
+    <color name="divider">#01feb2</color>
+
+    <color name="load_success">#03a44e</color>
+    <color name="load_failure">#de0e26</color>
+
 </resources>
