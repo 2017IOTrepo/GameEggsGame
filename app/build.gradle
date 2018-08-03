@@ -88,6 +88,9 @@ dependencies {
         all*.exclude group: 'com.squareup.okio'
         all*.exclude group: 'com.nostra13.universalimageloader'
     }
+    implementation ('com.xyzlf.share:sharesdk:0.0.10'){
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
     //悬浮按钮
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.nightonke:boommenu:2.1.1'
