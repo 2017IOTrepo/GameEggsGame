@@ -11,7 +11,7 @@
         style="@style/chat_play_btn"
         android:background="@drawable/message_transfer_money_left"
         android:orientation="vertical"
-        custom:left="false"/>
+        custom:left="true"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"

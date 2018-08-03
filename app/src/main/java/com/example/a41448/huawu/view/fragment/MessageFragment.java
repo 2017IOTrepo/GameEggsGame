@@ -16,8 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import com.example.a41448.huawu.adapter.SearchAdapter;
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.base.Search.SearchTag;
-import com.example.a41448.huawu.tools.views.DragBubbleView;
+import com.example.a41448.huawu.base.comment.SearchTag;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 

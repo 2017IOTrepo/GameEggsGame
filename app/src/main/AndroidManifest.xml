@@ -27,10 +27,11 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
-    <!--//读取设备硬件信息，统计数据-->
+    <!-- //读取设备硬件信息，统计数据 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <!--//允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <!-- //允许sd卡写权限，需写入地图数据，禁用后无法显示地图 -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <!-- //获取统计数据 -->
 
@@ -92,7 +93,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-
     <!-- //使用步行AR导航，配置Camera权限 -->
     <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 (唤醒锁) -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -117,8 +117,6 @@
         android:name="android.hardware.sensor.stepdetector"
         android:required="true" />
 
-
-
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -134,7 +132,6 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="V5Av8NOzaEuRMyQMvVHULGBwxDVBxq7Z" />
-
         <meta-data
             android:name="Bmob_APP_KEY"
             android:value="8145941241be2373c4c28c78c52ac64b" />
@@ -169,7 +166,6 @@
             android:name=".view.activity.ContactActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
-
             android:name=".Translation.activity.MainActivity_1"
             tools:ignore="InnerclassSeparator" />
         <activity
@@ -186,8 +182,8 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".photoSelector.BasePhotoPreviewActivity" />
         <activity android:name=".photoSelector.PhotoPreviewActivity" />
-
-          <activity  android:name=".view.activity.Dynamics_add_Activity"
+        <activity
+            android:name=".view.activity.Dynamics_add_Activity"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".view.activity.Dynamics_detail_Activity"
@@ -195,7 +191,6 @@
         <activity android:name=".view.activity.photoSelector.BasePhotoPreviewActivity" />
         <activity android:name=".view.activity.photoSelector.PhotoPreviewActivity" />
         <activity android:name=".view.activity.PrePhototActivity" />
-
         <activity
             android:name=".chatUI.ui.ServiceChatActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -243,11 +238,10 @@
             </intent-filter>
         </service>
 
-
         <activity android:name=".view.activity.gamehallActivity" />
-        <activity android:name=".view.activity.VideoActivity"/>
+        <activity android:name=".view.activity.VideoChatActivity" />
 
-        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver" >
+        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
             <intent-filter>
                 <action android:name="cn.bmob.action.RECONNECT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -255,6 +249,7 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
         <service
             android:name="cn.bmob.newim.core.service.BmobIMService"
             android:process=":bmobcore" />
@@ -264,9 +259,10 @@
         <service android:name="cn.bmob.newim.core.service.ReConnectService" />
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
-     <activity android:name=".view.sideslip.Shop.Shop_Main"/>
-        <activity android:name=".view.sideslip.Achievement"/>
-
+        <activity android:name=".view.sideslip.Shop.Shop_Main" />
+        <activity android:name=".view.sideslip.Achievement" />
+        <activity android:name=".view.activity.VoiceChatActivity" />
+        <activity android:name=".view.activity.CommentActivity"></activity>
     </application>
 
 </manifest>

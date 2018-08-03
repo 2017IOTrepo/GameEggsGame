@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.base.others.ShowType;
+import com.example.a41448.huawu.base.comment.ShowType;
 import com.example.a41448.huawu.chatUI.widget.EmotionEditText;
 import com.example.a41448.huawu.tools.listener.SecurityEditCompileListener;
 import com.example.a41448.huawu.tools.views.SecurityPasswordEditText;

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -12,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.base.others.ShowType;
+import com.example.a41448.huawu.base.comment.ShowType;
 import com.example.a41448.huawu.tools.listener.SecurityEditCompileListener;
 import com.example.a41448.huawu.view.activity.pTopActivity;
 

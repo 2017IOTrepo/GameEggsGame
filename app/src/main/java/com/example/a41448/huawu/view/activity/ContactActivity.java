@@ -20,8 +20,8 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.example.a41448.huawu.chatUI.ui.ServiceChatActivity;
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.base.JSON.UserBaseInfo;
-import com.example.a41448.huawu.base.RoundImageView.RoundImageView;
+import com.example.a41448.huawu.base.Contacts.UserBaseInfo;
+import com.example.a41448.huawu.tools.views.RoundImageView;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -106,7 +106,7 @@ public class ContactActivity extends AppCompatActivity {
         floatingActionButton_chat.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity( new Intent( ContactActivity.this,VideoActivity.class) );
+               startActivity( new Intent( ContactActivity.this,VideoChatActivity.class) );
             }
         } );
 

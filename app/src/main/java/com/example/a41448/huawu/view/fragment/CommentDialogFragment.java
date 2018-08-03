@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.base.others.Comment;
+import com.example.a41448.huawu.base.comment.Comment;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;

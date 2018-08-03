@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/left_king"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignBottom="@+id/right_king"
@@ -47,7 +46,6 @@
            />
 
         <TextView
-            android:id="@+id/tv_walk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/textView"

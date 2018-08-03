@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.a41448.huawu.chatUI.adapter.ChatRecyclerAdapter;
 import com.example.a41448.huawu.chatUI.bean.ChatMessageType;
+import com.example.a41448.huawu.chatUI.utils.DictationResult;
 import com.example.a41448.huawu.chatUI.utils.ImageCheckoutUtil;
 import com.example.a41448.huawu.chatUI.utils.KeyBoardUtils;
 import com.example.a41448.huawu.chatUI.utils.PathUtils;
@@ -40,6 +41,20 @@ import com.example.a41448.huawu.view.activity.LocationActivity;
 import com.example.a41448.huawu.application.MyApplication;
 import com.example.a41448.huawu.chatUI.bean.DaoSession;
 import com.example.a41448.huawu.R;
+import com.example.a41448.huawu.view.activity.VideoChatActivity;
+import com.example.a41448.huawu.view.activity.VoiceChatActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.RecognizerListener;
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SynthesizerListener;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -99,6 +114,9 @@ public class ServiceChatActivity extends AppCompatActivity {
     private ImageView contact_back;
 
     private TextView contact_name;
+
+    //有动画效果
+    private RecognizerDialog iatDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,9 +227,52 @@ public class ServiceChatActivity extends AppCompatActivity {
                                 .minimumCompressSize(100)// 小于100kb的图片不压缩
                                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
                         break;
+                    case ChatBottomView.FROM_SEND_VIDEO:  //视频发送
+                        PictureSelector.create(ServiceChatActivity.this)
+                                .openGallery( PictureMimeType.ofVideo())
+                                .selectionMode(PictureConfig.SINGLE)
+                                .enablePreviewAudio( true )
+                                .openClickSound( true )
+                                .previewVideo( true )
+                                .compress(true)
+                                .isCamera(false)
+                                .theme(R.style.picture_Sina_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
+                                .maxSelectNum(9)// 最大视频选择数量
+                                .minSelectNum(1)// 最小视频选择数量
+                                .imageSpanCount(4)// 每行显示个数
+                                .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选
+                                .previewVideo(true)// 是否可预览视频
+                                .enablePreviewAudio(true) // 是否可播放音频
+                                .isCamera(true)// 是否显示拍照按钮
+                                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                                .enableCrop(false)// 是否裁剪
+                                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                                .glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
+                                .withAspectRatio(0, 0)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                                .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示
+                                .isGif(true)// 是否显示gif图片
+                                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                        break;
+                    case ChatBottomView.FROM_VIDEO: //视频通话
+                        startActivity(new Intent( ServiceChatActivity.this, VideoChatActivity.class ));
+                        break;
+                    case ChatBottomView.FROM_VOICE: //语音通话
+                        startActivity( new Intent( ServiceChatActivity.this, VoiceChatActivity.class ) );
+                        break;
                     case ChatBottomView.FROM_LOCATION: ///位置
                         Intent intent = new Intent( ServiceChatActivity.this, LocationActivity.class );
                         startActivityForResult( intent, TAKE_LOCATION);
+                        break;
+                    case ChatBottomView.FROM_VOICE_TO_TEXT:// 文字转语音
+                        voice_to_text();
+                        break;
+                    case ChatBottomView.FROM_TEXT_TO_VOICE:
+                        if (mEditTextContent != null)
+                            SpeechSynthesizer( mEditTextContent.getText().toString() );
+                        break;
+                    default:
+                        break;
                 }
             }
         });
@@ -381,26 +442,30 @@ public class ServiceChatActivity extends AppCompatActivity {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    LocalMedia media = selectList.get(0);
-                    String path = media.getPath();
-                    sendImage(path);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
-//                    mDesignCenterView.refreshSelectedPicture(selectList);
+                    for (int i = 0; i < selectList.size(); i++) {
+                        LocalMedia media = selectList.get(i);
+                        String path = media.getPath();
+                        sendImage(path);
+                    }
                     break;
                 case TAKE_TRANSLATION:
                     String result_translation = data.getStringExtra( TRANSLATION_RESULT );
                     mEditTextContent.setText(result_translation );
-
+                    //获取焦点
+                    mEditTextContent.requestFocus();
+                    //将光标定位到文字最后，以便修改
+                    mEditTextContent.setSelection(result_translation.length());
                     break;
+
                 case TAKE_LOCATION:
                     String result_location = data.getStringExtra( CHAT_LOCATION );
                     mEditTextContent.setText( "" );
                     mEditTextContent.setText(result_location  );
                     KeyBoardUtils.showKeyBoard( this,mEditTextContent );
+                    //获取焦点
+                    mEditTextContent.requestFocus();
+                    //将光标定位到文字最后，以便修改
+                    mEditTextContent.setSelection(result_location.length());
                     break;
             }
         } else if (resultCode == RESULT_CANCELED) {
@@ -605,7 +670,166 @@ public class ServiceChatActivity extends AppCompatActivity {
         }
     }
 
+    private void voice_to_text(){
+        // 有交互动画的语音识别器
+        iatDialog = new RecognizerDialog(ServiceChatActivity.this, mInitListener);
 
+        iatDialog.setListener(new RecognizerDialogListener() {
+            String resultJson = "[";//放置在外边做类的变量则报错，会造成json格式不对（？）
+
+            @Override
+            public void onResult(RecognizerResult recognizerResult, boolean isLast) {
+                System.out.println("-----------------   onResult   -----------------");
+                if (!isLast) {
+                    resultJson += recognizerResult.getResultString() + ",";
+                } else {
+                    resultJson += recognizerResult.getResultString() + "]";
+                }
+
+                if (isLast) {
+                    //解析语音识别后返回的json格式的结果
+                    Gson gson = new Gson();
+                    List<DictationResult> resultList = gson.fromJson(resultJson,
+                            new TypeToken<List<DictationResult>>() {
+                            }.getType());
+                    String result = "";
+                    for (int i = 0; i < resultList.size() - 1; i++) {
+                        result += resultList.get(i).toString();
+                    }
+                    mEditTextContent.setText(result);
+                    //获取焦点
+                    mEditTextContent.requestFocus();
+                    //将光标定位到文字最后，以便修改
+                    mEditTextContent.setSelection(result.length());
+                    if (findViewById(R.id.cbv_other) != null) {
+                        findViewById( R.id.cbv_other ).setVisibility( View.GONE );
+                    }
+                    KeyBoardUtils.showKeyBoard( ServiceChatActivity.this,mEditTextContent );
+                }
+            }
+
+            @Override
+            public void onError(SpeechError speechError) {
+                //自动生成的方法存根
+                speechError.getPlainDescription(true);
+            }
+        });
+        //开始听写，需将sdk中的assets文件下的文件夹拷入项目的assets文件夹下（没有的话自己新建）
+        iatDialog.show();
+    }
+
+    /**
+     * 用于SpeechRecognizer（无交互动画）对象的监听回调
+     */
+    private RecognizerListener mRecognizerListener = new RecognizerListener() {
+        @Override
+        public void onVolumeChanged(int i, byte[] bytes) {
+
+        }
+
+        @Override
+        public void onBeginOfSpeech() {
+
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+
+        }
+
+        @Override
+        public void onResult(RecognizerResult recognizerResult, boolean b) {
+            Log.i(TAG, recognizerResult.toString());
+        }
+
+        @Override
+        public void onError(SpeechError speechError) {
+
+        }
+
+        @Override
+        public void onEvent(int i, int i1, int i2, Bundle bundle) {
+
+        }
+    };
+
+    public static final String TAG = "MainActivity";
+    private InitListener mInitListener = new InitListener() {
+        @Override
+        public void onInit(int code) {
+            Log.d(TAG, "SpeechRecognizer init() code = " + code);
+            if (code != ErrorCode.SUCCESS) {
+                Toast.makeText(ServiceChatActivity.this, "初始化失败，错误码：" + code, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+
+    /*-------------------------------语音合成--------------------------*/
+    public void SpeechSynthesizer(String text){
+        //1.创建SpeechSynthesizer对象, 第二个参数：本地合成时传InitListener
+        SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer(ServiceChatActivity.this, null);
+
+        /**
+         2.合成参数设置，详见《科大讯飞MSC API手册(Android)》SpeechSynthesizer 类
+         *
+         */
+        // 清空参数
+        mTts.setParameter( SpeechConstant.PARAMS, null);
+        mTts.setParameter( SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD); //设置云端
+        mTts.setParameter( SpeechConstant.VOICE_NAME, "xiaoyan");//设置发音人
+        mTts.setParameter( SpeechConstant.SPEED, "50");//设置语速
+        //设置合成音调
+        mTts.setParameter( SpeechConstant.PITCH, "50");
+        mTts.setParameter( SpeechConstant.VOLUME, "80");//设置音量，范围0~100
+        mTts.setParameter( SpeechConstant.STREAM_TYPE, "3");
+        // 设置播放合成音频打断音乐播放，默认为true
+        mTts.setParameter( SpeechConstant.KEY_REQUEST_FOCUS, "true");
+
+        // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
+        // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
+//        mTts.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+//        boolean isSuccess = mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tts2.wav");
+//        Toast.makeText(MainActivity_0.this, "语音合成 保存音频到本地：\n" + isSuccess, Toast.LENGTH_LONG).show();
+        //3.开始合成
+        int code = mTts.startSpeaking(text, mSynListener);
+
+        if (code != ErrorCode.SUCCESS) {
+            if (code == ErrorCode.ERROR_COMPONENT_NOT_INSTALLED) {
+                //上面的语音配置对象为初始化时：
+                Toast.makeText(ServiceChatActivity.this, "语音组件未安装", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ServiceChatActivity.this, "语音合成失败,错误码: " + code, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    //合成监听器
+    private SynthesizerListener mSynListener = new SynthesizerListener() {
+        //会话结束回调接口，没有错误时，error为null
+        public void onCompleted(SpeechError error) {
+
+        }
+        //缓冲进度回调
+        //percent为缓冲进度0~100，beginPos为缓冲音频在文本中开始位置，endPos表示缓冲音频在文本中结束位置，info为附加信息。
+        public void onBufferProgress(int percent, int beginPos, int endPos, String info) {
+        }
+        //开始播放
+        public void onSpeakBegin() {
+        }
+        //暂停播放
+        public void onSpeakPaused() {
+        }
+        //播放进度回调
+        //percent为播放进度0~100,beginPos为播放音频在文本中开始位置，endPos表示播放音频在文本中结束位置.
+        public void onSpeakProgress(int percent, int beginPos, int endPos) {
+        }
+        //恢复播放回调接口
+        public void onSpeakResumed() {
+        }
+        //会话事件回调接口
+        public void onEvent(int arg0, int arg1, int arg2, Bundle arg3) {
+        }
+    };
 
 
 }

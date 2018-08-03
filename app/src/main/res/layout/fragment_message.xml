@@ -8,7 +8,6 @@
     tools:context="com.example.lab.android.nuc.chat.Activity.ChatMainActivity">
 
     <RelativeLayout
-        android:id="@+id/message_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -46,7 +46,6 @@
 
 
         <TextView
-            android:id="@+id/tv_bind_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -65,7 +64,6 @@
         android:padding="8dp"
         >
         <TextView
-            android:id="@+id/tv_bind_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#666666"
@@ -95,7 +93,6 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/btn_bank_cancelBtn"
             android:layout_width="90dip"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_background_cancle"
@@ -103,7 +100,6 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/btn_bank_okBtn"
             android:layout_width="90dip"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dip"

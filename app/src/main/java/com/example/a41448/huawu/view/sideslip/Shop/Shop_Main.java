@@ -31,7 +31,7 @@ public class Shop_Main  extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.shop_main);
 
         final ArrayList<String> text = new ArrayList<>();
         text.add("提示卡");

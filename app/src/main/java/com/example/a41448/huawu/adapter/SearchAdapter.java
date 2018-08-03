@@ -18,7 +18,7 @@ import com.example.a41448.huawu.chatUI.ui.ServiceChatActivity;
 import com.example.a41448.huawu.tools.views.DragBubbleView;
 import com.example.a41448.huawu.view.fragment.MessageFragment;
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.base.Search.SearchTag;
+import com.example.a41448.huawu.base.comment.SearchTag;
 import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
@@ -43,7 +43,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View view ;
         switch (viewType){
             case WithImage:
-                view=LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_message_item_1,parent,false);
+                view=LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_message_item,parent,false);
                 final  ViewHolder imageViewHolder = new ViewHolder(view);
                 imageViewHolder.message_item.setOnClickListener( new View.OnClickListener() {
                     @Override
@@ -58,7 +58,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 view.setOnClickListener( this );
                 return imageViewHolder;
             case WithoutImage:
-                view=LayoutInflater.from(parent.getContext()).inflate( R.layout.fragment_message_item_1,parent,false);
+                view=LayoutInflater.from(parent.getContext()).inflate( R.layout.fragment_message_item,parent,false);
                 final  ViewHolder imageViewHolder_1 = new ViewHolder(view);
                 imageViewHolder_1.message_item.setOnClickListener( new View.OnClickListener() {
                     @Override

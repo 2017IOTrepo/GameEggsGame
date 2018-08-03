@@ -23,7 +23,6 @@
             >
 
             <ImageView
-                android:id="@+id/iv_top_left"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/run"

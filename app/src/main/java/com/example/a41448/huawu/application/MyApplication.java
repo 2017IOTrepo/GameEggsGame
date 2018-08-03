@@ -23,7 +23,11 @@ import com.baidu.trace.model.TransportMode;
 import com.example.a41448.huawu.chatUI.bean.DaoMaster;
 import com.example.a41448.huawu.chatUI.bean.DaoSession;
 import com.example.a41448.huawu.chatUI.utils.NetUtil;
+import com.example.a41448.huawu.utils.RecognitionManager;
+import com.example.a41448.huawu.utils.SynthesisManager;
 import com.example.a41448.huawu.utils.map_utils.CommonUtil;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -40,7 +44,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.bmob.v3.datatype.BmobGeoPoint;
-
 /*
 * 全局application类
 *
@@ -116,22 +119,13 @@ public class MyApplication extends MultiDexApplication{
         SDKInitializer.initialize( this );
         //初始化ImageLoader
         initImageLoader();
-
-
         mInstance = this;
 
-
-
-//        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
-//        NIMClient.init(this, loginInfo(), options());
-//
-//        // ... your codes
-//        if (NIMUtil.isMainProcess(this)) {
-//            // 注意：以下操作必须在主进程中进行
-//            // 1、UI相关初始化操作
-//            // 2、相关Service调用
-//            SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad97691");
-//        }
+        // 注意：以下操作必须在主进程中进行
+        // 1、UI相关初始化操作
+        // 2、相关Service调用
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad97691");
+        RecognitionManager.getSingleton().init(this,"5ad97691");
 
         DaoMaster.DevOpenHelper mHelper = new DaoMaster.DevOpenHelper(this, "chat-message", null);
         SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -142,9 +136,7 @@ public class MyApplication extends MultiDexApplication{
         /**
          * 百度的鹰眼轨迹绘制
          */
-
         mContext = getApplicationContext();
-
         entityName = CommonUtil.getImei(this);
 
         // 若为创建独立进程，则不初始化成员变量

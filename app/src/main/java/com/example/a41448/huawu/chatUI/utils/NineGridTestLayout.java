@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.a41448.huawu.R;
+import com.example.a41448.huawu.chatUI.ui.ImageBrowserActivity;
 import com.example.a41448.huawu.tools.views.RatioImageView;
 import com.example.a41448.huawu.utils.ImageLoaderUtil;
 import com.example.a41448.huawu.view.fragment.DynamicsFragment;
@@ -96,39 +98,10 @@ public class NineGridTestLayout extends NineGridLayout {
 
     @Override
     protected void onClickImage(int position, String url, List<String> urlList) {
-        Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();
-        final Dialog dia;
-        Context context = getContext();
-        dia = new Dialog(context, R.style.edit_AlertDialog_style);
-        dia.setContentView(R.layout.dialog_photo);
-        ImageView imageView = (ImageView) dia.findViewById(R.id.crime_photo);
-        try {
-            imageView.setImageBitmap( getImage( url ) );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //选择true的话点击其他地方可以使dialog消失，为false的话不会消失
-        dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
-        Window w = dia.getWindow();
-        WindowManager.LayoutParams lp = w.getAttributes();
-        lp.x = 0;
-        lp.y = 40;
-        dia.onWindowAttributesChanged(lp);
-        dia.show();
-        imageView.setOnClickListener(
-                new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dia.dismiss();
-                    }
-                });
+        //        Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), ImageBrowserActivity.class);
+//        intent.putExtra( Constants.IMAGE_LOCAL_PATH,);
+        intent.putExtra(Constants.IMAGE_URL, url);
+        getContext().startActivity(intent);
     }
-
-    public static Bitmap getImage(String path) throws Exception{
-        URL url = new URL(path);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        InputStream is = conn.getInputStream();
-        return BitmapFactory.decodeStream(is);
-    }
-
 }
