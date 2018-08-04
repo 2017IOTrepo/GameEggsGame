@@ -23,7 +23,7 @@
             android:textColor="#000000"
             android:text="游戏房间名字"
             android:textSize="22sp" />
-        <com.example.a41448.huawu.chatUI.widget.EmotionEditText
+        <com.example.a41448.huawu.Communication.widget.EmotionEditText
             android:id="@+id/tv_room_number"
             android:layout_width="match_parent"
             android:layout_height="36dp"

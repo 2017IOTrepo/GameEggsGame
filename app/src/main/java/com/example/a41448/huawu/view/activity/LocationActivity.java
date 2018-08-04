@@ -22,7 +22,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
-import com.example.a41448.huawu.chatUI.ui.ServiceChatActivity;
+import com.example.a41448.huawu.Communication.activity.ServiceChatActivity;
 import com.example.a41448.huawu.R;
 
 import java.util.ArrayList;

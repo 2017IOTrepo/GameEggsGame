@@ -15,7 +15,11 @@ public class NineGridTestModel implements Serializable {
 
     public boolean isShowAll = false;
 
+    public String detail;
+
     public int image;
+
+    public String imageUri;
 
     public String name;
 

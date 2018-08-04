@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.example.a41448.huawu.chatUI.ui.ServiceChatActivity;
+import com.example.a41448.huawu.Communication.activity.ServiceChatActivity;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.Contacts.UserBaseInfo;
 import com.example.a41448.huawu.tools.views.RoundImageView;
@@ -35,19 +35,12 @@ public class ContactActivity extends AppCompatActivity {
     public static final String CONTACT_IAMGE_ID = "contact_image_id";
 
 
-    private String learnLanguage;
-    private String nativeLanguage;
-    private String languageLevel;
+    private String learnLanguage,nativeLanguage,languageLevel;
     private static String userID = "1";
     private Button Atbutton;
-    private TextView contact_name;
-    private TextView learn_language;
-    private String interest_text;
-    private String toPerson_text;
-    private String toGoal_text;
-    private TextView interest;
-    private TextView toPerson;
-    private TextView toGoal;
+    private TextView contact_name,native_language,learn_language;
+    private String interest_text,toPerson_text,toGoal_text,imageUri;
+    private TextView interest,toPerson,toGoal;
 
     private UserBaseInfo info;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -62,9 +55,10 @@ public class ContactActivity extends AppCompatActivity {
         int contactNameId = intent.getIntExtra( CONTACT_IAMGE_ID, 0 );
         userID = intent.getStringExtra( USERID );
         learnLanguage = intent.getStringExtra( "learnLanguage" );
-        nativeLanguage = intent.getStringExtra( "nativeLanguage" );
         languageLevel = intent.getStringExtra( "languageLevel" );
+        imageUri = intent.getStringExtra( "ImageUri" );
         contact_name.setText( contactName );
+        nativeLanguage = intent.getStringExtra( "nativeLanguage" );
         learn_language.setText( learnLanguage );
 
         requestcontact();
@@ -100,13 +94,16 @@ public class ContactActivity extends AppCompatActivity {
         collapsingToolbar.setTitle( contactName );
 
         //将文字加载到图片上
-        Glide.with( this ).load( contactNameId ).into( contactImageView );
+        Glide.with( this ).load( imageUri).into( contactImageView );
 
         FloatingActionButton floatingActionButton_chat = (FloatingActionButton) findViewById( R.id.floatingActionBar_chat );
         floatingActionButton_chat.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity( new Intent( ContactActivity.this,VideoChatActivity.class) );
+                Intent intent = new Intent( ContactActivity.this, ServiceChatActivity.class );
+                intent.putExtra( ServiceChatActivity.CONTACT_NAME, contactName);
+                intent.putExtra( "contact_image_uri",imageUri );
+                startActivity( intent );
             }
         } );
 
@@ -114,9 +111,8 @@ public class ContactActivity extends AppCompatActivity {
         floatingActionButton_video.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( ContactActivity.this, ServiceChatActivity.class );
-                intent.putExtra( ServiceChatActivity.CONTACT_NAME, contactName);
-                startActivity( intent );
+                Intent intent =  new Intent( ContactActivity.this,VideoChatActivity.class);
+                startActivity( intent);
             }
         } );
 

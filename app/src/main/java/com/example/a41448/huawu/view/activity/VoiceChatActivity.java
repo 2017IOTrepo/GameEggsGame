@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.view.activity;
 
+import android.gesture.GestureLibraries;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.Manifest;
@@ -18,7 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bx.waveview.WaveView;
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.chatUI.bean.ChatConst;
+import com.example.a41448.huawu.Communication.bean.ChatConst;
 
 import java.util.Locale;
 
@@ -76,6 +77,7 @@ public class VoiceChatActivity extends AppCompatActivity {
             initAgoraEngineAndJoinChannel();
         }
         mCircleImageView = (CircleImageView) findViewById( R.id.voice_people_image);
+        Glide.with( this ).load( ChatConst.RESPONSE_HEAD_IMAGE ).into( mCircleImageView );
     }
 
     private void initAgoraEngineAndJoinChannel() {

@@ -20,9 +20,9 @@ import com.baidu.trace.model.BaseRequest;
 import com.baidu.trace.model.OnCustomAttributeListener;
 import com.baidu.trace.model.ProcessOption;
 import com.baidu.trace.model.TransportMode;
-import com.example.a41448.huawu.chatUI.bean.DaoMaster;
-import com.example.a41448.huawu.chatUI.bean.DaoSession;
-import com.example.a41448.huawu.chatUI.utils.NetUtil;
+import com.example.a41448.huawu.Communication.bean.DaoMaster;
+import com.example.a41448.huawu.Communication.bean.DaoSession;
+import com.example.a41448.huawu.Communication.utils.NetUtil;
 import com.example.a41448.huawu.utils.RecognitionManager;
 import com.example.a41448.huawu.utils.SynthesisManager;
 import com.example.a41448.huawu.utils.map_utils.CommonUtil;
@@ -121,9 +121,8 @@ public class MyApplication extends MultiDexApplication{
         initImageLoader();
         mInstance = this;
 
-        // 注意：以下操作必须在主进程中进行
-        // 1、UI相关初始化操作
-        // 2、相关Service调用
+        // 注意：以下操作必须在主进程中进行,
+        // 聊天界面数据加载
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad97691");
         RecognitionManager.getSingleton().init(this,"5ad97691");
 
@@ -165,8 +164,8 @@ public class MyApplication extends MultiDexApplication{
                 return null;
             }
         });
-
         clearTraceStatus();
+
     }
 
     /**

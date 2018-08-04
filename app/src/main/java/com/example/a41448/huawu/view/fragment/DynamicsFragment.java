@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.view.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.model.LatLng;
+import com.example.a41448.huawu.Communication.activity.ServiceChatActivity;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.adapter.NineGridTest2Adapter;
 import com.example.a41448.huawu.base.Contacts.NineGridTestModel;
@@ -28,6 +30,9 @@ import com.example.a41448.huawu.view.activity.MainActivity;
 import com.example.a41448.huawu.view.activity.dynamic_item_activity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,13 +83,10 @@ public class DynamicsFragment extends Fragment {
         super.onResume();
     }
 
-    private void initData(){
+    private void initData() {
         ShineButton shineButton1 = (ShineButton) view.findViewById( R.id.po_image1 );
-//        shineButton1.init( (MainActivity) getActivity() );
-        ShineButton shineButton2 = (ShineButton) view.findViewById( R.id.po_image2 );
-        ShineButton shineButton3 = (ShineButton) view.findViewById( R.id.po_image3 );
-
     }
+
     private void initView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById( R.id.recyclerView );
         commentLayout = (LinearLayout) view.findViewById( R.id.comment_listView );
@@ -119,10 +121,6 @@ public class DynamicsFragment extends Fragment {
         model2.time = "今天 20:50";
         model2.name = "魏祥一";
         mList.add(model2);
-//
-//        NineGridTestModel model3 = new NineGridTestModel();
-//        model3.urlList.add(mUrls[2]);
-//        mList.add(model3);
 
         NineGridTestModel model4 = new NineGridTestModel();
         for (int i = 0; i < mUrls.length; i++) {
@@ -176,7 +174,7 @@ public class DynamicsFragment extends Fragment {
     //图片数据的url;
     private String[] mUrls = new String[]{
             "http://d.hiphotos.baidu.com/image/h%3D200/sign=201258cbcd80653864eaa313a7dca115/ca1349540923dd54e54f7aedd609b3de9c824873.jpg",
-            "(https://upload-images.jianshu.io/upload_images/9140378-ecc3f1dc6f3bb61c.jpg",
+            "https://upload-images.jianshu.io/upload_images/9140378-ecc3f1dc6f3bb61c.jpg",
             "http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg",
             "http://img4.imgtn.bdimg.com/it/u=3445377427,2645691367&fm=21&gp=0.jpg",
             "http://img4.imgtn.bdimg.com/it/u=2644422079,4250545639&fm=21&gp=0.jpg",
@@ -210,7 +208,31 @@ public class DynamicsFragment extends Fragment {
         mActionModel.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                PictureSelector.create( (Activity) getContext() )
+                        .openGallery( PictureMimeType.ofVideo())
+                        .selectionMode( PictureConfig.SINGLE)
+                        .enablePreviewAudio( true )
+                        .openClickSound( true )
+                        .previewVideo( true )
+                        .compress(true)
+                        .isCamera(false)
+                        .theme(R.style.picture_Sina_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
+                        .maxSelectNum(9)// 最大视频选择数量
+                        .minSelectNum(1)// 最小视频选择数量
+                        .imageSpanCount(4)// 每行显示个数
+                        .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选
+                        .previewVideo(true)// 是否可预览视频
+                        .enablePreviewAudio(true) // 是否可播放音频
+                        .isCamera(true)// 是否显示拍照按钮
+                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                        .enableCrop(false)// 是否裁剪
+                        .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                        .glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
+                        .withAspectRatio(0, 0)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                        .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示
+                        .isGif(true)// 是否显示gif图片
+                        .minimumCompressSize(100)// 小于100kb的图片不压缩
+                        .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
                 mFloatingActionsMenu.toggle();
             }
         } );

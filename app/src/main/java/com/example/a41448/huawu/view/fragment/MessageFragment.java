@@ -10,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,15 @@ import android.widget.EditText;
 import com.example.a41448.huawu.adapter.SearchAdapter;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.comment.SearchTag;
+import com.example.a41448.huawu.tools.views.DragBubbleView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MessageFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class MessageFragment extends Fragment implements SearchView.OnQueryTextListener ,DragBubbleView.OnBubbleStateListener,
+        View.OnClickListener{
 
     private Context mContext;
 
@@ -31,38 +34,38 @@ public class MessageFragment extends Fragment implements SearchView.OnQueryTextL
     private ArrayList<SearchTag> mSearchTagArrayList,filteredDataList;
     private SearchAdapter mSearchAdapter;
     private EditText mEditText;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private OnRecyclerviewItemClickListener mOnRecyclerviewItemClickListener ;
+
+    //消息气泡
+    private DragBubbleView mDragBubbleView;
 
 
-    public static Fragment newInstance(){
+    public static  Fragment newInstance(){
         Bundle bundle = new Bundle();
         MessageFragment messageFragment = new MessageFragment();
         messageFragment.setArguments(bundle);
         return messageFragment;
     }
+    private OnRecyclerviewItemClickListener mOnRecyclerviewItemClickListener ;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_message,container,false);
-        initQuestions();
+        initQuestion();
         mOnRecyclerviewItemClickListener = new OnRecyclerviewItemClickListener() {
             @Override
             public void onItemClickListaner(View v, int position) {
                 SearchTag searchTag =  mSearchTagArrayList.get( position );
             }
         };
+
+
         mRecyclerView = (RecyclerView) view.findViewById( R.id.card_recycler_view );
+
         mRecyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ));
+        mSearchAdapter = new SearchAdapter( mSearchTagArrayList,mOnRecyclerviewItemClickListener);
+
+        mRecyclerView.setAdapter( mSearchAdapter );
         mRecyclerView.addItemDecoration( new DividerItemDecoration( getContext(), DividerItemDecoration.VERTICAL ) );
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById( R.id.swipe_refresh_message );
-        mSwipeRefreshLayout.setColorSchemeResources( R.color.orange );
-        mSwipeRefreshLayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshMessage();
-            }
-        } );
         SearchView mSearchView = (SearchView) view.findViewById( R.id.searchView );
         mSearchView.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
             @Override
@@ -72,41 +75,52 @@ public class MessageFragment extends Fragment implements SearchView.OnQueryTextL
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 filteredDataList = (ArrayList<SearchTag>) filter(mSearchTagArrayList, newText);
                 mSearchAdapter.setFilter(filteredDataList);
                 return true;
             }
         } );
-
-        updateUI();
         return view;
     }
-
-    private void updateUI(){
-        mSearchAdapter = new SearchAdapter( mSearchTagArrayList,mOnRecyclerviewItemClickListener);
-        mRecyclerView.setAdapter( mSearchAdapter );
-    }
-    private void initQuestions() {
+    private void initQuestion() {
         mSearchTagArrayList = new ArrayList<>(  );
-        mSearchTagArrayList.add(new SearchTag("中北大学安卓实验室","金浩：[图片]",
-                R.drawable.message_1,0,"下午8:29"));
-        mSearchTagArrayList.add(new SearchTag("宇宙无敌项目组","李浩：刚看见",
-                R.drawable.message_2,0,"上午7:22"));
-        mSearchTagArrayList.add(new SearchTag("1707004716事务通知群","李一帆：[图片]",
-                R.drawable.message_3,0,"下午1:19"));
-        mSearchTagArrayList.add(new SearchTag("中北大学学习交流群","小明：这个咋做啊？",
-                R.drawable.picture_4,0,"上午6:01"));
-        mSearchTagArrayList.add(new SearchTag("丁逸群","有一个未接电话",
-                R.drawable.picture_11,0,"昨天"));
-        mSearchTagArrayList.add(new SearchTag("武智鹏","你刚刚去哪了",
-                R.drawable.p1,0,"昨天"));
-        mSearchTagArrayList.add(new SearchTag("魏祥一","我在唐久这儿",
-                R.drawable.picture_6,0,"星期一"));
-        mSearchTagArrayList.add(new SearchTag("马骕骎","有点慌......",
-                R.drawable.picture_4,0,"星期日"));
-    }
+        mSearchTagArrayList.add(new SearchTag("Abbott","李沙：[图片]",
+                "http://p8nssbtwi.bkt.clouddn.com/student_2.jpg",0,"下午 8:29","2"));
 
+        mSearchTagArrayList.add(new SearchTag("李沙","李沙：ni hao,my name is lisha",
+                "http://p8nssbtwi.bkt.clouddn.com/ic_s4.jpg",0,"昨天上午 7:22","1"));
+
+        mSearchTagArrayList.add(new SearchTag("Abraham","Abraham：[图片]",
+                "http://p8nssbtwi.bkt.clouddn.com/student_4.jpg",0,"昨天下午 1:12","3"));
+
+        mSearchTagArrayList.add(new SearchTag("Baron","Baron：What？what you say soon？I ...",
+                "http://p8nssbtwi.bkt.clouddn.com/student_3.jpg",0,"前天下午 6:01","1"));
+
+        mSearchTagArrayList.add(new SearchTag("Bruno","Bruno：[图片]",
+                "http://p8nssbtwi.bkt.clouddn.com/teacher_4.jpg",0,"前天下午 8:29","4"));
+
+        mSearchTagArrayList.add(new SearchTag("Borg","Borg：see you latter.",
+                "http://p8nssbtwi.bkt.clouddn.com/student_2.jpg",0,"星期六上午 7:22","9"));
+
+        mSearchTagArrayList.add(new SearchTag("Christopher","Christopher：[图片]",
+                "http://p8nssbtwi.bkt.clouddn.com/teacher_6.jpg",0,"星期六下午 1:17","2"));
+
+        mSearchTagArrayList.add(new SearchTag("Derrick","Derrick：Have a dinner？",
+                "http://p8nssbtwi.bkt.clouddn.com/teacher_8.jpg",0,"星期六下午 5:15","1"));
+
+        mSearchTagArrayList.add(new SearchTag("Angelina","Angelina：Do you like it ?",
+                "http://p8nssbtwi.bkt.clouddn.com/ic_s1.jpeg",0,"星期六晚上 9:42","3"));
+
+        mSearchTagArrayList.add(new SearchTag("Gillian","Gillian：I think you should make ...",
+                "http://p8nssbtwi.bkt.clouddn.com/ic_s7.jpeg",0,"星期五上午 8:09","7"));
+
+        mSearchTagArrayList.add(new SearchTag("Derrick","Derrick：where are you now? I ...",
+                "http://p8nssbtwi.bkt.clouddn.com/ic_s12.jpeg",0,"星期五下午 6:45","1"));
+
+        mSearchTagArrayList.add(new SearchTag("Louisa","Louisa：Have a dinner？",
+                "http://p8nssbtwi.bkt.clouddn.com/ic_s8.jpeg",0,"星期五晚上 7:58","3"));
+
+    };
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -131,55 +145,36 @@ public class MessageFragment extends Fragment implements SearchView.OnQueryTextL
         }
         return filteredDataList;
     }
+
+
+
+    @Override
+    public void onDrag() {
+        Log.e("---> ", "拖拽气泡");
+    }
+
+    @Override
+    public void onMove() {
+        Log.e("---> ", "移动气泡");
+    }
+
+    @Override
+    public void onRestore() {
+        Log.e("---> ", "气泡恢复原来位置");
+    }
+
+    @Override
+    public void onDismiss() {
+        Log.e("---> ", "气泡消失");
+    }
+
+    @Override
+    public void onClick(View v) {
+        mDragBubbleView.reCreate();
+    }
+
     public interface OnRecyclerviewItemClickListener{
-        void onItemClickListaner(View v, int position);
+        void onItemClickListaner(View v,int position);
     }
-
-    private void refreshMessage(){
-        new Thread( new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Thread.sleep( 2000 );
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                runOnUiThread( new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecyclerView.getLayoutManager().scrollToPosition( 0 );
-                        mSearchTagArrayList.clear();
-                        for (int i = 0; i < 10; i++) {
-                            Random random = new Random( );
-                            int index = random.nextInt( mQuestions.length );
-                            mSearchTagArrayList.add( mQuestions[index] );
-                        }
-                        mSearchAdapter.notifyDataSetChanged();
-                        mSwipeRefreshLayout.setRefreshing( false );
-                    }
-                } );
-            }
-        } );
-    }
-
-    //基础基类
-    private SearchTag[] mQuestions = {
-            new SearchTag("中北大学安卓实验室","金浩：[图片]",
-                    R.drawable.message_1,0,"下午8:29"),
-            new SearchTag("宇宙无敌项目组","李浩：刚看见",
-                    R.drawable.message_2,0,"上午7:22"),
-            new SearchTag("1707004716事务通知群","李一帆：[图片]",
-                    R.drawable.message_3,0,"下午1:19"),
-            new SearchTag("中北大学学习交流群","小明：这个咋做啊？",
-                    R.drawable.picture_4,0,"上午6:01"),
-            new SearchTag("丁逸群","有一个未接电话",
-                    R.drawable.picture_11,0,"昨天"),
-            new SearchTag("武智鹏","你刚刚去哪了",
-                    R.drawable.p1,0,"昨天"),
-            new SearchTag("魏祥一","我在唐久这儿",
-                    R.drawable.picture_6,0,"星期一"),
-            new SearchTag("马骕骎","有点慌......",
-                    R.drawable.picture_4,0,"星期日")
-    };
 
 }

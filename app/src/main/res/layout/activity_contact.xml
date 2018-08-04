@@ -111,7 +111,7 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionBar_video"
+        android:id="@+id/floatingActionBar_chat"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_margin="80dp"
@@ -121,7 +121,7 @@
         app:layout_anchor="@id/appBar"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionBar_chat"
+        android:id="@+id/floatingActionBar_video"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_gravity="center"

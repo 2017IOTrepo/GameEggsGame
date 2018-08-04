@@ -2,20 +2,15 @@ package com.example.a41448.huawu.base.comment;
 
 public class SearchTag {
 
-    public String title,about,time;
+    public String title,about,time,message_num,imageUri;
     public int photo,viewtype;
 
-    public SearchTag(String title, String about, int photo, int viewtype,String time) {
+    public SearchTag(String title, String about, String imageUri, int viewtype,String time,String message_num) {
         this.title = title;
         this.about = about;
-        this.photo = photo;
-        this.viewtype=viewtype;
+        this.imageUri = imageUri;
+        this.viewtype = viewtype;
         this.time = time;
-    }
-
-    public SearchTag(String title, String about, int viewtype) {
-        this.title = title;
-        this.about = about;
-        this.viewtype=viewtype;
+        this.message_num = message_num;
     }
 }

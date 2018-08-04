@@ -185,6 +185,7 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
                     intent.putExtra( ContactActivity.CONTACT_NAME,contact.getName());
                     intent.putExtra(ContactActivity.CONTACT_IAMGE_ID,contact.getImagrId());
                     intent.putExtra( ContactActivity.USERID,UserID );
+                    intent.putExtra( "ImageUri",contact.getImageUri() );
                     intent.putExtra( "nativeLanguage",contact.getMother_language() );
                     intent.putExtra( "learnLanguage",contact.getLearn_language() );
                     intent.putExtra(  "languageLevel",contact.getLanguage_level());
@@ -204,7 +205,8 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
         @Override
         public void onBindViewHolder(@NonNull ContactsHolder holder, int position) {
             Contact contact = mContacts.get(position);
-            Glide.with(getContext()).load(getContext().getDrawable(contact.getImagrId())).into(holder.mImageView);
+            Glide.with(getContext()).load(contact.getImageUri()).into(holder.mImageView);
+
 //            holder.mImageView.setImageResource(contact.getImagrId());
             holder.mTextView.setText(contact.getName());
             holder.onffline.setImageResource(contact.getLine() );
@@ -223,38 +225,33 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
 
     //创建方法用于更新UI
     private void updateUI() {
+
         //绑定联系人的adapter
         mAdapter = new ContactAdapter(contactList);
         mRecyclerView.setAdapter(mAdapter);
 
     }
     private Contact[] mContacts= {
-            new Contact("王浩",R.drawable.picture_1,R.drawable.ic_dot_24dp,
+            new Contact("Abbott","http://p8nssbtwi.bkt.clouddn.com/student_2.jpg",R.drawable.ic_dot_24dp,
                     "汉语","英语","初级水平"),
-            new Contact("马骕骎",R.drawable.picture_2,R.drawable.ic_off_dot_24dp,
-                    "汉语","","中级水平"),
-            new Contact("魏祥一",R.drawable.picture_3,R.drawable.ic_off_dot_24dp,
+            new Contact("李沙","http://p8nssbtwi.bkt.clouddn.com/teacher_1.jpg",R.drawable.ic_off_dot_24dp,
+                    "法语","汉语","中级水平"),
+            new Contact("Abraham","http://p8nssbtwi.bkt.clouddn.com/student_3.jpg",R.drawable.ic_off_dot_24dp,
                     "韩语","汉语","高级水平"),
-            new Contact("徐超",R.drawable.picture_4,R.drawable.ic_dot_24dp,
+            new Contact("Baron","http://p8nssbtwi.bkt.clouddn.com/teacher_2.jpg",R.drawable.ic_dot_24dp,
                     "日语","俄语","初级水平"),
-            new Contact("丁逸群",R.drawable.picture_5,R.drawable.ic_off_dot_24dp,
+            new Contact("Bruno","http://p8nssbtwi.bkt.clouddn.com/teacher_3.jpg",R.drawable.ic_off_dot_24dp,
                     "阿拉伯语","英语","中级水平"),
-            new Contact("张君宝",R.drawable.picture_6,R.drawable.ic_dot_24dp,
+            new Contact("Borg","http://p8nssbtwi.bkt.clouddn.com/teacher_4.jpg",R.drawable.ic_dot_24dp,
                     "俄语","汉语","高级水平"),
-            new Contact("武智鹏",R.drawable.picture_7,R.drawable.ic_dot_24dp,
+            new Contact("Christopher","http://p8nssbtwi.bkt.clouddn.com/teacher_5.jpg",R.drawable.ic_dot_24dp,
                     "汉语","日语","初级水平"),
-            new Contact("杨旭",R.drawable.picture_8,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("刘永超",R.drawable.picture_9,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("王云晓",R.drawable.picture_10,R.drawable.ic_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("薛天一学姐",R.drawable.picture_11,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("鲍骞月",R.drawable.picture_12,R.drawable.ic_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("王天锐",R.drawable.picture_13,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平")
+            new Contact("Derrick","http://p8nssbtwi.bkt.clouddn.com/teacher_6.jpg",R.drawable.ic_off_dot_24dp,
+                    "阿拉伯语","汉语","高级水平"),
+            new Contact("Winifre","http://p8nssbtwi.bkt.clouddn.com/teacher_7.jpg",R.drawable.ic_dot_24dp,
+                    "汉语","俄语","低级水平"),
+            new Contact("Brandon","http://p8nssbtwi.bkt.clouddn.com/teacher_8.jpg",R.drawable.ic_dot_24dp,
+                    "泰语","汉语","中级水平")
     };
     private void refreshContacts(){
         new Thread(new Runnable() {
@@ -270,7 +267,7 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
                     @Override
                     public void run() {
                         contactList.clear();
-                        Contact contact = new Contact( name,R.drawable.icon,R.drawable.ic_dot_24dp,
+                        Contact contact = new Contact( name,"http://p8nssbtwi.bkt.clouddn.com/ic_s12.jpeg",R.drawable.ic_dot_24dp,
                                 studyLanguage,nativeLanguage,languageLevel);
                         contactList.add( 0,contact );
                         mAdapter.notifyItemInserted( 0 );

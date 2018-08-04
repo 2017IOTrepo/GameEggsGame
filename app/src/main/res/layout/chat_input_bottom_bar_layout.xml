@@ -29,7 +29,7 @@
                 android:background="@mipmap/ic_btn_voice"
                 android:padding="4dp"/>
 
-            <com.example.a41448.huawu.chatUI.widget.EmotionEditText
+            <com.example.a41448.huawu.Communication.widget.EmotionEditText
                 android:id="@+id/et_msg"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
@@ -45,7 +45,7 @@
                 android:minHeight="40dp"
                 android:singleLine="false"/>
 
-            <com.example.a41448.huawu.chatUI.widget.AudioRecordButton
+            <com.example.a41448.huawu.Communication.widget.AudioRecordButton
                 android:id="@+id/voice_btn"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
@@ -100,7 +100,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp">
 
-                <com.example.a41448.huawu.chatUI.widget.CircleIndicator
+                <com.example.a41448.huawu.Communication.widget.CircleIndicator
                     android:id="@+id/ci_banner"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
@@ -128,7 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.a41448.huawu.chatUI.widget.ChatBottomView
+            <com.example.a41448.huawu.Communication.widget.ChatBottomView
                 android:id="@+id/cbv_other"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"

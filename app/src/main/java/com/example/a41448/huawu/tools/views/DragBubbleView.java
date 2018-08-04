@@ -25,7 +25,7 @@ import android.view.WindowInsets;
 import android.view.animation.LinearInterpolator;
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.chatUI.utils.ScreenUtil;
+import com.example.a41448.huawu.Communication.utils.ScreenUtil;
 
 
 public class DragBubbleView extends View {

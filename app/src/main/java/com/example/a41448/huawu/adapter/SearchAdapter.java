@@ -14,14 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.a41448.huawu.chatUI.ui.ServiceChatActivity;
+import com.example.a41448.huawu.Communication.activity.ServiceChatActivity;
 import com.example.a41448.huawu.tools.views.DragBubbleView;
 import com.example.a41448.huawu.view.fragment.MessageFragment;
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.comment.SearchTag;
 import java.util.ArrayList;
 
-public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements View.OnClickListener{
 
     private Context mContext;
     private ArrayList<SearchTag>  mArrayList;
@@ -35,14 +35,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if (mContext == null){
             mContext = parent.getContext();
         }
         View view ;
         switch (viewType){
-            case WithImage:
+            case WithImage: WithoutImage:
                 view=LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_message_item,parent,false);
                 final  ViewHolder imageViewHolder = new ViewHolder(view);
                 imageViewHolder.message_item.setOnClickListener( new View.OnClickListener() {
@@ -52,61 +52,39 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         SearchTag searchTag =  mArrayList.get( position );
                         Intent intent = new Intent(mContext, ServiceChatActivity.class );
                         intent.putExtra( ServiceChatActivity.CONTACT_NAME, searchTag.title);
+                        intent.putExtra( "contact_image_uri",searchTag.imageUri );
                         mContext.startActivity( intent );
                     }
                 } );
                 view.setOnClickListener( this );
                 return imageViewHolder;
-            case WithoutImage:
-                view=LayoutInflater.from(parent.getContext()).inflate( R.layout.fragment_message_item,parent,false);
-                final  ViewHolder imageViewHolder_1 = new ViewHolder(view);
-                imageViewHolder_1.message_item.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int position = imageViewHolder_1.getAdapterPosition();
-                        SearchTag searchTag =  mArrayList.get( position );
-                        Intent intent = new Intent(mContext, ServiceChatActivity.class );
-                        intent.putExtra( ServiceChatActivity.CONTACT_NAME, searchTag.title);
-                        mContext.startActivity( intent );
-                    }
-                } );
-                view.setOnClickListener( this );
-                return imageViewHolder_1;
         }
         return null;
     }
 
-    @SuppressLint("NewApi")
+
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         switch (mArrayList.get(position).viewtype){
-            case WithImage:
-                ((ViewHolder) holder).message_item.setOnClickListener( new View.OnClickListener() {
+            case WithImage:WithoutImage:
+                holder.message_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SearchTag searchTag =  mArrayList.get( position );
-                        Intent intent = new Intent(mContext, ServiceChatActivity.class );
-                        intent.putExtra( ServiceChatActivity.CONTACT_NAME, searchTag.title);
-                        mContext.startActivity( intent );
+                        SearchTag searchTag = mArrayList.get(position);
+                        Intent intent = new Intent(mContext, ServiceChatActivity.class);
+                        intent.putExtra(ServiceChatActivity.CONTACT_NAME, searchTag.title);
+                        intent.putExtra( "contact_image_uri",searchTag.imageUri );
+                        holder.mDragBubbleView.setVisibility( View.GONE );
+                        mContext.startActivity(intent);
                     }
-                } );
-                Glide.with(mContext).load(mContext.getDrawable(mArrayList.get(position).photo)).
-                        into(((ViewHolder) holder).message_image);
-//                ((ViewHolder) holder).message_image.setImageResource(mArrayList.get(position).photo);
-                ((ViewHolder) holder).message_name.setText(mArrayList.get(position).title);
-                ((ViewHolder) holder).soontext.setText(mArrayList.get(position).about);
-                ((ViewHolder) holder).message_time.setText(mArrayList.get(position).time);
-                ((ViewHolder) holder).itemView.setTag( position);
-                ((ViewHolder) holder).mDragBubbleView.setText( "99+");
-                break;
-            case WithoutImage:
-                ((ViewHolder) holder).message_image.setImageResource(mArrayList.get(position).photo);
-                ((ViewHolder) holder).message_name.setText(mArrayList.get(position).title);
-                ((ViewHolder) holder).soontext.setText(mArrayList.get(position).about);
-                ((ViewHolder) holder).message_time.setText(mArrayList.get(position).time);
-                ((ViewHolder) holder).itemView.setTag( position);
-                ((ViewHolder) holder).mDragBubbleView.setText( "99+");
-                break;
+                });
+                    Glide.with(mContext).load(mArrayList.get( position ).imageUri).into(((ViewHolder) holder).message_image);
+                    holder.message_name.setText(mArrayList.get(position).title);
+                    holder.soontext.setText(mArrayList.get(position).about);
+                    holder.message_time.setText(mArrayList.get(position).time);
+                    holder.itemView.setTag(position);
+                    holder.mDragBubbleView.setText(mArrayList.get( position ).message_num);
+                    break;
         }
     }
 
@@ -149,23 +127,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mDragBubbleView = (DragBubbleView) itemView.findViewById( R.id.message_number );
         }
     }
-
-    public class WithoutImageViewHolder extends RecyclerView.ViewHolder{
-        TextView soontext;
-        ImageView message_image;
-        TextView message_name;
-        TextView message_time;
-        CardView cardView;
-
-        public WithoutImageViewHolder(View itemView) {
-            super(itemView);
-            cardView=(CardView) itemView.findViewById(R.id.cardview2);
-            message_image = (ImageView) itemView.findViewById( R.id.friend_icon );
-            soontext = (TextView) itemView.findViewById( R.id.soonText );
-            message_name = (TextView) itemView.findViewById( R.id.friend_name );
-            message_time = (TextView) itemView.findViewById( R.id.time );}
-    }
-
     public void setFilter(ArrayList<SearchTag> FilteredDataList) {
          mArrayList = FilteredDataList;
         notifyDataSetChanged();

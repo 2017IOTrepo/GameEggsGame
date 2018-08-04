@@ -160,7 +160,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     * by moos on 2018/04/20
      * func:生成测试数据
      * @return 评论数据
      */
@@ -189,7 +188,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     * by moos on 2018/04/20
      * func:弹出评论框
      */
     private void showCommentDialog(){
@@ -248,7 +246,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     * by moos on 2018/04/20
      * func:弹出回复框
      */
     private void showReplyDialog(final int position){

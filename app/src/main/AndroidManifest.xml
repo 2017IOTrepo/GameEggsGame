@@ -192,9 +192,9 @@
         <activity android:name=".view.activity.photoSelector.PhotoPreviewActivity" />
         <activity android:name=".view.activity.PrePhototActivity" />
         <activity
-            android:name=".chatUI.ui.ServiceChatActivity"
+            android:name=".Communication.activity.ServiceChatActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".chatUI.ui.ImageBrowserActivity" />
+        <activity android:name=".Communication.activity.ImageBrowserActivity" />
 
         <!-- 百度地图的基础定位 -->
         <service
