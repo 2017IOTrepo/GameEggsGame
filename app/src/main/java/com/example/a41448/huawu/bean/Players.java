@@ -25,7 +25,7 @@ public class Players extends BmobUser {
     private BmobGeoPoint location;// 地点坐标记录
     private int points;
     private int coins;
-    private BmobFile avatar;//头像
+    private BmobFile avatar = null;//头像
 
     public Players() {
     }

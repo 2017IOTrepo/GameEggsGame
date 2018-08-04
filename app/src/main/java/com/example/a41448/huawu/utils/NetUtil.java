@@ -116,7 +116,7 @@ public class NetUtil {private static DecimalFormat df1 = new DecimalFormat("0.00
     }
 
     /*
-     *
+     * 技术不够 没网站 只能分享这个了
      * 只用来分享网址
      * */
     public static Intent shareNet(){

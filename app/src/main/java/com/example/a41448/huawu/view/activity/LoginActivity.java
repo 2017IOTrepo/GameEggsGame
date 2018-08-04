@@ -2,18 +2,17 @@ package com.example.a41448.huawu.view.activity;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.BaseActivity;
 import com.example.a41448.huawu.bean.Messages;
 import com.example.a41448.huawu.utils.ActivityCollector;
+import com.example.a41448.huawu.utils.FileUtils;
 import com.example.a41448.huawu.utils.FragmentUtils;
 import com.example.a41448.huawu.utils.PermissionUtil;
 import com.example.a41448.huawu.view.fragment.LoginFragment;
@@ -28,6 +27,10 @@ import cn.bmob.v3.Bmob;
 public class LoginActivity extends BaseActivity{
 
     private String[] permissions;
+    //文件根目录
+    private String rootFilePath;
+    //存放头像的目录
+    public static String avatarPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,10 +44,28 @@ public class LoginActivity extends BaseActivity{
         }
 
         requestPermissions();
+        createDir();
         LoginFragment LoginFragment = new LoginFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentUtils.addFragment(fragmentManager, LoginFragment, R.id.login_fragment_container);
+    }
+
+    /*
+    *
+    * 创建存放头像的文件夹
+    * */
+    private void createDir() {
+        rootFilePath = FileUtils.getRootFolder(LoginActivity.this);
+        avatarPath = rootFilePath + "/gameAvatar";
+        File gameAvatar = new File(avatarPath);
+        if (!gameAvatar.exists()){
+            gameAvatar.mkdir();
+            File noMedia = new File(avatarPath + ".nomedia");
+            if (!noMedia.exists()){
+                noMedia.mkdir();
+            }
+        }
     }
 
 

@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.service.media.MediaBrowserService;
 import android.support.annotation.NonNull;
@@ -46,6 +50,7 @@ import com.example.a41448.huawu.chatUI.utils.PathUtils;
 import com.example.a41448.huawu.chatUI.widget.ChatBottomView;
 import com.example.a41448.huawu.chatUI.widget.HeadIconSelectorView;
 import com.example.a41448.huawu.utils.ActivityCollector;
+import com.example.a41448.huawu.utils.FileUtils;
 import com.example.a41448.huawu.utils.FragmentUtils;
 import com.example.a41448.huawu.utils.NetUtil;
 import com.example.a41448.huawu.view.sideslip.Achievement;
@@ -61,8 +66,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ContentHandler;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URI;
+import java.net.URL;
 import java.security.acl.Group;
 import java.util.List;
 
@@ -71,9 +81,13 @@ import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.UpdateListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.http.HEAD;
+import retrofit2.http.Url;
+
+import static android.net.sip.SipErrorCode.SERVER_ERROR;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
         Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
@@ -104,8 +118,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private TextView coins;
     private TextView name;
     private TextView labels;
+    private TextView sex;
     private CircleImageView avatar;
     private View headerLayout;
+    //头像文件
+    private File avatarFile;
 
     //定义滑动菜单的实例
     private DrawerLayout mDrawerLayout;
@@ -179,12 +196,84 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         coins = (TextView)headerLayout.findViewById(R.id.player_coins_text);
         name = (TextView)headerLayout.findViewById(R.id.player_name_text);
         labels = (TextView)headerLayout.findViewById(R.id.player_label_text);
+        sex = (TextView)headerLayout.findViewById(R.id.player_sex_text);
         avatar = (CircleImageView)headerLayout.findViewById(R.id.player_avatar_image);
+        final Handler handler = new Handler();
 
         points.setText("游戏点数：" + players.getPoints());
         coins.setText("金币数：" + players.getCoins());
         labels.setText("用户标签：" + players.getLables().toString());
         name.setText("用户名：" + players.getUserAccontId());
+
+        if (players.isSex()){
+            sex.setText("性别：男");
+        }else {
+            sex.setText("性别：女");
+        }
+        sex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new BottomSheet.Builder(MainActivity.this)
+                        .title("选择性别")
+                        .sheet(R.menu.sex_chosing_menu)
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i){
+                                    case R.id.male_chose:
+                                        players.setSex(true);
+                                        break;
+
+                                    case R.id.female_chose:
+                                        players.setSex(false);
+                                        break;
+                                }
+                                players.update(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null){
+                                            Toast.makeText(mContext, "更改成功", Toast.LENGTH_SHORT).show();
+                                            if (players.isSex()){
+                                                sex.setText("性别：男");
+                                            }else {
+                                                sex.setText("性别：女");
+                                            }
+                                        }else {
+                                            Toast.makeText(mContext, "更改失败", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        if (players.getAvatar() != null) {
+            avatarFile = new File(LoginActivity.avatarPath + "/"
+                    + players.getAvatar().getFilename());
+            if (avatarFile.exists()){
+                avatar.setImageURI(Uri.parse(avatarFile.toString()));
+            }else {
+                players.getAvatar().download(avatarFile, new DownloadFileListener() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            Toast.makeText(mContext, "下载成功" + players.getAvatar().getFilename(), Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(mContext, e.getErrorCode() + s, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onProgress(Integer integer, long l) {
+                        Toast.makeText(mContext, "头像获取中", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+
+
 
         avatar.setOnClickListener(new View.OnClickListener() {//头像选择
             @Override
@@ -250,7 +339,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 ActivityCollector.finishiAll();
             } else {// 提示用户退出
                 customTime = System.currentTimeMillis();
-                Snackbar.make(mToolbar, "再按一次返回键退出", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mTabLayout, "再按一次返回键退出", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -346,6 +435,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             //左上角加上一个返回图标
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
     }
 
     @Override
@@ -358,7 +448,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     if (e == null){
 
                     }else {
-                        Toast.makeText(MainActivity.this, "错误：" + e.toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "错误：" + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -424,6 +514,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
                 // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
 //                    mDesignCenterView.refreshSelectedPicture(selectList);
+                //resizeImage(Uri.parse(path));
                 updateAvatar(path);
                 break;
 
@@ -434,10 +525,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     is = new FileInputStream(camPicPath);
                     File camFile = new File(camPicPath); // 图片文件路径
                     if (camFile.exists()) {
-                        int size = ImageCheckoutUtil
-                                .getImageSize(ImageCheckoutUtil
-                                        .getLoacalBitmap(camPicPath));
-
+                        //resizeImage(Uri.parse(camPicPath));
+                        //检测是否有足够内存存储 头大懒得写了
+//                        int size = ImageCheckoutUtil
+//                                .getImageSize(ImageCheckoutUtil
+//                                        .getLoacalBitmap(camPicPath));
                         updateAvatar(camPicPath);
                     } else {
                         Toast.makeText(this, "该文件不存在", Toast.LENGTH_SHORT).show();
@@ -465,6 +557,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void done(BmobException e) {
                 if (e == null){
                     avatar.setImageURI(Uri.parse(path));
+                    Toast.makeText(mContext, "上传成功", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(mContext, "头像上传到服务器", Toast.LENGTH_SHORT).show();
                 }
