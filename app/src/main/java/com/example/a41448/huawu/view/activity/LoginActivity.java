@@ -28,9 +28,9 @@ public class LoginActivity extends BaseActivity{
 
     private String[] permissions;
     //文件根目录
-    private String rootFilePath;
+    //private String rootFilePath;
     //存放头像的目录
-    public static String avatarPath;
+    //public static String avatarPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity{
         }
 
         requestPermissions();
-        createDir();
+        //createDir();
         LoginFragment LoginFragment = new LoginFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -55,18 +55,18 @@ public class LoginActivity extends BaseActivity{
     *
     * 创建存放头像的文件夹
     * */
-    private void createDir() {
-        rootFilePath = FileUtils.getRootFolder(LoginActivity.this);
-        avatarPath = rootFilePath + "/gameAvatar";
-        File gameAvatar = new File(avatarPath);
-        if (!gameAvatar.exists()){
-            gameAvatar.mkdir();
-            File noMedia = new File(avatarPath + ".nomedia");
-            if (!noMedia.exists()){
-                noMedia.mkdir();
-            }
-        }
-    }
+//    private void createDir() {
+//        rootFilePath = FileUtils.getRootFolder(LoginActivity.this);
+//        avatarPath = rootFilePath + "/gameAvatar";
+//        File gameAvatar = new File(avatarPath);
+//        if (!gameAvatar.exists()){
+//            gameAvatar.mkdir();
+//            File noMedia = new File(avatarPath + ".nomedia");
+//            if (!noMedia.exists()){
+//                noMedia.mkdir();
+//            }
+//        }
+//    }
 
 
     private void requestPermissions() {

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,6 +54,7 @@ import com.example.a41448.huawu.utils.ActivityCollector;
 import com.example.a41448.huawu.utils.FileUtils;
 import com.example.a41448.huawu.utils.FragmentUtils;
 import com.example.a41448.huawu.utils.NetUtil;
+import com.example.a41448.huawu.utils.PlayersUtils;
 import com.example.a41448.huawu.view.sideslip.Achievement;
 import com.example.a41448.huawu.view.sideslip.Shop.Shop_Main;
 import com.luck.picture.lib.PictureSelector;
@@ -83,6 +85,7 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.http.HEAD;
 import retrofit2.http.Url;
@@ -205,11 +208,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         labels.setText("用户标签：" + players.getLables().toString());
         name.setText("用户名：" + players.getUserAccontId());
 
-        if (players.isSex()){
-            sex.setText("性别：男");
-        }else {
-            sex.setText("性别：女");
-        }
+        sex.setText(PlayersUtils.setSex(players.isSex()));
         sex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -233,11 +232,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                     public void done(BmobException e) {
                                         if (e == null){
                                             Toast.makeText(mContext, "更改成功", Toast.LENGTH_SHORT).show();
-                                            if (players.isSex()){
-                                                sex.setText("性别：男");
-                                            }else {
-                                                sex.setText("性别：女");
-                                            }
+                                            sex.setText(PlayersUtils.setSex(players.isSex()));
                                         }else {
                                             Toast.makeText(mContext, "更改失败", Toast.LENGTH_SHORT).show();
                                         }
@@ -250,27 +245,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
 
         if (players.getAvatar() != null) {
-            avatarFile = new File(LoginActivity.avatarPath + "/"
-                    + players.getAvatar().getFilename());
-            if (avatarFile.exists()){
-                avatar.setImageURI(Uri.parse(avatarFile.toString()));
-            }else {
-                players.getAvatar().download(avatarFile, new DownloadFileListener() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e == null) {
-                            Toast.makeText(mContext, "下载成功" + players.getAvatar().getFilename(), Toast.LENGTH_SHORT).show();
-                        }else {
-                            Toast.makeText(mContext, e.getErrorCode() + s, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-                        Toast.makeText(mContext, "头像获取中", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
         }
 
 
@@ -552,12 +526,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateAvatar(final String path) {
         players.setAvatar(new BmobFile(players.getUserAccontId(), null, new File(path).toString()));
+        players.getAvatar().upload(new UploadFileListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null){
+                    Toast.makeText(mContext, "上传成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         players.update(new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 if (e == null){
                     avatar.setImageURI(Uri.parse(path));
-                    Toast.makeText(mContext, "上传成功", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "上传成功", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(mContext, "头像上传到服务器", Toast.LENGTH_SHORT).show();
                 }

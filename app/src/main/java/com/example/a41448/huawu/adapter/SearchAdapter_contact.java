@@ -10,15 +10,17 @@ import android.widget.TextView;
 
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.Contacts.Contact;
+import com.example.a41448.huawu.bean.Players;
+import com.example.a41448.huawu.utils.PlayersUtils;
 
 import java.util.ArrayList;
 
 public class SearchAdapter_contact extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Contact> mArrayList;
+    private ArrayList<Players> mArrayList;
     public static final int WithoutImage = 1,WithImage = 0;
 
-    public SearchAdapter_contact(ArrayList<Contact> arrayList){
+    public SearchAdapter_contact(ArrayList<Players> arrayList){
         this.mArrayList = arrayList;
     }
     @NonNull
@@ -31,11 +33,11 @@ public class SearchAdapter_contact extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder) holder).contact_image.setImageResource(mArrayList.get(position).getImagrId());
-        ((ViewHolder) holder).contact_name.setText(mArrayList.get(position).getName());
-        ((ViewHolder) holder).contact_language.setText(mArrayList.get(position).getMother_language());
-        ((ViewHolder) holder).contact_level.setText(mArrayList.get(position).getLanguage_level());
-        ((ViewHolder) holder).contact_target.setText(mArrayList.get(position).getTarget());
+        ((ViewHolder) holder).contact_image.setImageResource(R.drawable.chat_default_user_avatar);
+        ((ViewHolder) holder).contact_name.setText(mArrayList.get(position).getUserAccontId());
+        ((ViewHolder) holder).contact_sex.setText(PlayersUtils.setSex(mArrayList.get(position).isSex()));
+        ((ViewHolder) holder).last_message.setText(mArrayList.get(position).getLastMessage());
+        ((ViewHolder) holder).online.setImageResource(PlayersUtils.setOnline(mArrayList.get(position).isOnline()));
     }
 
     @Override
@@ -46,26 +48,24 @@ public class SearchAdapter_contact extends RecyclerView.Adapter<RecyclerView.Vie
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView soontext;
         ImageView contact_image;
         TextView contact_name;
-        TextView contact_target;
-        TextView contact_language;
-        TextView contact_level;
+        TextView contact_sex;
+        TextView last_message;
+        ImageView online;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             contact_image = (ImageView) itemView.findViewById( R.id.contact_image );
             contact_name = (TextView) itemView.findViewById( R.id.contact_name_text );
-            contact_target = (TextView) itemView.findViewById( R.id.learn_language );
-            contact_language = (TextView) itemView.findViewById( R.id.mother_tongue );
-            contact_level = (TextView) itemView.findViewById( R.id.language_level );
-
+            contact_sex = (TextView) itemView.findViewById( R.id.sex_contacts );
+            last_message = (TextView)itemView.findViewById(R.id.last_message);
+            online = (ImageView)itemView.findViewById(R.id.contact_online);
         }
     }
 
-    public void setFilter(ArrayList<Contact> FilteredDataList) {
+    public void setFilter(ArrayList<Players> FilteredDataList) {
         mArrayList = FilteredDataList;
         notifyDataSetChanged();
     }

@@ -82,6 +82,7 @@ public class RegisterFragment extends BaseActivity {
                             Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                             MainActivity.startActivity(context);//暂时如此 在标签选取完成之前暂时跳转到主activity
                         }else {
+                            Toast.makeText(RegisterFragment.this, e.toString(), Toast.LENGTH_SHORT).show();
                             if (e.getErrorCode() == 202){
                                 AlertDialog dialog = new AlertDialog.Builder(context)
                                         .setTitle("错误")

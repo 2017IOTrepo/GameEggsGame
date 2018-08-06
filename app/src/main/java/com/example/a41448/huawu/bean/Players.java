@@ -26,8 +26,18 @@ public class Players extends BmobUser {
     private int points;
     private int coins;
     private BmobFile avatar = null;//头像
+    private String lastMessage = "null";//最后消息
+    private boolean isOnline = true;//是否在线
 
     public Players() {
+    }
+
+    public Players(String userAccontId, boolean sex, BmobFile avatar, String lastMessage, boolean isOnline) {
+        this.userAccontId = userAccontId;
+        this.sex = sex;
+        this.avatar = avatar;
+        this.lastMessage = lastMessage;
+        this.isOnline = isOnline;
     }
 
     public Players(List<String> lables, List<Boolean> achievement, String userAccontId, boolean isFirstLogin, int points, int coins) {
@@ -37,6 +47,22 @@ public class Players extends BmobUser {
         this.points = points;
         this.coins = coins;
         this.achievement = achievement;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public List<Integer> getItems() {

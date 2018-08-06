@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.example.a41448.huawu.bean.Players;
+import com.example.a41448.huawu.utils.PlayersUtils;
 import com.example.a41448.huawu.view.activity.ContactActivity;
 import com.example.a41448.huawu.adapter.SearchAdapter_contact;
 import com.example.a41448.huawu.R;
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import cn.bmob.v3.datatype.BmobFile;
+
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 
 public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnClickListener,SearchView.OnQueryTextListener{
@@ -50,11 +54,11 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
     private Button countryButton;
     //TabLayout的页数
     private int mPAge;
-    private ArrayList<Contact> filteredDataList;
+    private ArrayList<Players> filteredDataList;
     private SearchAdapter_contact mSearchAdapter;
     private EditText mEditText;
     //先获取联系人列表
-    private  ArrayList<Contact> contactList = new ArrayList<Contact>(  );
+    private  ArrayList<Players> contactList = new ArrayList<Players>();
     //下拉刷新
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private UserInfo info;
@@ -62,6 +66,12 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
     private String studyLanguage;
     private String nativeLanguage;
     private String languageLevel;
+
+    private RecyclerView mRecyclerView;
+    private ContactAdapter mAdapter;
+
+    private Players[] mContacts= {
+    };
 
     public static Fragment newInstance(int page){
         Bundle bundle = new Bundle();
@@ -72,8 +82,6 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
         //返回一个Fragment
         return homeFragment;
     }
-    private RecyclerView mRecyclerView;
-    private ContactAdapter mAdapter;
 
     @Nullable
     @Override
@@ -92,7 +100,7 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
             }
         });
         countryButton.setOnClickListener( this );
-        mSearchAdapter = new SearchAdapter_contact( contactList);
+        mSearchAdapter = new SearchAdapter_contact(contactList);
         SearchView searchView = (SearchView) view.findViewById( R.id.searchView_message );
         searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
             @Override
@@ -102,7 +110,7 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filteredDataList = (ArrayList<Contact>) filter(contactList, newText);
+                filteredDataList = (ArrayList<Players>) filter(contactList, newText);
                 mSearchAdapter.setFilter(filteredDataList);
                 return true;
             }
@@ -135,36 +143,30 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
     }
     private class ContactsHolder extends RecyclerView.ViewHolder{
         View contactView;
-        //加载文字
-        public TextView mTextView;
-        //加载图片
-        public ImageView mImageView;
-        private Button counrtyButton;
-        private ImageView onffline;
-        //在学语言的水平
-        private TextView language_level;
-        //联系人的母语
-        private TextView mother_language;
-        //正在学习的语言
-        private TextView learning_language;
-        @SuppressLint({"ResourceType", "CheckResult"})
+        ImageView contact_image;
+        TextView contact_name;
+        TextView contact_sex;
+        TextView last_message;
+        ImageView online;
+
+
         public ContactsHolder(View itemView) {
             super(itemView);
-            contactView = itemView;
-            mTextView = (TextView) itemView.findViewById(R.id.contact_name_text);
-            mImageView = (ImageView) itemView.findViewById(R.id.contact_image);
-            onffline = (ImageView) itemView.findViewById( R.id.contact_online );
-            language_level = (TextView) itemView.findViewById( R.id.language_level );
-            mother_language = (TextView) itemView.findViewById( R.id.mother_tongue );
-            learning_language = (TextView) itemView.findViewById( R.id.learn_language );
+            contact_image = (ImageView) itemView.findViewById( R.id.contact_image );
+            contact_name = (TextView) itemView.findViewById( R.id.contact_name_text );
+            contact_sex = (TextView) itemView.findViewById( R.id.sex_contacts );
+            last_message = (TextView)itemView.findViewById(R.id.last_message);
+            online = (ImageView)itemView.findViewById(R.id.contact_online);
         }
     }
 
     private class ContactAdapter extends RecyclerView.Adapter<ContactsHolder>{
-        private List<Contact> mContacts;
-        public ContactAdapter(List<Contact> contactList){
+        private List<Players> mContacts;
+
+        public ContactAdapter(List<Players> contactList){
             mContacts = contactList;
         }
+
         @NonNull
         @Override
         public ContactsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -180,22 +182,22 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
                 public void onClick(View v) {
                     //获取点击位置的position
                     int position = holder.getAdapterPosition();
-                    Contact contact = contactList.get(position);
+                    Players contact = contactList.get(position);
                     Intent intent = new Intent(mContext, ContactActivity.class);
-                    intent.putExtra( ContactActivity.CONTACT_NAME,contact.getName());
-                    intent.putExtra(ContactActivity.CONTACT_IAMGE_ID,contact.getImagrId());
+                    intent.putExtra( ContactActivity.CONTACT_NAME,contact.getUserAccontId());
+                    intent.putExtra(ContactActivity.CONTACT_IAMGE_ID,R.drawable.chat_default_user_avatar);
                     intent.putExtra( ContactActivity.USERID,UserID );
-                    intent.putExtra( "nativeLanguage",contact.getMother_language() );
-                    intent.putExtra( "learnLanguage",contact.getLearn_language() );
-                    intent.putExtra(  "languageLevel",contact.getLanguage_level());
+                    intent.putExtra( "nativeLanguage","1" );
+                    intent.putExtra( "learnLanguage","1");
+                    intent.putExtra(  "languageLevel","1");
                     mContext.startActivity(intent);
                 }
             });
-            holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            holder.contact_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = holder.getAdapterPosition();
-                    Contact contact = contactList.get(position);
+                    Players contact = contactList.get(position);
                 }
             });
             return holder;
@@ -203,14 +205,14 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
         @SuppressLint("NewApi")
         @Override
         public void onBindViewHolder(@NonNull ContactsHolder holder, int position) {
-            Contact contact = mContacts.get(position);
-            Glide.with(getContext()).load(getContext().getDrawable(contact.getImagrId())).into(holder.mImageView);
+            Players contact = mContacts.get(position);
+            //Glide.with(getContext()).load(getContext().getDrawable(contact.getImagrId())).into(holder.mImageView);
 //            holder.mImageView.setImageResource(contact.getImagrId());
-            holder.mTextView.setText(contact.getName());
-            holder.onffline.setImageResource(contact.getLine() );
-            holder.language_level.setText( contact.getLanguage_level() );
-            holder.learning_language.setText( contact.getLearn_language() );
-            holder.mother_language.setText( contact.getMother_language() );
+            holder.contact_name.setText(contact.getUserAccontId());
+            holder.online.setImageResource(PlayersUtils.setOnline(contact.isOnline()));
+            holder.contact_image.setImageResource( R.drawable.chat_default_user_avatar );
+            holder.contact_sex.setText(PlayersUtils.setSex(contact.isSex()));
+            holder.last_message.setText( contact.getLastMessage() );
 
         }
         @Override
@@ -228,73 +230,46 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
         mRecyclerView.setAdapter(mAdapter);
 
     }
-    private Contact[] mContacts= {
-            new Contact("王浩",R.drawable.picture_1,R.drawable.ic_dot_24dp,
-                    "汉语","英语","初级水平"),
-            new Contact("马骕骎",R.drawable.picture_2,R.drawable.ic_off_dot_24dp,
-                    "汉语","","中级水平"),
-            new Contact("魏祥一",R.drawable.picture_3,R.drawable.ic_off_dot_24dp,
-                    "韩语","汉语","高级水平"),
-            new Contact("徐超",R.drawable.picture_4,R.drawable.ic_dot_24dp,
-                    "日语","俄语","初级水平"),
-            new Contact("丁逸群",R.drawable.picture_5,R.drawable.ic_off_dot_24dp,
-                    "阿拉伯语","英语","中级水平"),
-            new Contact("张君宝",R.drawable.picture_6,R.drawable.ic_dot_24dp,
-                    "俄语","汉语","高级水平"),
-            new Contact("武智鹏",R.drawable.picture_7,R.drawable.ic_dot_24dp,
-                    "汉语","日语","初级水平"),
-            new Contact("杨旭",R.drawable.picture_8,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("刘永超",R.drawable.picture_9,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("王云晓",R.drawable.picture_10,R.drawable.ic_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("薛天一学姐",R.drawable.picture_11,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("鲍骞月",R.drawable.picture_12,R.drawable.ic_dot_24dp,
-                    "汉语","韩语","中级水平"),
-            new Contact("王天锐",R.drawable.picture_13,R.drawable.ic_off_dot_24dp,
-                    "汉语","韩语","中级水平")
-    };
+
     private void refreshContacts(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //线程沉睡以便看到刷新的效果
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        contactList.clear();
-                        Contact contact = new Contact( name,R.drawable.icon,R.drawable.ic_dot_24dp,
-                                studyLanguage,nativeLanguage,languageLevel);
-                        contactList.add( 0,contact );
-                        mAdapter.notifyItemInserted( 0 );
-                        mAdapter.notifyItemChanged(  0,0);
-                        mRecyclerView.getLayoutManager().scrollToPosition( 0 );
-                        for (int i = 0; i < 15; i++) {
-                            Random random = new Random(  );
-                            int index = random.nextInt(mContacts.length);
-                            contactList.add(mContacts[index]);
-                        }
-                        mAdapter.notifyDataSetChanged();
-                        //刷新结束后隐藏进度条
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    //线程沉睡以便看到刷新的效果
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        contactList.clear();
+//                        Players contact = new Players( name, true, null,
+//                                null, true);
+//                        contactList.add( 0,contact );
+//                        mAdapter.notifyItemInserted( 0 );
+//                        mAdapter.notifyItemChanged(  0,0);
+//                        mRecyclerView.getLayoutManager().scrollToPosition( 0 );
+//                        for (int i = 0; i < 15; i++) {
+//                            Random random = new Random(  );
+//                            int index = random.nextInt(mContacts.length);
+//                            contactList.add(mContacts[index]);
+//                        }
+//                        mAdapter.notifyDataSetChanged();
+//                        //刷新结束后隐藏进度条
+//                        mSwipeRefreshLayout.setRefreshing(false);
+//                    }
+//                });
+//            }
+//        }).start();
     }
 
 
     private void requestcontact(){
         OkGo.<String>post( "http://47.95.7.169:8080/getUserInfo")
                 .tag( this )
-                .isMultipart( true)
+                .isMultipart(true)
                 .params( "UserID",UserID)
                 .execute( new StringCallback() {
                     @Override
@@ -329,12 +304,12 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
 //
 //    }
 
-    private ArrayList<Contact> filter(ArrayList<Contact> dataList, String newText) {
+    private ArrayList<Players> filter(ArrayList<Players> dataList, String newText) {
         newText = newText.toLowerCase();
         String text_1,text_2,text_3;
         filteredDataList = new ArrayList<>( );
-        for(Contact dataFromDataList:contactList){
-            text_1 = dataFromDataList.getName().toLowerCase();
+        for(Players dataFromDataList:contactList){
+            text_1 = dataFromDataList.getUserAccontId().toLowerCase();
 
             if(text_1.contains(newText) ){
                 filteredDataList.add(dataFromDataList);
