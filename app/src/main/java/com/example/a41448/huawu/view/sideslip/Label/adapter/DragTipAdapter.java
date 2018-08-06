@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.sideslip.Label.bean.Tip;
-import com.example.a41448.huawu.sideslip.Label.widget.DragDropGirdView;
-import com.example.a41448.huawu.sideslip.Label.widget.TipItemView;
+import com.example.a41448.huawu.view.sideslip.Label.bean.Tip;
+import com.example.a41448.huawu.view.sideslip.Label.widget.DragDropGirdView;
+import com.example.a41448.huawu.view.sideslip.Label.widget.TipItemView;
 
 import java.util.ArrayList;
 

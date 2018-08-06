@@ -13,12 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.sideslip.Label.adapter.AbsTipAdapter;
-import com.example.a41448.huawu.sideslip.Label.adapter.AddTipAdapter;
-import com.example.a41448.huawu.sideslip.Label.adapter.DragTipAdapter;
-import com.example.a41448.huawu.sideslip.Label.bean.Tip;
-import com.example.a41448.huawu.sideslip.Label.widget.DragDropGirdView;
-import com.example.a41448.huawu.sideslip.Label.widget.TipItemView;
+import com.example.a41448.huawu.view.sideslip.Label.adapter.AbsTipAdapter;
+import com.example.a41448.huawu.view.sideslip.Label.adapter.AddTipAdapter;
+import com.example.a41448.huawu.view.sideslip.Label.adapter.DragTipAdapter;
+import com.example.a41448.huawu.view.sideslip.Label.bean.Tip;
+import com.example.a41448.huawu.view.sideslip.Label.widget.DragDropGirdView;
+import com.example.a41448.huawu.view.sideslip.Label.widget.TipItemView;
 
 import java.util.ArrayList;
 import java.util.List;

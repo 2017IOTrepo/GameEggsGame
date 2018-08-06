@@ -34,7 +34,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.sideslip.Label.listener.OnDragDropListener;
+import com.example.a41448.huawu.view.sideslip.Label.listener.OnDragDropListener;
 
 
 public class DragDropGirdView extends GridView implements OnDragDropListener,

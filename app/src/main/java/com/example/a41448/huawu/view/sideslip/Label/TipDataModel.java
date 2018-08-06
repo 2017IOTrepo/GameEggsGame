@@ -1,7 +1,8 @@
 package com.example.a41448.huawu.view.sideslip.Label;
 
-import com.example.a41448.huawu.sideslip.Label.bean.SimpleTitleTip;
-import com.example.a41448.huawu.sideslip.Label.bean.Tip;
+
+import com.example.a41448.huawu.view.sideslip.Label.bean.SimpleTitleTip;
+import com.example.a41448.huawu.view.sideslip.Label.bean.Tip;
 
 import java.util.ArrayList;
 import java.util.List;

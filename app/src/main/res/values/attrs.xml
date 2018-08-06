@@ -94,4 +94,9 @@
         <attr name="maxProgress" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="DragDropGirdView">
+    <attr name="fixed_type" format="boolean"/>
+    <attr name="anim_duration" format="integer" />
+    </declare-styleable>
+
 </resources>

@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 
 import com.example.a41448.huawu.R;
-import com.example.a41448.huawu.sideslip.Label.bean.SimpleTitleTip;
-import com.example.a41448.huawu.sideslip.Label.bean.Tip;
+import com.example.a41448.huawu.view.sideslip.Label.bean.SimpleTitleTip;
+import com.example.a41448.huawu.view.sideslip.Label.bean.Tip;
 
 import java.util.List;
 

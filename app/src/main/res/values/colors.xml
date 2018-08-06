@@ -235,4 +235,7 @@
     <color name="load_success">#03a44e</color>
     <color name="load_failure">#de0e26</color>
 
+    <color name="gray_item">#FFECECEC</color>
+    <color name="gray_item_press">#dad8d8</color>
+
 </resources>
