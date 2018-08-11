@@ -1,5 +1,7 @@
 package com.example.a41448.huawu.view.sideslip;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.a41448.huawu.R;
+import com.example.a41448.huawu.view.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +21,9 @@ import java.util.List;
 public class Achievement extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Achievements_Adapter achievements_adapter;
-    private List<DataBean>lists;
+    private List<DataBean> lists;
+    private List<Boolean> ifAchievementGet;
     private ImageView  iv_ach;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,44 +40,23 @@ public class Achievement extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(achievements_adapter);
 
-
        achievements_adapter.setOnItemClickListener(new Achievements_Adapter.OnRecyclerViewItemClickListener() {
            @Override
            public void onClick(View view, int position) {
 
-            Achievements_Adapter.ItemHolder  viewHolder = (Achievements_Adapter.ItemHolder)recyclerView.findViewHolderForLayoutPosition(position);
+            Achievements_Adapter.ItemHolder viewHolder = (Achievements_Adapter.ItemHolder)recyclerView.findViewHolderForLayoutPosition(position);
                iv_ach = viewHolder.imageView;
-
                switch (view.getId()){
                    case R.id.iv_achievements:
                        Anima_Dialog.getIntent().show(getSupportFragmentManager(),"");
-                         break;
+                       break;
                }
            }
        });
     }
 
-    public class DataBean {
-        String textView;
-        int imageView;
-
-              DataBean(String textView,int imageView){
-                  this.textView = textView;
-                  this.imageView = imageView;
-              }
-
-              public String getText(){
-                  String text = textView;
-                  return text;
-              }
-
-              public int getImageView() {
-                  int id = imageView;
-                  return id;
-              }
-
-    }
     private  void initData(){
+        ifAchievementGet = new ArrayList<>();
         lists = new ArrayList<>();
         lists.add(new DataBean("运动小白",R.drawable.class1));
         lists.add(new DataBean("运动渴望",R.drawable.class2));
@@ -86,5 +68,40 @@ public class Achievement extends AppCompatActivity {
         lists.add(new DataBean("运动达人",R.drawable.class8));
         lists.add(new DataBean("运动神人",R.drawable.class9));
         lists.add(new DataBean("运动霸主",R.drawable.class10));
+        for (DataBean databean :
+                lists) {
+            ifAchievementGet.add(false);
+        }
+    }
+
+    /*
+    *
+    * 实体类
+    * */
+    public class DataBean {
+        String textView;
+        int imageView;
+
+        DataBean(String textView,int imageView){
+            this.textView = textView;
+            this.imageView = imageView;
+        }
+
+        public String getText(){
+            String text = textView;
+            return text;
+        }
+
+        public int getImageView() {
+            int id = imageView;
+            return id;
+        }
+
+    }
+
+    //其他activity跳转到AchievementActivity的函数
+    public static void startActivity(Context context){
+        Intent intent = new Intent(context, Achievement.class);
+        context.startActivity(intent);
     }
 }

@@ -1,8 +1,5 @@
 package com.example.a41448.huawu.bean;
 
-import com.google.gson.annotations.Expose;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
@@ -20,23 +17,68 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
 
 public class Players extends BmobUser {
 
-    private List<String> lables;
-    private String userAccontId;
+    private List<String> lables;//标签
+    private List<Boolean> achievement;//成就 true为获得
+    private List<Integer> items;//道具
+    private String userAccontId;//用户id
     private boolean sex = true; // 性别 true为男性 默认为男性
     private BmobGeoPoint location;// 地点坐标记录
     private int points;
     private int coins;
-    private BmobFile avatar;
+    private BmobFile avatar = null;//头像
+    private String lastMessage = "null";//最后消息
+    private boolean isOnline = true;//是否在线
 
     public Players() {
     }
 
-    public Players(List<String> lables, String userAccontId, boolean isFirstLogin, int points, int coins) {
+    public Players(String userAccontId, boolean sex, BmobFile avatar, String lastMessage, boolean isOnline) {
+        this.userAccontId = userAccontId;
+        this.sex = sex;
+        this.avatar = avatar;
+        this.lastMessage = lastMessage;
+        this.isOnline = isOnline;
+    }
+
+    public Players(List<String> lables, List<Boolean> achievement, String userAccontId, boolean isFirstLogin, int points, int coins) {
         this.lables = lables;
         this.userAccontId = userAccontId;
         this.isFirstLogin = isFirstLogin;
         this.points = points;
         this.coins = coins;
+        this.achievement = achievement;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public List<Integer> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Integer> items) {
+        this.items = items;
+    }
+
+    public List<Boolean> getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(List<Boolean> achievement) {
+        this.achievement = achievement;
     }
 
     public BmobFile getAvatar() {

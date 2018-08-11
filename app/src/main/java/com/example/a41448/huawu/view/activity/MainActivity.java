@@ -1,13 +1,21 @@
 package com.example.a41448.huawu.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
+import android.service.media.MediaBrowserService;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -30,6 +38,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.cocosw.bottomsheet.BottomSheet;
+import com.example.a41448.huawu.Communication.utils.PathUtils;
 import com.example.a41448.huawu.adapter.PageAdapter;
 
 import com.example.a41448.huawu.R;
@@ -37,20 +48,53 @@ import com.example.a41448.huawu.adapter.PageAdapter;
 import com.example.a41448.huawu.base.BaseActivity;
 import com.example.a41448.huawu.bean.Players;
 import com.example.a41448.huawu.utils.ActivityCollector;
+import com.example.a41448.huawu.utils.FileUtils;
 import com.example.a41448.huawu.utils.FragmentUtils;
 import com.google.zxing.activity.CaptureActivity;
+
+import com.example.a41448.huawu.utils.NetUtil;
+import com.example.a41448.huawu.utils.PlayersUtils;
+import com.example.a41448.huawu.view.sideslip.Achievement;
+import com.example.a41448.huawu.view.sideslip.Shop.Shop_Main;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ContentHandler;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URI;
+import java.net.URL;
+import java.security.acl.Group;
+import java.util.List;
 
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.http.HEAD;
+import retrofit2.http.Url;
+
+import static android.net.sip.SipErrorCode.SERVER_ERROR;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
         Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
+
+    private final static int CAMERA_REQUEST = 2;
 
     private long customTime = 0;
     private NavigationView navigationView;
@@ -59,6 +103,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Toolbar toolbar;
     private Players players;
     private final static int REQ_CODE = 1028;
+
+    private FragmentManager mFragmentManager;
+
+    //照相调用变量
+    private Intent openCameraIntent;
+    private String camPicPath;
+    private Uri uri;
+    private ContentValues contentValues;
+
     //添加得实例
     public static Context mContext;
     Toolbar mToolbar;
@@ -69,19 +122,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private TextView coins;
     private TextView name;
     private TextView labels;
+    private TextView sex;
     private CircleImageView avatar;
     private View headerLayout;
+    //头像文件
+    private File avatarFile;
 
-    //拍照的Uri
-    private Uri imageUri;
     //定义滑动菜单的实例
     private DrawerLayout mDrawerLayout;
-
-    private static final int TAKE_PHOTO = 1;
-
-
-
-    private RelativeLayout rootView;
 
     @SuppressLint("WrongViewCast")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -132,31 +180,128 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         int id = getIntent().getIntExtra( "id",0 );
         if (id == 1){
-
             getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack( null )
                     .commit();
-
-//            FragmentUtils.replaceFragment(getSupportFragmentManager(), new QuestionFragment(), R.id.fragment_question);
-
+//          FragmentUtils.replaceFragment(getSupportFragmentManager(), new QuestionFragment(), R.id.fragment_question);
         }
 
 
     }
 
+    /*
+    *
+    * 侧边栏的布局逻辑
+    * */
     private void setView() {
         headerLayout = navigationView.getHeaderView(0);
         points = (TextView)headerLayout.findViewById(R.id.player_point_text);
         coins = (TextView)headerLayout.findViewById(R.id.player_coins_text);
         name = (TextView)headerLayout.findViewById(R.id.player_name_text);
         labels = (TextView)headerLayout.findViewById(R.id.player_label_text);
+        sex = (TextView)headerLayout.findViewById(R.id.player_sex_text);
         avatar = (CircleImageView)headerLayout.findViewById(R.id.player_avatar_image);
+        final Handler handler = new Handler();
 
         points.setText("游戏点数：" + players.getPoints());
         coins.setText("金币数：" + players.getCoins());
         labels.setText("用户标签：" + players.getLables().toString());
         name.setText("用户名：" + players.getUserAccontId());
+
+        sex.setText(PlayersUtils.setSex(players.isSex()));
+        sex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new BottomSheet.Builder(MainActivity.this)
+                        .title("选择性别")
+                        .sheet(R.menu.sex_chosing_menu)
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i){
+                                    case R.id.male_chose:
+                                        players.setSex(true);
+                                        break;
+
+                                    case R.id.female_chose:
+                                        players.setSex(false);
+                                        break;
+                                }
+                                players.update(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null){
+                                            Toast.makeText(mContext, "更改成功", Toast.LENGTH_SHORT).show();
+                                            sex.setText(PlayersUtils.setSex(players.isSex()));
+                                        }else {
+                                            Toast.makeText(mContext, "更改失败", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        if (players.getAvatar() != null) {
+        }
+
+
+
+        avatar.setOnClickListener(new View.OnClickListener() {//头像选择
+            @Override
+            public void onClick(View view) {
+                new BottomSheet.Builder(MainActivity.this)
+                        .title("请选择头像来源")
+                        .sheet(R.menu.select_pic_menu)
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i){
+                                    case R.id.camera_chose:
+                                        openCameraIntent = new Intent(
+                                                MediaStore.ACTION_IMAGE_CAPTURE);
+                                        camPicPath = PathUtils.getSavePicPath(mContext);
+                                        if (Build.VERSION.SDK_INT < 24){//根据安卓版本适配
+                                            uri = Uri.fromFile(new File(camPicPath));
+                                            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                                            startActivityForResult(openCameraIntent, CAMERA_REQUEST);
+                                        }else{//适配7.0
+                                            contentValues = new ContentValues(1);
+                                            contentValues.put(MediaStore.Images.Media.DATA, camPicPath);
+                                            uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                                    contentValues);
+                                            grantUriPermission( "com.example.lab.android.nuc.chat",uri,Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                                            openCameraIntent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
+                                            openCameraIntent.addFlags( Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                            openCameraIntent.putExtra( MediaStore.EXTRA_OUTPUT,uri);
+                                            startActivityForResult( openCameraIntent,CAMERA_REQUEST);
+                                        }
+                                        break;
+
+                                    case R.id.gallery_chose:
+                                        PictureSelector
+                                                .create(MainActivity.this)
+                                                .openGallery(PictureMimeType.ofImage())
+                                                .imageSpanCount(4)
+                                                .selectionMode(PictureConfig.SINGLE)
+                                                .previewImage(true)
+                                                .compress(false)
+                                                .isCamera(false)
+                                                .forResult(PictureConfig.CHOOSE_REQUEST);
+                                        break;
+
+                                    case R.id.cancel_chose:
+                                        startActivity(NetUtil.shareNet());
+                                        break;
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -169,7 +314,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 ActivityCollector.finishiAll();
             } else {// 提示用户退出
                 customTime = System.currentTimeMillis();
-                Snackbar.make(mToolbar, "再按一次返回键退出", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mTabLayout, "再按一次返回键退出", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -192,25 +337,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    *
+    * 侧滑栏的选项选择逻辑
+    * */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        String mString = null;
         // Handle navigation view item clicks here.
         switch (item.getItemId()){
             case R.id.player_achievement:
+                Achievement.startActivity(mContext);
                 break;
 
             case R.id.player_shop:
+                Shop_Main.startActivity(mContext);
                 break;
 
             case R.id.player_help:
                 break;
-
             case R.id.app_about:
                 break;
         }
-        mToolbar.setTitle(mString);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -223,11 +371,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     /**
-     * 创建视图
+     * 初始化视图
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initView(){
         //找到各自的实例
+        mContext = MainActivity.this;
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTabLayout = (TabLayout) findViewById(R.id.tablayout);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -261,6 +410,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             //左上角加上一个返回图标
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
     }
 
     @Override
@@ -271,9 +421,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void done(String s, BmobException e) {
                     if (e == null){
-                        Toast.makeText(MainActivity.this, "conect successful", Toast.LENGTH_SHORT).show();
+
                     }else {
-                        Toast.makeText(MainActivity.this, "错误：" + e.toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "错误：" + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -294,19 +444,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
+    /*
+    * 通过implement OnClickListener接口获得的点击事件方法
+    * 暂时没有用处
+    * */
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-
         }
     }
 
     @Override
     public void OnSearchClick(String keyword) {
-
     }
 
-    private FragmentManager mFragmentManager;
+    /*
+    *
+    * 回调接口覆写
+    * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
@@ -324,7 +479,51 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     bundle.putString("title",question_title  );
                     bundle.putString( "detail",question_detail );
                     //设置传递的对象
+                }
+                break;
 
+            case PictureConfig.CHOOSE_REQUEST:
+                // 图片选择结果回调
+                List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                LocalMedia media = selectList.get(0);
+                String path = media.getPath();
+                // 例如 LocalMedia 里面返回三种path
+                // 1.media.getPath(); 为原图path
+                // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
+                // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+                // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+//                    mDesignCenterView.refreshSelectedPicture(selectList);
+                //resizeImage(Uri.parse(path));
+                updateAvatar(path);
+                break;
+
+            //调用摄像头的回调
+            case CAMERA_REQUEST:
+                FileInputStream is = null;
+                try {
+                    is = new FileInputStream(camPicPath);
+                    File camFile = new File(camPicPath); // 图片文件路径
+                    if (camFile.exists()) {
+                        //resizeImage(Uri.parse(camPicPath));
+                        //检测是否有足够内存存储 头大懒得写了
+//                        int size = ImageCheckoutUtil
+//                                .getImageSize(ImageCheckoutUtil
+//                                        .getLoacalBitmap(camPicPath));
+                        updateAvatar(camPicPath);
+                    } else {
+                        Toast.makeText(this, "该文件不存在", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } finally {
+                    // 关闭流
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case REQ_CODE:
@@ -338,6 +537,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             default:
         }
+    }
+
+    private void updateAvatar(final String path) {
+        players.setAvatar(new BmobFile(players.getUserAccontId(), null, new File(path).toString()));
+        players.getAvatar().upload(new UploadFileListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null){
+                    Toast.makeText(mContext, "上传成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        players.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null){
+                    avatar.setImageURI(Uri.parse(path));
+                    //Toast.makeText(mContext, "上传成功", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(mContext, "头像上传到服务器", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.a41448.huawu.Communication.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;

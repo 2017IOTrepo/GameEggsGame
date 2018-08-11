@@ -96,6 +96,9 @@
     <string name="coin_2">500</string>
     <string name="coin_3">1000</string>
     <string name="coin_4">2000</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="sex">性别：</string>
 
     <string name="agora_app_id">892995891e7947a89dda080cf1759818</string>
     <string name="text_inside_circle_button_text_normal">Text Inside Circle Button(Normal)</string>
@@ -104,6 +107,7 @@
         \n 多边形、多段线围栏只显示起点图标。
         \n 请点击图标进行围栏操作!
     </string>
+    <string name="ic_camera">相机</string>
 
 
 </resources>

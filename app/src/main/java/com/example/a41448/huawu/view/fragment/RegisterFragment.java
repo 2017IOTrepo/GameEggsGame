@@ -70,7 +70,8 @@ public class RegisterFragment extends BaseActivity {
                 userPassword = registerPassword.getText().toString();
                 userName = registerAccontId.getText().toString();
 
-                players = new Players(new ArrayList<String>(), userAccontId, true, 0, 0);
+                players = new Players(new ArrayList<String>(), new ArrayList<Boolean>(),
+                        userAccontId, true, 0, 0);
                 players.setUsername(userName);
                 players.setPassword(userPassword);
                 players.signUp(new SaveListener<Players>() {
@@ -81,6 +82,7 @@ public class RegisterFragment extends BaseActivity {
                             Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                             MainActivity.startActivity(context);//暂时如此 在标签选取完成之前暂时跳转到主activity
                         }else {
+                            Toast.makeText(RegisterFragment.this, e.toString(), Toast.LENGTH_SHORT).show();
                             if (e.getErrorCode() == 202){
                                 AlertDialog dialog = new AlertDialog.Builder(context)
                                         .setTitle("错误")
