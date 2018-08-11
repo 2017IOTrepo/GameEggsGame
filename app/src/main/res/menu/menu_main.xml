@@ -7,6 +7,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.lab.android.nuc.chat.Activity.MainActivity"
 
+    <item
+        android:id="@+id/scan"
+        android:title="scan"
+        android:icon="@drawable/ic_scan"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_search"

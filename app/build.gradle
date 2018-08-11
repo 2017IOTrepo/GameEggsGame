@@ -113,5 +113,7 @@ dependencies {
     //    语音波浪线
     implementation 'com.github.baixxx:WaveView:master'
 
+    //二维码扫描
+    implementation  'com.github.open-android:Zxing:v1.0.3'
 
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.example.a41448.huawu.base.BaseActivity;
 import com.example.a41448.huawu.bean.Players;
 import com.example.a41448.huawu.utils.ActivityCollector;
 import com.example.a41448.huawu.utils.FragmentUtils;
+import com.google.zxing.activity.CaptureActivity;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
 
@@ -56,7 +58,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private Players players;
-
+    private final static int REQ_CODE = 1028;
     //添加得实例
     public static Context mContext;
     Toolbar mToolbar;
@@ -284,6 +286,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.action_search: //点击搜索
                 searchFragment.show(getSupportFragmentManager(),SearchFragment.TAG);
                 break;
+            case R.id.scan:
+                Intent intent = new Intent( MainActivity.this, CaptureActivity.class );
+                startActivityForResult(intent,REQ_CODE);
+                break;
         }
         return true;
     }
@@ -319,6 +325,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     bundle.putString( "detail",question_detail );
                     //设置传递的对象
 
+                }
+                break;
+            case REQ_CODE:
+                if (CaptureActivity.SCAN_QRCODE_RESULT != "qrcode_result"){
+                    String result = data.getStringExtra(CaptureActivity.SCAN_QRCODE_RESULT);
+                    Toast.makeText( this, result, Toast.LENGTH_LONG ).show();
+                }
+                if (CaptureActivity.SCAN_QRCODE_BITMAP != "qrcode_bitmap") {
+                    Bitmap bitmap = data.getParcelableExtra( CaptureActivity.SCAN_QRCODE_BITMAP );
                 }
                 break;
             default:
