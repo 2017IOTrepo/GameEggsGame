@@ -237,37 +237,37 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
 
 
     private void refreshContacts(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //线程沉睡以便看到刷新的效果
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        contactList.clear();
-                        Players contact = new Players( name, true, null,
-                                null, true);
-                        contactList.add( 0,contact );
-                        mAdapter.notifyItemInserted( 0 );
-                        mAdapter.notifyItemChanged(  0,0);
-                        mRecyclerView.getLayoutManager().scrollToPosition( 0 );
-                        for (int i = 0; i < 15; i++) {
-                            Random random = new Random(  );
-                            int index = random.nextInt(mContacts.length);
-                            contactList.add(mContacts[index]);
-                        }
-                        mAdapter.notifyDataSetChanged();
-                        //刷新结束后隐藏进度条
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    //线程沉睡以便看到刷新的效果
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        contactList.clear();
+//                        Players contact = new Players( name, true, null,
+//                                null, true);
+//                        contactList.add( 0,contact );
+//                        mAdapter.notifyItemInserted( 0 );
+//                        mAdapter.notifyItemChanged(  0,0);
+//                        mRecyclerView.getLayoutManager().scrollToPosition( 0 );
+//                        for (int i = 0; i < 15; i++) {
+//                            Random random = new Random(  );
+//                            int index = random.nextInt(mContacts.length);
+//                            contactList.add(mContacts[index]);
+//                        }
+//                        mAdapter.notifyDataSetChanged();
+//                        //刷新结束后隐藏进度条
+//                        mSwipeRefreshLayout.setRefreshing(false);
+//                    }
+//                });
+//            }
+//        }).start();
 
     }
 
