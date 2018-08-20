@@ -55,7 +55,6 @@ public class GameFragment extends Fragment implements View.OnClickListener{
         //炫酷BoomButton的初始化
         initBoombtn( view );
         initBtn(view);
-
         return view;
     }
 
