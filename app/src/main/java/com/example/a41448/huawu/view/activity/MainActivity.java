@@ -351,7 +351,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    /**
+    /**、
+     * 
      * 以license文件方式初始化
      */
     private void initAccessToken() {
