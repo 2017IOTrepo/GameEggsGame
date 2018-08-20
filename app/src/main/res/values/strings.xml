@@ -104,6 +104,8 @@
         \n 多边形、多段线围栏只显示起点图标。
         \n 请点击图标进行围栏操作!
     </string>
+    <string name="selector_pic_to_text">提取图中文字</string>
+    <string name="selector_save">保存到手机</string>
 
 
 </resources>

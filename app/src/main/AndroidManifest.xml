@@ -262,7 +262,11 @@
         <activity android:name=".view.sideslip.Shop.Shop_Main" />
         <activity android:name=".view.sideslip.Achievement" />
         <activity android:name=".view.activity.VoiceChatActivity" />
-        <activity android:name=".view.activity.CommentActivity"></activity>
+        <activity android:name=".view.activity.CommentActivity" />
+        <activity
+            android:name=".Communication.activity.PictureTextActivity"
+            android:theme="@style/picture_to_text" />
+        <activity android:name=".view.activity.FaceDetectorActivity"></activity>
     </application>
 
 </manifest>

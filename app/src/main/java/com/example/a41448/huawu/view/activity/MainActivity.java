@@ -21,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -30,6 +31,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
 import com.example.a41448.huawu.adapter.PageAdapter;
 
 import com.example.a41448.huawu.R;
@@ -42,6 +48,8 @@ import com.google.zxing.activity.CaptureActivity;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
 
+import java.io.File;
+
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
@@ -52,6 +60,9 @@ import retrofit2.http.HEAD;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
         Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
 
+    public static File NEWFILE;
+    private AlertDialog.Builder alertDialog;
+    private boolean hasGotToken = false;
     private long customTime = 0;
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -141,8 +152,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //            FragmentUtils.replaceFragment(getSupportFragmentManager(), new QuestionFragment(), R.id.fragment_question);
 
         }
-
-
+        //文字提取初始化
+        initAccessToken();
     }
 
     private void setView() {
@@ -338,6 +349,37 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             default:
         }
+    }
+
+    /**
+     * 以license文件方式初始化
+     */
+    private void initAccessToken() {
+        OCR.getInstance(this).initAccessToken( new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                String token = accessToken.getAccessToken();
+                hasGotToken = true;
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                error.printStackTrace();
+                alertText("licence方式获取token失败", error.getMessage());
+            }
+        }, getApplicationContext());
+    }
+
+    private void alertText(final String title, final String message) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton("确定", null)
+                        .show();
+            }
+        });
     }
 
 }
