@@ -307,7 +307,8 @@ public class MapFragment extends Fragment implements MKOfflineMapListener,OnGetG
     public void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
-        mOffline.destroy();
+        if (mOffline != null)
+            mOffline.destroy();
         mSearch.destroy();
         Log.i(TAG,"onDestory is called");
     }

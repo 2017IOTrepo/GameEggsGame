@@ -114,4 +114,20 @@ public class NetUtil {private static DecimalFormat df1 = new DecimalFormat("0.00
         String draw_vir_point = latitude + "," + longitude;
         return draw_vir_point;
     }
+
+    /*
+     * 技术不够 没网站 只能分享这个了
+     * 只用来分享网址
+     * */
+    public static Intent shareNet(){
+
+        Intent share_intent = new Intent();
+        share_intent.setAction(Intent.ACTION_SEND);
+        share_intent.setType("text/plain");
+        share_intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+        share_intent.putExtra(Intent.EXTRA_TEXT, "HI 推荐您使用一款软件: https://github.com/xmmmmmovo/A-game-about-game-eggs-provisional-");
+        share_intent = Intent.createChooser(share_intent, "分享");
+
+        return share_intent;
+    }
 }

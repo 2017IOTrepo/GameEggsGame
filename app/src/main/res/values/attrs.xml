@@ -94,6 +94,7 @@
         <attr name="maxProgress" format="integer" />
     </declare-styleable>
 
+
     <!--reference：参考指定Theme中资源ID-->
     <!--dimension：尺寸值-->
     <!--Color：颜色-->
@@ -106,6 +107,12 @@
         </attr>
         <attr name="hoverColor" format="reference|color">
         </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="DragDropGirdView">
+    <attr name="fixed_type" format="boolean"/>
+    <attr name="anim_duration" format="integer" />
     </declare-styleable>
 
 </resources>

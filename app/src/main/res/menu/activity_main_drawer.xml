@@ -3,19 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+
+    <group android:id="@+id/main_menu_group"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/player_achievement"
             android:title="@string/player_achievement" />
-    </group>
-    <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/player_shop"
             android:title="@string/player_shop" />
-    </group>
 
-    <group android:checkableBehavior="single">
-        <item android:title="@string/setting" />
+
+        <item
+            android:id="@+id/player_settings"
+            android:title="@string/setting" />
+
     </group>
 
     <item android:title="说明">
