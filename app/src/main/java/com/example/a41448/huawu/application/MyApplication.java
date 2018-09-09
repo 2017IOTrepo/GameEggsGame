@@ -226,4 +226,13 @@ public class MyApplication extends MultiDexApplication{
             editor.apply();
         }
     }
+
+    /**
+     * 获取请求标识
+     *
+     * @return
+     */
+    public int getTag() {
+        return mSequenceGenerator.incrementAndGet();
+    }
 }

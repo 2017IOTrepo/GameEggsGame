@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/track_selector">
+
+    <LinearLayout
+        android:id="@+id/track_begin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="left"
+        android:layout_weight="9"
+        android:clickable="true"
+        android:paddingLeft="5dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless">
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/track_mark"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/mark_selector"/>
+
+</LinearLayout>
