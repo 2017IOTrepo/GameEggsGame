@@ -20,6 +20,7 @@ public class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.LinearView
 
     private Context context;
     private ArrayList<Track> mTracks;
+
     public LinearAdapter(Context context,ArrayList<Track> tracks){
         this.context = context;
         this.mTracks = tracks;
@@ -65,8 +66,10 @@ public class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.LinearView
     }
 
     public class LinearViewHolder extends RecyclerView.ViewHolder{
+
         private TextView beginTime,beginPlace,finishTime,finishPlace;
         private Button start_button,delete_button,share_button;
+
         public LinearViewHolder(View itemView) {
             super( itemView );
             beginTime = itemView.findViewById( R.id.track_begin_time );
