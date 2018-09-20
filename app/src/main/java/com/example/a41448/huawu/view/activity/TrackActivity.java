@@ -43,9 +43,6 @@ import java.util.List;
 
 public class TrackActivity extends AppCompatActivity implements SensorEventListener {
 
-
-
-
     /*定位相关*/
     LocationClient mLocationClient;
     public MyLocationListenner myListener = new MyLocationListenner();
