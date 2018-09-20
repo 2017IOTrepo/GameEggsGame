@@ -35,6 +35,8 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.a41448.huawu.R;
+import com.example.a41448.huawu.adapter.LinearAdapter;
+import com.example.a41448.huawu.base.Track;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -56,6 +58,8 @@ public class TrackActivity extends AppCompatActivity implements SensorEventListe
     private TextView info;
     private RelativeLayout progressBarRl;
 
+    private ArrayList<Track> mTracks;
+    LinearAdapter mAdapter = new LinearAdapter( TrackActivity.this,mTracks);
 
     boolean isFirstLoc = true; // 是否首次定位
     private MyLocationData locData;

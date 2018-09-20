@@ -11,9 +11,7 @@ import java.io.Closeable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by wanghao15536870732 on 18/6/07.
- */
+
 public class Utils {
 
     public static String millisecsToDateString(long timestamp) {

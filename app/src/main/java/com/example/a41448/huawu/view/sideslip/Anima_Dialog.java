@@ -14,10 +14,6 @@ import android.widget.Button;
 
 import com.example.a41448.huawu.R;
 
-/**
- * Created by Administrator on 2017/3/29.
- */
-
 public class Anima_Dialog extends DialogFragment {
     private Button btn1;
     public static  Anima_Dialog getIntent(){
