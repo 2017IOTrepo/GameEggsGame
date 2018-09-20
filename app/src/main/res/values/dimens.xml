@@ -6,7 +6,7 @@
 
     //地图界面的悬浮按钮的大小
     <dimen name="fab_size_normal">50dp</dimen>
-    <dimen name="card_padding">60dp</dimen>
+    <dimen name="card_padding">30dp</dimen>
     <dimen name="lable_gridview_margin" tools:ignore="DuplicateDefinition">10dp </dimen>
 
 </resources>
