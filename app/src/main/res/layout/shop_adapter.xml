@@ -62,9 +62,6 @@
                 android:layout_height="wrap_content"
                 android:text="作用：得到额外的点的提示"
                 />
-
-
-
         </LinearLayout>
 
     </FrameLayout>

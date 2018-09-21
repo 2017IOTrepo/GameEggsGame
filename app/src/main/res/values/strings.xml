@@ -111,4 +111,18 @@
     <string name="selector_pic_to_text">提取图中文字</string>
     <string name="selector_save">保存到手机</string>
     <string name="face">人脸识别拍照</string>
+
+    <string name="title1">Keep Running</string>
+    <string name="title2">我有我的坚持</string>
+    <string name="title3">坚持减肥...</string>
+    <string name="title4">占点中...</string>
+    <string name="title5">杜绝做肥宅</string>
+    <string name="title6">Come on everybody!</string>
+    <string name="text1">日复一日地坚持练下去吧，只有活动适量才能保持训练的热情和提高运动的技能。——塞涅卡</string>
+    <string name="text2">日复一日地坚持练下去吧，只有活动适量才能保持训练的热情和提高运动的技能。——塞涅卡</string>
+    <string name="text3">日复一日地坚持练下去吧，只有活动适量才能保持训练的热情和提高运动的技能。——塞涅卡</string>
+    <string name="text4">日复一日地坚持练下去吧，只有活动适量才能保持训练的热情和提高运动的技能。——塞涅卡</string>
+    <string name="text5">日复一日地坚持练下去吧，只有活动适量才能保持训练的热情和提高运动的技能。——塞涅卡</string>
+    <string name="text6">日复一日地坚持练下去吧，只有活动适量才能保持训练的热情和提高运动的技能。——塞涅卡</string>
+
 </resources>

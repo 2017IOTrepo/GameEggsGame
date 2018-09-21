@@ -266,7 +266,8 @@
         <activity
             android:name=".Communication.activity.PictureTextActivity"
             android:theme="@style/picture_to_text" />
-        <activity android:name=".view.activity.FaceDetectorActivity"></activity>
+        <activity android:name=".view.activity.FaceDetectorActivity" />
+        <activity android:name=".view.activity.daily_check_activity"></activity>
     </application>
 
 </manifest>

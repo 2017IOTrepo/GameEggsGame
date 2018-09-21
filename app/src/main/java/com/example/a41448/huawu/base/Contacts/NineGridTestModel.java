@@ -27,4 +27,5 @@ public class NineGridTestModel implements Serializable {
 
     public String start;
 
+    public String people_work;
 }

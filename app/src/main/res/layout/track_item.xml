@@ -4,10 +4,10 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/track_selector">
+    android:background="@drawable/track_selector"
+    android:clickable="true">
 
     <LinearLayout
-        android:id="@+id/track_begin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -18,15 +18,96 @@
         android:background="?android:attr/selectableItemBackgroundBorderless"
         tools:ignore="NewApi">
 
+        <TextView
+            android:id="@+id/track_begin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-9-9 11:14 "
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorPrimary"/>
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp">
+            <ImageView
+                android:id="@+id/startpoint"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_me_history_startpoint"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/track_begin"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/startpoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="山西省 太原市 尖草坪区 南环 中北大学"/>
+        </RelativeLayout>
 
+        <TextView
+            android:id="@+id/track_finish_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-9-9 11:14 "
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorPrimary"/>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp">
+
+            <ImageView
+                android:id="@+id/finishpoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_me_history_finishpoint"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/track_finish"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/finishpoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="山西省 太原市 尖草坪区 中北大学 文瀛五"/>
+        </RelativeLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/track_mark"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/mark_selector"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1">
+        <Button
+            android:id="@+id/track_mark"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/mark_selector"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentTop="true"/>
+        <Button
+            android:id="@+id/track_delete"
+            android:background="@drawable/ic_delete_black"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"/>
+        <Button
+            android:id="@+id/track_share"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/ic_trans"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

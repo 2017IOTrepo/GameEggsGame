@@ -2,7 +2,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#63b8ff</item>
         <item name="colorPrimaryDark">#63b8ff</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#FF4081</item>
 
         <item name="windowActionBar">false</item>     
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
@@ -10,6 +10,11 @@
         <item name="android:fitsSystemWindows">false</item>
         <item name="android:statusBarColor" tools:ignore="NewApi">@color/colorPrimary</item>
     </style>
+
+    <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
 
     <!-- 左边的箭头指示-->
     <style name="DrawerArrowStyle" parent="Base.Widget.AppCompat.DrawerArrowToggle">

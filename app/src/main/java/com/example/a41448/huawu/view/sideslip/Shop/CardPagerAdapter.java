@@ -1,5 +1,6 @@
 package com.example.a41448.huawu.view.sideslip.Shop;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -8,13 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.a41448.huawu.R;
+import com.netease.nrtc.video.gl.EglBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CardPagerAdapter extends PagerAdapter implements CardAdapter{
 
+    private Context mContext;
     private List<CardView> mViews;
     private List<CardItem> mData;
     private float mBaseElevation;
@@ -27,6 +31,11 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter{
     public CardPagerAdapter() {
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
+    }
+    public CardPagerAdapter(Context context)  {
+        mData = new ArrayList<>();
+        mViews = new ArrayList<>();
+        mContext = context;
     }
 
     public void addCardItem(CardItem item) {
@@ -56,7 +65,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter{
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext())
-                .inflate(R.layout.shop_adapter, container, false);
+                .inflate(R.layout.daily_sign_item, container, false);
         container.addView(view);
         bind(mData.get(position), view);
         CardView cardView = (CardView) view.findViewById(R.id.cardView);
@@ -64,13 +73,9 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter{
         if (mBaseElevation == 0) {
             mBaseElevation = cardView.getCardElevation();
         }
-
-
         cardView.setMaxCardElevation(mBaseElevation * MAX_ELEVATION_FACTOR);
         mViews.set(position, cardView);
         return view;
-
-
     }
 
 
@@ -81,15 +86,11 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter{
     }
 
     public  void bind(CardItem item, View view) {
-         titleTextView = (TextView) view.findViewById(R.id.titleTextView);
-         contentTextView = (TextView) view.findViewById(R.id.contentTextView);
-         imageView = view.findViewById(R.id.iv_goods);
-         textView_coin = view.findViewById(R.id.tv_coin);
-
-        imageView.setImageResource(item.getmImageView());
-        textView_coin.setText(item.getmText_coin());
-        titleTextView.setText(item.getTitle());
-        contentTextView.setText(item.getText());
+         titleTextView = (TextView) view.findViewById(R.id.daily_title);
+         contentTextView = (TextView) view.findViewById(R.id.daily_text);
+         imageView = view.findViewById(R.id.daily_image);
+         Glide.with(mContext).load( item.getImageUri() ).into( imageView );
+         titleTextView.setText(item.getTitle());
+         contentTextView.setText(item.getText());
     }
-
 }

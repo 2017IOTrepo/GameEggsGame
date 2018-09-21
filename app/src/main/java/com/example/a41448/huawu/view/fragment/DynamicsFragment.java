@@ -27,6 +27,7 @@ import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.adapter.NineGridTest2Adapter;
 import com.example.a41448.huawu.base.Contacts.NineGridTestModel;
 import com.example.a41448.huawu.view.activity.MainActivity;
+import com.example.a41448.huawu.view.activity.daily_check_activity;
 import com.example.a41448.huawu.view.activity.dynamic_item_activity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -109,84 +110,173 @@ public class DynamicsFragment extends Fragment {
 
     private void initListData() {
         NineGridTestModel model1 = new NineGridTestModel();
-        model1.urlList.add(mUrls[0]);
-        model1.image = R.drawable.picture_1;
-        model1.name = "王浩";
+        model1.name = "abbott";
+        model1.imageUri = imageUrls[0];
+
+        model1.urlList.add( mUrls[0] );//
+
         model1.time = "今天 21:08";
+        model1.detail = "Quando l'inglese, è necessario un po 'di oscurare le Parole a memoria?Come Imparare a quasi madrelingua (in PARTICOLARE I Parlanti Nativi di lingua Standard) di Tono?";
         mList.add(model1);
 
         NineGridTestModel model2 = new NineGridTestModel();
-        model2.urlList.add(mUrls[4]);
-        model2.image = R.drawable.picture_2;
+
+        model2.urlList.add(mUrls[1]);//
+
+        model2.imageUri = imageUrls[7];
         model2.time = "今天 20:50";
-        model2.name = "魏祥一";
+        model2.name = "李太阳";
+        model2.detail = "在外语系学习外语和出国学习外语有何差别，最近在学德语，有没有什么应该注意的问题？";
         mList.add(model2);
+//
+//        NineGridTestModel model3 = new NineGridTestModel();
+//        model3.urlList.add(mUrls[2]);
+//        mList.add(model3);
 
         NineGridTestModel model4 = new NineGridTestModel();
-        for (int i = 0; i < mUrls.length; i++) {
-            model4.urlList.add(mUrls[i]);
+        for (int i = 2; i < 5; i++) {
+            model4.urlList.add(mUrls[i]);//
         }
         model4.isShowAll = false;
-        model4.image = R.drawable.picture_4;
-        model4.name ="许超";
+        model4.imageUri = imageUrls[1];
+        model4.name ="Pery";
         model4.time = "今天 12:40";
+        model4.detail = "Wann kommt eine fremdsprache Lernen Kinder Besser?Eine fremdsprache zu Lernen, ist der richtige Weg, Was?";
         mList.add(model4);
 
         NineGridTestModel model5 = new NineGridTestModel();
-        for (int i = 0; i < mUrls.length; i++) {
-            model5.urlList.add(mUrls[i]);
+        for (int i = 5; i < 10; i++) {
+            model5.urlList.add(mUrls[i]);//
         }
         model5.isShowAll = true;//显示全部图片
         model5.image = R.drawable.picture_5;
-        model5.name = "王天锐";
-        model1.time = "昨天 21:51";
+        model5.imageUri = imageUrls[6];
+        model5.name = "зои";
+        model5.time = "昨天 21:51";
+        model5.detail = " После изучения русского языка," +
+                "начинайте изучать английский и как преодолеть путаницу? " +
+                " Как насчет того, чтобы изучать русский язык, чтобы изучать русский язык? ";
         mList.add(model5);
 
         NineGridTestModel model6 = new NineGridTestModel();
-        for (int i = 0; i < 9; i++) {
-            model6.urlList.add(mUrls[i]);
+        for (int i = 10; i < 16; i++) {
+            model6.urlList.add(mUrls[i]);//
         }
         model6.image = R.drawable.picture_6;
-        model6.name = "鲍骞月";
+        model6.imageUri = imageUrls[2];
+        model6.name = "Xaviera";
         model6.time = "前天 16:25";
+        model6.detail = "Do Chinese people devote too much time and energy to learning Chinese? How can we solve the problem of homonyms in Chinese phonetic alphabet writing?";
         mList.add(model6);
 
         NineGridTestModel model7 = new NineGridTestModel();
-        for (int i = 3; i < 7; i++) {
-            model7.urlList.add(mUrls[i]);
+        for (int i = 16; i < 18; i++) {
+            model7.urlList.add(mUrls[i]);//
         }
-        mList.add(model7);
         model7.image = R.drawable.picture_7;
-        model7.time  = "07月18日 23:56";
-        model7.name = "李浩";
-        mList.add( model7 );
+        model7.time  = "08月15日 23:56";
+        model7.name = "Βιρτζίνια";
+        model7.imageUri = imageUrls[5];
+        model7.detail="Το μισό χρόνο, πρέπει να εμβαθύνουμε στα αγγλικά ή τα γαλλικά;και πού θα πάω στη Γαλλία να μάθεις γαλλικά καλύτερα;";
+        mList.add(model7);
 
         NineGridTestModel model8 = new NineGridTestModel();
-        for (int i = 3; i < 6; i++) {
-            model8.urlList.add(mUrls[i]);
+        for (int i = 18; i < 21; i++) {
+            model8.urlList.add(mUrls[i]);//
         }
         model8.image = R.drawable.picture_8;
-        model8.name = "李阳";
-        model8.time = "07月18日 12:03";
+        model8.imageUri = imageUrls[4];
+        model8.name = "winifre";
+        model8.time = "08月14日 12:03";
+        model8.detail = "universitetet i dalian i främmande språk att lära sig arabiska alltid vad för erfarenhet?arabiska handstil lätt?";
         mList.add(model8);
+
+
+        NineGridTestModel model9 = new NineGridTestModel();
+        for (int i = 21; i < 24; i++) {
+            model9.urlList.add(mUrls[i]);//
+        }
+        model9.image = R.drawable.picture_9;
+        model9.imageUri = imageUrls[3];
+        model9.name = "Brandon";
+        model9.time = "08月14日 12:03";
+        model9.detail = "What experience can we communicate in learning small languages? Is Finnish language good to learn?";
+        mList.add(model9);
+
+
+        NineGridTestModel model10 = new NineGridTestModel();
+        for(int i = 24;i < 26;i ++){
+            model10.urlList.add( mUrls[i] );
+        }
+        model10.imageUri = imageUrls[9];
+        model10.name = "李沙";
+        model10.time = "08月14日 18:32";
+        model10.detail = "俄语跟英语有什么较大的差距么？感觉学起来比较困难？都说俄语难，请问俄语究竟难在什么地方？";
+        mList.add( model10 );
+
+        NineGridTestModel model11 = new NineGridTestModel();
+        for(int i = 26;i < 30;i ++){
+            model11.urlList.add( mUrls[i] );
+        }
+        model11.imageUri = imageUrls[10];
+        model11.name = "hayden";
+        model11.time = "08月13日 7:29";
+        model11.detail = "La question de l'apprentissage de la langue chinoise toujours rencontrer la prononciation, maintenant très confus, je ne sais pas ce procédé peut consolider?";
+        mList.add( model11 );
+
     }
+
+
+    private String[] imageUrls = new String[]{
+            "http://p8nssbtwi.bkt.clouddn.com/download.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/student_2.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/student_3.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/student_4.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/ic_s12.jpeg",
+            "http://p8nssbtwi.bkt.clouddn.com/ic_s9.jpeg",
+            "http://p8nssbtwi.bkt.clouddn.com/ic_s7.jpeg",
+            "http://p8nssbtwi.bkt.clouddn.com/ic_s8.jpeg",
+            "http://p8nssbtwi.bkt.clouddn.com/ic_s5.jpeg",
+            "http://p8nssbtwi.bkt.clouddn.com/teacher_1.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/teacher_2.jpg"
+
+    };
 
     //图片数据的url;
     private String[] mUrls = new String[]{
-            "http://d.hiphotos.baidu.com/image/h%3D200/sign=201258cbcd80653864eaa313a7dca115/ca1349540923dd54e54f7aedd609b3de9c824873.jpg",
-            "https://upload-images.jianshu.io/upload_images/9140378-ecc3f1dc6f3bb61c.jpg",
-            "http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg",
-            "http://img4.imgtn.bdimg.com/it/u=3445377427,2645691367&fm=21&gp=0.jpg",
-            "http://img4.imgtn.bdimg.com/it/u=2644422079,4250545639&fm=21&gp=0.jpg",
-            "http://img5.imgtn.bdimg.com/it/u=1444023808,3753293381&fm=21&gp=0.jpg",
-            "http://img4.imgtn.bdimg.com/it/u=882039601,2636712663&fm=21&gp=0.jpg",
-            "http://img4.imgtn.bdimg.com/it/u=4119861953,350096499&fm=21&gp=0.jpg",
-            "http://img5.imgtn.bdimg.com/it/u=2437456944,1135705439&fm=21&gp=0.jpg",
-            "http://img2.imgtn.bdimg.com/it/u=3251359643,4211266111&fm=21&gp=0.jpg",
-            "http://img4.duitang.com/uploads/item/201506/11/20150611000809_yFe5Z.jpeg",
-            "http://img5.imgtn.bdimg.com/it/u=1717647885,4193212272&fm=21&gp=0.jpg",
-            "http://img5.imgtn.bdimg.com/it/u=2024625579,507531332&fm=21&gp=0.jpg"
+            "http://p8nssbtwi.bkt.clouddn.com/question1.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/question2.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/question3.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/question4.jpg",
+            "http://p8nssbtwi.bkt.clouddn.com/question5.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question6.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question7.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question8.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question9.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question10.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question16.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question11.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question12.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question15.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question13.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question14.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question17.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question18.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question19.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question21.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question20.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question24.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question22.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question23.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question26.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question25.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question28.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question27.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question29.jpg",
+            "http://pbslsudal.bkt.clouddn.com/question30.jpg"
     };
+
+
 
     //悬浮按钮的一些点击事件
     private void initFloatButton(View view){
@@ -249,7 +339,8 @@ public class DynamicsFragment extends Fragment {
         mAction_d.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent( getContext(), daily_check_activity.class );
+                startActivity( intent );
                 mFloatingActionsMenu.toggle();
             }
         } );

@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.example.a41448.huawu.R;
 import com.example.a41448.huawu.base.Track;
-import com.netease.nrtc.video.gl.EglBase;
 
 import java.util.ArrayList;
 
 public class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.LinearViewHolder>{
+
 
     private Context context;
     private ArrayList<Track> mTracks;
