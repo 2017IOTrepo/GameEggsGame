@@ -68,8 +68,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter{
                 .inflate(R.layout.daily_sign_item, container, false);
         container.addView(view);
         bind(mData.get(position), view);
-        CardView cardView = (CardView) view.findViewById(R.id.cardView);
-
+        CardView cardView = (CardView) view.findViewById(R.id.card_View);
         if (mBaseElevation == 0) {
             mBaseElevation = cardView.getCardElevation();
         }

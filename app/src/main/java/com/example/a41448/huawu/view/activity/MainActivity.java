@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
@@ -70,6 +72,11 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -82,6 +89,7 @@ import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URL;
 import java.security.acl.Group;
+import java.util.ArrayList;
 import java.util.List;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.listener.ConnectListener;
@@ -99,7 +107,7 @@ import static android.net.sip.SipErrorCode.SERVER_ERROR;
 import static com.example.a41448.huawu.Communication.activity.ImageBrowserActivity.FACE_TEST;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
-        Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
+        Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener {
 
 
     public static final int FACE_TEST = 4;
@@ -142,6 +150,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     //定义滑动菜单的实例
     private DrawerLayout mDrawerLayout;
 
+    //弹出的菜单栏
+    private ContextMenuDialogFragment mMenuDialogFragment;
+
     @SuppressLint("WrongViewCast")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -156,6 +167,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         //初始化控件
         initView();
+        initMenuFragment();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -334,6 +346,53 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    private void initMenuFragment(){
+        MenuParams menuParams = new MenuParams();
+        menuParams.setActionBarSize((int) getResources().getDimension( R.dimen.tool_bar_height ) );
+        menuParams.setMenuObjects(  getMenuObjects());
+        menuParams.setClosableOutside( false );
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance( menuParams );
+        mMenuDialogFragment.setItemClickListener( new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(View view, int i) {
+
+            }
+        } );
+
+    }
+
+    private List<MenuObject> getMenuObjects(){
+        List<MenuObject> menuObjects = new ArrayList<>();
+
+        MenuObject close = new MenuObject();
+        close.setResource(R.drawable.icn_close);
+
+        MenuObject send = new MenuObject("Send message");
+        send.setResource(R.drawable.icn_1);
+
+        MenuObject like = new MenuObject("Like profile");
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icn_2);
+        like.setBitmap(b);
+
+        MenuObject addFr = new MenuObject("Add to friends");
+        BitmapDrawable bd = new BitmapDrawable(getResources(),
+                BitmapFactory.decodeResource(getResources(), R.drawable.icn_3));
+        addFr.setDrawable(bd);
+
+        MenuObject addFav = new MenuObject("Add to favorites");
+        addFav.setResource(R.drawable.icn_4);
+
+        MenuObject block = new MenuObject("Block user");
+        block.setResource(R.drawable.icn_5);
+
+        menuObjects.add(close);
+        menuObjects.add(send);
+        menuObjects.add(like);
+        menuObjects.add(addFr);
+        menuObjects.add(addFav);
+        menuObjects.add(block);
+        return menuObjects;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -349,8 +408,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (toggle.onOptionsItemSelected( item )){
             return true;
         }
+        switch (item.getItemId()){
+            case R.id.context_menu:
+                if(mFragmentManager.findFragmentByTag( ContextMenuDialogFragment.TAG ) == null){
+                    mMenuDialogFragment.show( mFragmentManager,ContextMenuDialogFragment.TAG );
+                }
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+//    protected void addFragment(Fragment fragment, boolean addToBackStack, int containerId) {
+//        invalidateOptionsMenu();
+//        String backStackName = fragment.getClass().getName();
+//        boolean fragmentPopped = mFragmentManager.popBackStackImmediate(backStackName, 0);
+//        if (!fragmentPopped) {
+//            FragmentTransaction transaction = mFragmentManager.beginTransaction();
+//            transaction.add(containerId, fragment, backStackName)
+//                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//            if (addToBackStack)
+//                transaction.addToBackStack(backStackName);
+//            transaction.commit();
+//        }
+//    }
 
     /*
     *
@@ -368,7 +448,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.player_shop:
                 Shop_Main.startActivity(mContext);
                 break;
-
             case R.id.player_help:
                 break;
             case R.id.app_about:
@@ -469,6 +548,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Intent intent = new Intent( MainActivity.this, CaptureActivity.class );
                 startActivityForResult(intent,REQ_CODE);
                 break;
+            case R.id.context_menu:
+                if(getSupportFragmentManager().findFragmentByTag( ContextMenuDialogFragment.TAG ) == null){
+                    mMenuDialogFragment.show( getSupportFragmentManager(),ContextMenuDialogFragment.TAG );
+                }
+                break;
+            default:
+                break;
         }
         return true;
     }
@@ -480,11 +566,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+
         }
     }
 
     @Override
     public void OnSearchClick(String keyword) {
+
     }
 
     /*
