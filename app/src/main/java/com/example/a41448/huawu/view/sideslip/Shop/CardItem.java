@@ -11,16 +11,15 @@ public class CardItem {
 
 
     public CardItem(int title, int text,int mText_coin,int mImageView) {
-        mTitleResource = title;
-        mTextResource = text;
+        this.mTitleResource = title;
+        this.mTextResource = text;
         this.mImageView= mImageView;
         this.mText_coin = mText_coin;
     }
 
     public CardItem(int title, int text, String imageUri) {
-        mTitleResource = title;
-        mTextResource = text;
-        this.mText_coin = mText_coin;
+        this.mTitleResource = title;
+        this.mTextResource = text;
         this.mImageUri = imageUri;
     }
 

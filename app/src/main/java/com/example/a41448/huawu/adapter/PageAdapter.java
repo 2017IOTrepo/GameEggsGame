@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.a41448.huawu.view.fragment.CommunityFragment;
 import com.example.a41448.huawu.view.fragment.GameFragment;
+import com.example.a41448.huawu.view.fragment.GameFragment2;
 import com.example.a41448.huawu.view.fragment.MapFragment;
 import com.example.a41448.huawu.R;
 
@@ -25,7 +26,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
 
     private int[] tabimgs = new int[]{
-            R.drawable.message_selector,R.drawable.contact_selector,
+            R.drawable.map_selector,R.drawable.communication_selector,
             R.drawable.question_selector
     };
 
@@ -46,7 +47,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 //            return ContactFragment.newInstance(position + 1);
             return CommunityFragment.newInstance( position + 1 );
         else if (position == 2)
-            return GameFragment.newInstance();
+            return GameFragment2.newInstance();
         else
             return null;
     }

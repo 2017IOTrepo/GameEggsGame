@@ -11,12 +11,20 @@
         android:id="@+id/scan"
         android:title="scan"
         android:icon="@drawable/ic_scan"
+        android:orderInCategory="50"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_search"
         android:orderInCategory="100"
         android:icon="@drawable/ic_search"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="search" />
+
+    <item
+        android:id="@+id/context_menu"
+        android:title="Context menu"
+        android:icon="@drawable/ic_add"
+        android:orderInCategory="200"
+        app:showAsAction="always"/>
 </menu>

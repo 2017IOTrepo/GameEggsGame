@@ -13,6 +13,14 @@
 
     <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="background">@color/colorAccent</item>
+    </style>
+
+    <style name="dark_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
+
+    <style name="comment_theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor" tools:ignore="NewApi">#342727</item>
     </style>
 
 
