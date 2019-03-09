@@ -71,7 +71,11 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
     private ContactAdapter mAdapter;
 
     private Players[] mContacts= {
-
+            new Players( name, true, null, null, true),
+            new Players( name, true, null, null, true),
+            new Players( name, true, null, null, true),
+            new Players( name, true, null, null, true),
+            new Players( name, true, null, null, true)
     };
 
     public static Fragment newInstance(int page){
@@ -153,6 +157,7 @@ public class ContactFragment extends Fragment implements SwipeRefreshLayout.OnCl
 
         public ContactsHolder(View itemView) {
             super(itemView);
+            contactView = itemView;
             contact_image = (ImageView) itemView.findViewById( R.id.contact_image );
             contact_name = (TextView) itemView.findViewById( R.id.contact_name_text );
             contact_sex = (TextView) itemView.findViewById( R.id.sex_contacts );

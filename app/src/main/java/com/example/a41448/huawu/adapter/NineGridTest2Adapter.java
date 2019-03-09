@@ -67,6 +67,7 @@ public class NineGridTest2Adapter extends RecyclerView.Adapter<NineGridTest2Adap
         Glide.with( mContext ).load(nineGridTestModel.image).into( holder.mImageView );
         holder.contact_name.setText( nineGridTestModel.name );
         holder.time.setText( nineGridTestModel.time );
+        holder.detail.setText( nineGridTestModel.detail );
 
     }
 
@@ -78,7 +79,7 @@ public class NineGridTest2Adapter extends RecyclerView.Adapter<NineGridTest2Adap
     public class ViewHolder extends RecyclerView.ViewHolder {
         NineGridTestLayout layout;
         ImageView mImageView,country_picture,comment;
-        TextView contact_name,time,question_detail,like_size;
+        TextView contact_name,time,detail,like_size;
         ShineButton mShineButton;
 
         public ViewHolder(View itemView) {
@@ -87,7 +88,7 @@ public class NineGridTest2Adapter extends RecyclerView.Adapter<NineGridTest2Adap
             mImageView = (ImageView) itemView.findViewById(R.id.image );
             contact_name = (TextView) itemView.findViewById( R.id.name );
             time = (TextView) itemView.findViewById( R.id.time );
-            question_detail = (TextView) itemView.findViewById( R.id.detail);
+            detail = (TextView) itemView.findViewById( R.id.detail);
             mShineButton = (ShineButton) itemView.findViewById( R.id.po_image1 );
             like_size = (TextView) itemView.findViewById( R.id.like_size );
             comment = (ImageView) itemView.findViewById( R.id.comment );

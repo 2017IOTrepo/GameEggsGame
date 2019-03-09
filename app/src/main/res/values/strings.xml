@@ -110,4 +110,19 @@
     <string name="ic_camera">相机</string>
     <string name="selector_pic_to_text">提取图中文字</string>
     <string name="selector_save">保存到手机</string>
+    <string name="face">人脸识别拍照</string>
+
+    <string name="title1">Keep Running</string>
+    <string name="title2">我有我的坚持</string>
+    <string name="title3">坚持减肥...</string>
+    <string name="title4">占点中...</string>
+    <string name="title5">杜绝做肥宅</string>
+    <string name="title6">Come on everybody!</string>
+    <string name="text1">日复一日地坚持练下去吧，只有活动适量才能保持训练的热情和提高运动的技能。—— 塞涅卡</string>
+    <string name="text2">人生的本质就在于运动，安谧宁静就是死亡。 —— 帕斯卡</string>
+    <string name="text3">身体的健康因静止不动而破坏，因运动练习而长期保持。 —— 苏格拉底</string>
+    <string name="text4">每日频行，必身轻目明，筋节血脉调畅，饮食易消,无所壅滞。—— 《养生要录》</string>
+    <string name="text5">态度决定一切，实力捍卫尊严！人要经得起诱惑耐得住寂寞！</string>
+    <string name="text6">宁愿跑起来被拌倒无数次，也不愿规规矩矩走一辈子。就算跌倒也要豪迈的笑。</string>
+
 </resources>

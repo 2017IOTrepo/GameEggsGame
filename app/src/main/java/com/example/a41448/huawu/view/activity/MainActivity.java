@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,8 +23,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -41,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.example.a41448.huawu.Communication.utils.PathUtils;
 
@@ -68,6 +72,11 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.wyt.searchbox.SearchFragment;
 import com.wyt.searchbox.custom.IOnSearchClickListener;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -80,6 +89,7 @@ import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URL;
 import java.security.acl.Group;
+import java.util.ArrayList;
 import java.util.List;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.listener.ConnectListener;
@@ -94,10 +104,13 @@ import retrofit2.http.HEAD;
 import retrofit2.http.Url;
 
 import static android.net.sip.SipErrorCode.SERVER_ERROR;
+import static com.example.a41448.huawu.Communication.activity.ImageBrowserActivity.FACE_TEST;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener ,
-        Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener{
+        Toolbar.OnMenuItemClickListener,IOnSearchClickListener,View.OnClickListener {
 
+
+    public static final int FACE_TEST = 4;
     private final static int CAMERA_REQUEST = 2;
     public static File NEWFILE;
     private AlertDialog.Builder alertDialog;
@@ -115,7 +128,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     //照相调用变量
     private Intent openCameraIntent;
     private String camPicPath;
-    private Uri uri;
+    private Uri uri,imageUri;
     private ContentValues contentValues;
 
     //添加得实例
@@ -137,6 +150,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     //定义滑动菜单的实例
     private DrawerLayout mDrawerLayout;
 
+    //弹出的菜单栏
+    private ContextMenuDialogFragment mMenuDialogFragment;
+
     @SuppressLint("WrongViewCast")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -151,6 +167,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         //初始化控件
         initView();
+        initMenuFragment();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -298,9 +315,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                                 .isCamera(false)
                                                 .forResult(PictureConfig.CHOOSE_REQUEST);
                                         break;
-
+                                    case R.id.face:
+                                        Intent intent = new Intent( MainActivity.this, FaceDetectorActivity.class );
+                                        startActivityForResult( intent, FACE_TEST );
+                                        break;
                                     case R.id.cancel_chose:
-                                        startActivity(NetUtil.shareNet());
+//                                        startActivity(NetUtil.shareNet());
+
                                         break;
                                 }
                             }
@@ -325,6 +346,53 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    private void initMenuFragment(){
+        MenuParams menuParams = new MenuParams();
+        menuParams.setActionBarSize((int) getResources().getDimension( R.dimen.tool_bar_height ) );
+        menuParams.setMenuObjects(  getMenuObjects());
+        menuParams.setClosableOutside( false );
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance( menuParams );
+        mMenuDialogFragment.setItemClickListener( new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(View view, int i) {
+
+            }
+        } );
+
+    }
+
+    private List<MenuObject> getMenuObjects(){
+        List<MenuObject> menuObjects = new ArrayList<>();
+
+        MenuObject close = new MenuObject();
+        close.setResource(R.drawable.icn_close);
+
+        MenuObject send = new MenuObject("Send message");
+        send.setResource(R.drawable.icn_1);
+
+        MenuObject like = new MenuObject("Like profile");
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icn_2);
+        like.setBitmap(b);
+
+        MenuObject addFr = new MenuObject("Add to friends");
+        BitmapDrawable bd = new BitmapDrawable(getResources(),
+                BitmapFactory.decodeResource(getResources(), R.drawable.icn_3));
+        addFr.setDrawable(bd);
+
+        MenuObject addFav = new MenuObject("Add to favorites");
+        addFav.setResource(R.drawable.icn_4);
+
+        MenuObject block = new MenuObject("Block user");
+        block.setResource(R.drawable.icn_5);
+
+        menuObjects.add(close);
+        menuObjects.add(send);
+        menuObjects.add(like);
+        menuObjects.add(addFr);
+        menuObjects.add(addFav);
+        menuObjects.add(block);
+        return menuObjects;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -340,8 +408,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (toggle.onOptionsItemSelected( item )){
             return true;
         }
+        switch (item.getItemId()){
+            case R.id.context_menu:
+                if(mFragmentManager.findFragmentByTag( ContextMenuDialogFragment.TAG ) == null){
+                    mMenuDialogFragment.show( mFragmentManager,ContextMenuDialogFragment.TAG );
+                }
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+//    protected void addFragment(Fragment fragment, boolean addToBackStack, int containerId) {
+//        invalidateOptionsMenu();
+//        String backStackName = fragment.getClass().getName();
+//        boolean fragmentPopped = mFragmentManager.popBackStackImmediate(backStackName, 0);
+//        if (!fragmentPopped) {
+//            FragmentTransaction transaction = mFragmentManager.beginTransaction();
+//            transaction.add(containerId, fragment, backStackName)
+//                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//            if (addToBackStack)
+//                transaction.addToBackStack(backStackName);
+//            transaction.commit();
+//        }
+//    }
 
     /*
     *
@@ -359,7 +448,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.player_shop:
                 Shop_Main.startActivity(mContext);
                 break;
-
             case R.id.player_help:
                 break;
             case R.id.app_about:
@@ -434,6 +522,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
             });
         }
+        if (NEWFILE != null) {
+            if (Build.VERSION.SDK_INT >= 24) {
+                imageUri = FileProvider.getUriForFile( MainActivity.this, "com.example.a41448.huawu.fileprovider", NEWFILE );
+            } else {
+                imageUri = Uri.fromFile( NEWFILE );
+            }
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+                avatar.setImageBitmap( bitmap );
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -446,6 +548,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Intent intent = new Intent( MainActivity.this, CaptureActivity.class );
                 startActivityForResult(intent,REQ_CODE);
                 break;
+            case R.id.context_menu:
+                if(getSupportFragmentManager().findFragmentByTag( ContextMenuDialogFragment.TAG ) == null){
+                    mMenuDialogFragment.show( getSupportFragmentManager(),ContextMenuDialogFragment.TAG );
+                }
+                break;
+            default:
+                break;
         }
         return true;
     }
@@ -457,11 +566,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+
         }
     }
 
     @Override
     public void OnSearchClick(String keyword) {
+
     }
 
     /*
@@ -490,9 +601,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             case PictureConfig.CHOOSE_REQUEST:
                 // 图片选择结果回调
-                List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                LocalMedia media = selectList.get(0);
-                String path = media.getPath();
+                if (PictureSelector.obtainMultipleResult( data ) != null) {
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    LocalMedia media = selectList.get(0);
+                    String path = media.getPath();
+
+                    File file = new File( path );
+                    Uri uri = Uri.fromFile( file );
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap( this.getContentResolver(), uri );
+                        avatar.setImageBitmap( bitmap );
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }else {
+                    avatar.setImageResource( R.drawable.icon);
+                }
                 // 例如 LocalMedia 里面返回三种path
                 // 1.media.getPath(); 为原图path
                 // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
@@ -500,9 +624,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
 //                    mDesignCenterView.refreshSelectedPicture(selectList);
                 //resizeImage(Uri.parse(path));
-                updateAvatar(path);
+//                updateAvatar(path);
                 break;
 
+            case FACE_TEST:
+                if (NEWFILE != null) {
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        imageUri = FileProvider.getUriForFile( MainActivity.this, "com.example.a41448.huawu.fileprovider", NEWFILE );
+                    } else {
+                        imageUri = Uri.fromFile( NEWFILE );
+                    }
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+                        avatar.setImageBitmap( bitmap );
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
             //调用摄像头的回调
             case CAMERA_REQUEST:
                 FileInputStream is = null;
@@ -510,12 +649,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     is = new FileInputStream(camPicPath);
                     File camFile = new File(camPicPath); // 图片文件路径
                     if (camFile.exists()) {
-                        //resizeImage(Uri.parse(camPicPath));
-                        //检测是否有足够内存存储 头大懒得写了
-//                        int size = ImageCheckoutUtil
-//                                .getImageSize(ImageCheckoutUtil
-//                                        .getLoacalBitmap(camPicPath));
-                        updateAvatar(camPicPath);
+                        Glide.with( this ).load( camFile ).into( avatar );
                     } else {
                         Toast.makeText(this, "该文件不存在", Toast.LENGTH_SHORT).show();
                     }
@@ -545,6 +679,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+
+    /**、
+     * 
+
     private void updateAvatar(final String path) {
         players.setAvatar(new BmobFile(players.getUserAccontId(), null, new File(path).toString()));
         players.getAvatar().upload(new UploadFileListener() {
@@ -568,6 +706,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                        });
     }
     /**
+
      * 以license文件方式初始化
      */
     private void initAccessToken() {

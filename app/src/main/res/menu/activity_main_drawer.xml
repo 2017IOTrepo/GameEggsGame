@@ -9,16 +9,12 @@
         <item
             android:id="@+id/player_achievement"
             android:title="@string/player_achievement" />
-
         <item
             android:id="@+id/player_shop"
             android:title="@string/player_shop" />
-
-
         <item
             android:id="@+id/player_settings"
             android:title="@string/setting" />
-
     </group>
 
     <item android:title="说明">

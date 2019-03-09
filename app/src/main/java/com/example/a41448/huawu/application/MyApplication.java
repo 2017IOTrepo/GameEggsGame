@@ -51,7 +51,6 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
 * */
 public class MyApplication extends MultiDexApplication{
 
-
     private AtomicInteger mSequenceGenerator = new AtomicInteger();
 
     private LocRequest locRequest = null;
@@ -210,30 +209,6 @@ public class MyApplication extends MultiDexApplication{
         }
     }
 
-
-    /**
-     * 获取当前位置
-     */
-    public void getCurrentLocation(OnEntityListener entityListener, OnTrackListener trackListener) {
-        // 网络连接正常，开启服务及采集，则查询纠偏后实时位置；否则进行实时定位
-        if (NetUtil.isNetworkAvailable(mContext)
-                && trackConf.contains("is_trace_started")
-                && trackConf.contains("is_gather_started")
-                && trackConf.getBoolean("is_trace_started", false)
-                && trackConf.getBoolean("is_gather_started", false)) {
-            LatestPointRequest request = new LatestPointRequest(getTag(), serviceId, entityName);
-            ProcessOption processOption = new ProcessOption();
-            processOption.setRadiusThreshold(50);
-            processOption.setTransportMode( TransportMode.walking);
-            processOption.setNeedDenoise(true);
-            processOption.setNeedMapMatch(true);
-            request.setProcessOption(processOption);
-            mClient.queryLatestPoint(request, trackListener);
-        } else {
-            mClient.queryRealTimeLoc(locRequest, entityListener);
-        }
-    }
-
     /**
      * 获取屏幕尺寸
      */
@@ -243,11 +218,6 @@ public class MyApplication extends MultiDexApplication{
         screenWidth = dm.widthPixels;
     }
 
-    /**
-     * 清除Trace状态：初始化app时，判断上次是正常停止服务还是强制杀死进程，根据trackConf中是否有is_trace_started字段进行判断。
-     *
-     * 停止服务成功后，会将该字段清除；若未清除，表明为非正常停止服务。
-     */
     private void clearTraceStatus() {
         if (trackConf.contains("is_trace_started") || trackConf.contains("is_gather_started")) {
             SharedPreferences.Editor editor = trackConf.edit();
@@ -258,16 +228,6 @@ public class MyApplication extends MultiDexApplication{
     }
 
     /**
-     * 初始化请求公共参数
-     *
-     * @param request
-     */
-    public void initRequest(BaseRequest request) {
-        request.setTag(getTag());
-        request.setServiceId(serviceId);
-    }
-
-    /**
      * 获取请求标识
      *
      * @return
@@ -275,26 +235,4 @@ public class MyApplication extends MultiDexApplication{
     public int getTag() {
         return mSequenceGenerator.incrementAndGet();
     }
-
-    public void InitImageLoader() {
-        File cacheDir = StorageUtils.getOwnCacheDirectory(this, "imageloader/Cache");
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration
-                .Builder(this)
-                .memoryCacheExtraOptions(480, 800) // maxwidth, max height，即保存的每个缓存文件的最大长宽
-                .threadPoolSize(3)//线程池内加载的数量
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // You can pass your own memory cache implementation/你可以通过自己的内存缓存实现
-                .memoryCacheSize(2 * 1024 * 1024)
-                .discCacheSize(50 * 1024 * 1024)
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())//将保存的时候的URI名称用MD5 加密
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .discCacheFileCount(100) //缓存的文件数量
-                .discCache( (DiskCache) new UnlimitedDiscCache(cacheDir) )//自定义缓存路径
-                .defaultDisplayImageOptions( DisplayImageOptions.createSimple())
-                .imageDownloader(new BaseImageDownloader(this, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
-                .build();//开始构建
-        ImageLoader.getInstance().init(config);
-    }
-
 }

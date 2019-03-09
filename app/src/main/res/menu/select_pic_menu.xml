@@ -8,6 +8,9 @@
         android:id="@+id/gallery_chose"
         android:title="@string/service_chat_gallery"/>
     <item
+        android:id="@+id/face"
+        android:title="@string/face"/>
+    <item
         android:id="@+id/cancel_chose"
         android:title="@string/cancel"/>
 </menu>
