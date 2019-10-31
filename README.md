@@ -1,1 +1,4 @@
-# A-game-about-game-eggs-provisional-
+# 一个关于彩蛋的安卓小APP
+
+**本来是比赛项目 现在弃坑了**
+
